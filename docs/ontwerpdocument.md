@@ -13,9 +13,9 @@ Een onderbouwing van de gemaakte keuzes wordt toegevoegd aan het ontwerpdocument
 
 | Thema | Document | Kern |
 |---|---|---|
-| 🔒 Privacy | [ontwerpdocument/privacy.md](ontwerpdocument/privacy.md) | AVG-dataminimalisatie, least-privilege per rol, audit-trail, Wgbo-bewaartermijnen |
-| 🛡️ Security | [ontwerpdocument/security.md](ontwerpdocument/security.md) | HTTPS, bcrypt, CSRF/SQL-injectie/XSS-bescherming, defense in depth, `.env`-secrets |
-| ⚖️ Ethiek | [ontwerpdocument/ethiek.md](ontwerpdocument/ethiek.md) | Rolscheiding, continuïteit van zorg, transparantie, geen surveillance |
+| 🔒 Gegevensbescherming | [ontwerpdocument/gegevensbescherming.md](ontwerpdocument/gegevensbescherming.md) | AVG-dataminimalisatie, least-privilege per rol, audit-trail, Wgbo-bewaartermijnen |
+| 🛡️ Beveiliging | [ontwerpdocument/beveiliging.md](ontwerpdocument/beveiliging.md) | HTTPS, bcrypt, CSRF/SQL-injectie/XSS-bescherming, defense in depth, `.env`-secrets |
+| ⚖️ Verantwoorde verwerking | [ontwerpdocument/verantwoorde-verwerking.md](ontwerpdocument/verantwoorde-verwerking.md) | Rolscheiding, continuïteit van zorg, transparantie, geen surveillance |
 
 ---
 
