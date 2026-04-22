@@ -1,0 +1,162 @@
+/*
+ * Nexora design tokens — geport uit curava-platform (DealSpace-lichte variant).
+ * Gebruik via CSS custom properties of via @theme inline in app.css.
+ */
+
+:root {
+    /* Primary — mint (Curava brand) */
+    --color-primary-50:  #E6FBF7;
+    --color-primary-100: #CCFFE9;
+    --color-primary-300: #33C9A8;
+    --color-primary-400: #00A884;
+    --color-primary-500: #00B894;
+    --color-primary-600: #009078;
+    --color-primary-700: #007A6A;
+    --color-primary:       var(--color-primary-500);
+    --color-primary-hover: var(--color-primary-400);
+    --color-primary-bg:        rgba(0, 184, 148, 0.07);
+    --color-primary-bg-subtle: rgba(0, 184, 148, 0.10);
+    --color-primary-bg-strong: rgba(0, 184, 148, 0.14);
+
+    /* Accent kleuren voor stats-card icons (pastel pills) */
+    --color-accent-mint:   #E6FBF7;
+    --color-accent-amber:  #FEF3C7;
+    --color-accent-blue:   #DBEAFE;
+    --color-accent-green:  #DCFCE7;
+    --color-accent-rose:   #FEE2E2;
+    --color-accent-purple: #EDE9FE;
+
+    --color-accent-mint-fg:   #007A6A;
+    --color-accent-amber-fg:  #B45309;
+    --color-accent-blue-fg:   #1D4ED8;
+    --color-accent-green-fg:  #15803D;
+    --color-accent-rose-fg:   #B91C1C;
+    --color-accent-purple-fg: #6D28D9;
+
+    /* Canvas & surface */
+    --color-canvas:        #F4F5F7;
+    --color-canvas-raised: #FFFFFF;
+    --color-background:    #FFFFFF;
+    --color-surface:       #F8FAFC;
+    --color-border:        #E2E8F0;
+    --color-border-strong: #CBD5E0;
+
+    /* Ink — neutrale tekst-schaal (Revolut-stijl) */
+    --color-ink-900: #0B0D10;
+    --color-ink-700: #1F2329;
+    --color-ink-500: #5C636E;
+    --color-ink-300: #A3AAB4;
+    --color-ink-100: #E5E7EB;
+    --color-ink-50:  #F3F4F6;
+
+    --color-text-primary:   var(--color-ink-900);
+    --color-text-secondary: var(--color-ink-500);
+    --color-text-muted:     var(--color-ink-300);
+    --color-text-inverse:   #FFFFFF;
+
+    /* Status */
+    --color-success:       #22C55E;
+    --color-warning:       #F59E0B;
+    --color-danger:        #EF4444;
+    --color-info:          #3B82F6;
+    --color-success-bg:    rgba(34, 197, 94, 0.10);
+    --color-warning-bg:    rgba(245, 158, 11, 0.10);
+    --color-danger-bg:     rgba(239, 68, 68, 0.10);
+    --color-info-bg:       rgba(59, 130, 246, 0.10);
+    --color-success-light: #DCFCE7;
+    --color-success-dark:  #15803D;
+    --color-danger-light:  #FEE2E2;
+    --color-danger-dark:   #B91C1C;
+    --color-warning-light: #FEF3C7;
+    --color-warning-dark:  #92400E;
+
+    /* Sidebar — DealSpace-lichte stijl */
+    --sidebar-bg:             var(--color-canvas-raised);
+    --sidebar-item-fg:        var(--color-ink-500);
+    --sidebar-item-hover-bg:  var(--color-ink-50);
+    --sidebar-item-hover-fg:  var(--color-ink-900);
+    --sidebar-item-active-bg: var(--color-ink-900);
+    --sidebar-item-active-fg: #FFFFFF;
+    --sidebar-section-label:  var(--color-ink-300);
+    --sidebar-divider:        var(--color-ink-100);
+
+    /* Buttons */
+    --btn-primary-bg:    var(--color-ink-900);
+    --btn-primary-hover: var(--color-ink-700);
+    --btn-primary-fg:    #FFFFFF;
+
+    /* Typography */
+    --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    --font-mono: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+
+    --font-size-xs:   0.75rem;
+    --font-size-sm:   0.875rem;
+    --font-size-base: 1rem;
+    --font-size-lg:   1.125rem;
+    --font-size-xl:   1.25rem;
+    --font-size-2xl:  1.5rem;
+    --font-size-3xl:  2rem;
+    --font-size-4xl:  2.5rem;
+    --font-size-5xl:  3.5rem;
+
+    --font-weight-regular:  400;
+    --font-weight-medium:   500;
+    --font-weight-semibold: 600;
+    --font-weight-bold:     700;
+
+    --line-height-tight:   1.2;
+    --line-height-normal:  1.5;
+    --line-height-relaxed: 1.75;
+
+    --letter-spacing-tighter: -0.04em;
+    --letter-spacing-tight:   -0.03em;
+    --letter-spacing-display: -0.02em;
+    --letter-spacing-subtle:  -0.01em;
+    --letter-spacing-normal:  0;
+    --letter-spacing-wide:    0.04em;
+    --letter-spacing-wider:   0.06em;
+
+    /* Spacing */
+    --space-1:  0.25rem;
+    --space-2:  0.5rem;
+    --space-3:  0.75rem;
+    --space-4:  1rem;
+    --space-5:  1.25rem;
+    --space-6:  1.5rem;
+    --space-8:  2rem;
+    --space-10: 2.5rem;
+    --space-12: 3rem;
+    --space-16: 4rem;
+
+    /* Radius */
+    --radius-sm:   4px;
+    --radius-md:   8px;
+    --radius-lg:   12px;
+    --radius-xl:   16px;
+    --radius-2xl:  24px;
+    --radius-pill: 9999px;
+
+    /* Shadows */
+    --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04), 0 1px 5px rgba(0, 0, 0, 0.02);
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.04);
+    --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04);
+
+    /* Transitions */
+    --ease-out-expo:     cubic-bezier(0.16, 1, 0.3, 1);
+    --transition-micro:  120ms var(--ease-out-expo);
+    --transition-fast:   150ms ease;
+    --transition-normal: 250ms ease;
+
+    /* Focus ring */
+    --ring-ink:     0 0 0 3px rgba(11, 13, 16, 0.12);
+    --ring-primary: 0 0 0 3px rgba(0, 184, 148, 0.20);
+    --ring-danger:  0 0 0 3px rgba(239, 68, 68, 0.12);
+
+    /* Layout */
+    --navbar-height:     64px;
+    --sidebar-width:     240px;
+    --sidebar-collapsed: 64px;
+    --container-max:     1400px;
+    --content-padding:   var(--space-8);
+}
