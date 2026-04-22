@@ -1,0 +1,42 @@
+---
+title: Nexora — Urenregistratie workflow (US-12 t/m US-15)
+---
+flowchart TD
+    Start([Zorgbegeleider opent /uren]) --> Create["Nieuwe registratie aanmaken<br/>cliënt · datum · start · eind · notitie"]
+    Create --> Validate1{Validatie<br/>StoreUrenregistratieRequest}
+    Validate1 -- Fail --> Create
+    Validate1 -- OK --> Concept(["status: CONCEPT"])
+
+    Concept --> EditChoice{Actie?}
+    EditChoice -- Bewerken --> Edit["Velden aanpassen<br/>UpdateUrenregistratieRequest"]
+    Edit --> Concept
+    EditChoice -- Verwijderen --> Deleted([Verwijderd])
+
+    EditChoice -- Indienen --> CheckSubmit{isIndienbaar?<br/>cliënt gezet · uren > 0 ·<br/>start + eind aanwezig}
+    CheckSubmit -- Nee --> Edit
+    CheckSubmit -- Ja --> Submit["POST /uren/&#123;id&#125;/indienen<br/>+ UrenIngediendNotification<br/>naar alle teamleiders"]
+    Submit --> Ingediend(["status: INGEDIEND"])
+
+    Ingediend --> WithdrawChoice{Zorgbegeleider?}
+    WithdrawChoice -- Terugtrekken --> Concept
+
+    Ingediend --> Review{Teamleider beoordeelt<br/>op /teamleider/uren}
+    Review -- Goedkeuren --> Approved(["status: GOEDGEKEURD"])
+    Review -- Afkeuren --> RejectForm["Modal: teamleider_notitie<br/>min. 10 tekens verplicht<br/>AfkeurUrenRequest"]
+    RejectForm --> Rejected(["status: AFGEKEURD"])
+
+    Approved --> Locked([Eindstatus<br/>vergrendeld · geen wijziging])
+    Rejected --> Fix["Zorgbegeleider ziet reden<br/>klikt 'Corrigeren'"]
+    Fix --> Concept
+
+    classDef conceptState fill:#fef3c7,stroke:#d97706,color:#78350f
+    classDef submittedState fill:#dbeafe,stroke:#2563eb,color:#1e3a8a
+    classDef approvedState fill:#d1fae5,stroke:#059669,color:#064e3b
+    classDef rejectedState fill:#fee2e2,stroke:#dc2626,color:#7f1d1d
+    classDef endState fill:#e5e7eb,stroke:#4b5563,color:#1f2937
+
+    class Concept conceptState
+    class Ingediend submittedState
+    class Approved approvedState
+    class Rejected rejectedState
+    class Locked,Deleted endState
