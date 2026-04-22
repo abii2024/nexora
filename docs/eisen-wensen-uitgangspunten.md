@@ -39,16 +39,16 @@ De eisen zijn geprioriteerd volgens **MoSCoW**. Alle *Must-have*-items zijn 1-op
 | E04 | Medewerkersoverzicht met zoek + filter (rol, status) | US-04 |
 | E05 | Teamlid bewerken (naam, e-mail, rol, dienstverband) | US-05 |
 | E06 | Teamlid deactiveren + heractiveren (behoud van historische data) | US-06 |
-| E07 | Wachtwoord-reset via e-maillink (token 60 min geldig) | US-07 |
-| E08 | Eigen profiel + wachtwoord wijzigen | US-08 |
-| E09 | Cliënt aanmaken met persoonsgegevens + zorgtype (WMO/WLZ/JW) | US-09 |
-| E10 | Cliënten koppelen aan zorgbegeleiders met rol (primair/secundair/tertiair) | US-10 |
-| E11 | Cliëntenoverzicht met rol-gebaseerde weergave en zoek/filter | US-11 |
-| E12 | Cliënt bewerken, status wijzigen en archiveren (soft delete) | US-12 |
-| E13 | Concept-uren aanmaken en bewerken per cliënt | US-13 |
-| E14 | Uren indienen, terugtrekken, afgekeurde uren corrigeren en opnieuw indienen | US-14 |
-| E15 | Teamleider kan ingediende uren goedkeuren of met reden afkeuren | US-15 |
-| E16 | Urenoverzicht teamleider met filters op status, medewerker, week | US-16 |
+| E07 | Cliënt aanmaken met persoonsgegevens + zorgtype (WMO/WLZ/JW) | US-07 |
+| E08 | Cliënten koppelen aan zorgbegeleiders met rol (primair/secundair/tertiair) | US-08 |
+| E09 | Cliëntenoverzicht met rol-gebaseerde weergave en zoek/filter | US-09 |
+| E10 | Cliënt bewerken, status wijzigen en archiveren (soft delete) | US-10 |
+| E11 | Concept-uren aanmaken en bewerken per cliënt | US-11 |
+| E12 | Uren indienen, terugtrekken, afgekeurde uren corrigeren en opnieuw indienen | US-12 |
+| E13 | Teamleider kan ingediende uren goedkeuren of met reden afkeuren | US-13 |
+| E14 | Urenoverzicht teamleider met filters op status, medewerker, week | US-14 |
+| E15 | Wachtwoord-reset via e-maillink (token 60 min geldig) | US-15 |
+| E16 | Eigen profiel + wachtwoord wijzigen | US-16 |
 
 ### 3.2 Should-have
 
