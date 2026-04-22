@@ -1,0 +1,110 @@
+@startuml Nexora_UseCase
+!theme plain
+left to right direction
+skinparam packageStyle rectangle
+skinparam actorStyle awesome
+skinparam linetype ortho
+title Nexora — Use-case diagram (16 user stories)
+
+actor "Zorgbegeleider" as ZB
+actor "Teamleider" as TL
+actor "Gast\n(niet ingelogd)" as G
+
+rectangle "Nexora Platform" {
+
+  package "Authenticatie" {
+    usecase "Inloggen" as UC_LOGIN
+    usecase "Wachtwoord\nvergeten" as UC_PWF
+    usecase "Wachtwoord\nresetten" as UC_PWR
+    usecase "Uitloggen" as UC_LOGOUT
+  }
+
+  package "Profiel" {
+    usecase "Profielgegevens\nbijwerken" as UC_PROF
+    usecase "Eigen wachtwoord\nwijzigen" as UC_PWCH
+  }
+
+  package "Cliënten" {
+    usecase "Cliëntenoverzicht\nbekijken (zoek+filter)" as UC_CLIST
+    usecase "Cliëntdetails\nbekijken" as UC_CDETAIL
+    usecase "Cliënt aanmaken" as UC_CCREATE
+    usecase "Cliënt bewerken" as UC_CEDIT
+    usecase "Cliënt archiveren\n(soft delete)" as UC_CARCH
+    usecase "Begeleiders koppelen\n(primair/sec/tert)" as UC_CLINK
+  }
+
+  package "Urenregistratie" {
+    usecase "Concept-uren\naanmaken" as UC_UCREATE
+    usecase "Uren bewerken" as UC_UEDIT
+    usecase "Uren indienen" as UC_USUBMIT
+    usecase "Uren terugtrekken" as UC_UWITHDRAW
+    usecase "Afgekeurde uren\ncorrigeren" as UC_UREDO
+    usecase "Urenoverzicht\n(eigen)" as UC_UMINE
+    usecase "Urenoverzicht\n(team, filters)" as UC_UTEAM
+    usecase "Uren goedkeuren" as UC_UAPP
+    usecase "Uren afkeuren\n(met reden)" as UC_UREJ
+  }
+
+  package "Team (medewerkers)" {
+    usecase "Team-overzicht\n(zoek+filter)" as UC_TLIST
+    usecase "Teamlid toevoegen" as UC_TADD
+    usecase "Teamlid bewerken\n(rol/dienstverband)" as UC_TEDIT
+    usecase "Teamlid\n(de)activeren" as UC_TTOGGLE
+  }
+}
+
+' ─── Gast (niet-ingelogd) ───
+G --> UC_LOGIN
+G --> UC_PWF
+G --> UC_PWR
+
+' ─── Zorgbegeleider ───
+ZB --> UC_LOGIN
+ZB --> UC_LOGOUT
+ZB --> UC_PROF
+ZB --> UC_PWCH
+ZB --> UC_CLIST
+ZB --> UC_CDETAIL
+ZB --> UC_UCREATE
+ZB --> UC_UEDIT
+ZB --> UC_USUBMIT
+ZB --> UC_UWITHDRAW
+ZB --> UC_UREDO
+ZB --> UC_UMINE
+
+' ─── Teamleider (alles ZB + extra) ───
+TL --> UC_LOGIN
+TL --> UC_LOGOUT
+TL --> UC_PROF
+TL --> UC_PWCH
+TL --> UC_CLIST
+TL --> UC_CDETAIL
+TL --> UC_CCREATE
+TL --> UC_CEDIT
+TL --> UC_CARCH
+TL --> UC_CLINK
+TL --> UC_UTEAM
+TL --> UC_UAPP
+TL --> UC_UREJ
+TL --> UC_TLIST
+TL --> UC_TADD
+TL --> UC_TEDIT
+TL --> UC_TTOGGLE
+
+' ─── include / extend relaties ───
+UC_CCREATE ..> UC_CLINK : <<include>>
+UC_CEDIT   ..> UC_CLINK : <<include>>
+UC_USUBMIT ..> UC_UCREATE : <<extend>>
+UC_UREDO   ..> UC_USUBMIT : <<extend>>
+UC_PWR     ..> UC_PWF : <<extend>>
+
+legend bottom
+  |= Symbool |= Betekenis |
+  | Gast     | Niet ingelogd (login / wachtwoord reset) |
+  | Zorgbegeleider | Werkt met eigen cliënten + uren |
+  | Teamleider | Beheert team, cliënten, keurt uren goed |
+  | <<include>> | verplicht onderdeel |
+  | <<extend>>  | optioneel / vervolg |
+endlegend
+
+@enduml
