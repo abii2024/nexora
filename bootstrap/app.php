@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\CheckActiveUser;
 use App\Http\Middleware\EnsureTeamleider;
 use App\Http\Middleware\EnsureZorgbegeleider;
 use Illuminate\Foundation\Application;
@@ -13,6 +14,12 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        // CheckActiveUser draait globaal in de web-groep zodat elke
+        // request een directe is_active-check doet na login (US-06 AC-2).
+        $middleware->web(append: [
+            CheckActiveUser::class,
+        ]);
+
         $middleware->alias([
             'teamleider' => EnsureTeamleider::class,
             'zorgbegeleider' => EnsureZorgbegeleider::class,
