@@ -31,7 +31,7 @@
             'label' => 'Overig',
             'items' => array_values(array_filter([
                 ['label' => 'Intranet', 'icon' => 'message', 'href' => '#', 'disabled' => true],
-                $isTeamleider ? ['label' => 'Teamleden', 'icon' => 'user-cog', 'href' => '#', 'active' => request()->routeIs('team*'), 'disabled' => true] : null,
+                $isTeamleider ? ['label' => 'Teamleden', 'icon' => 'user-cog', 'href' => route('team.index'), 'active' => request()->routeIs('team.*')] : null,
                 ['label' => 'Profiel', 'icon' => 'user', 'href' => '#', 'active' => request()->routeIs('profiel*'), 'disabled' => true],
             ])),
         ],
