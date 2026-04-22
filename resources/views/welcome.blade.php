@@ -3,29 +3,42 @@
 @section('title', 'Nexora — Zorgbegeleidingssysteem')
 
 @section('content')
-    <div class="flex flex-col items-center justify-center text-center py-20">
-        <h1 class="text-5xl font-bold text-indigo-700 mb-4">Nexora</h1>
-        <p class="text-xl text-slate-600 mb-8 max-w-2xl">
-            Zorgbegeleidingssysteem voor beschermd wonen.
-            Cliëntdossiers, teambeheer en urenregistratie op één platform.
-        </p>
-        <div class="flex gap-4">
-            @guest
-                <a href="{{ url('/login') }}" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-3 rounded-lg transition">
-                    Inloggen
-                </a>
-            @endguest
-            @auth
-                @if(auth()->user()->role === 'teamleider')
-                    <a href="{{ route('teamleider.dashboard') }}" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-3 rounded-lg transition">
-                        Naar dashboard
-                    </a>
-                @else
-                    <a href="{{ route('dashboard') }}" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-3 rounded-lg transition">
-                        Naar dashboard
-                    </a>
-                @endif
-            @endauth
+    @auth
+        {{-- Ingelogde users zien hun eigen dashboard direct via redirect, maar voor de zekerheid: --}}
+        <div class="page-header">
+            <div>
+                <h1 class="page-title">Welkom bij Nexora</h1>
+                <p class="page-subtitle">Ga naar je dashboard om verder te werken.</p>
+            </div>
+            <div class="page-actions">
+                <x-ui.button variant="primary" :href="auth()->user()->role === 'teamleider' ? route('teamleider.dashboard') : route('dashboard')">
+                    Naar dashboard
+                </x-ui.button>
+            </div>
         </div>
-    </div>
+    @else
+        <section style="flex: 1; display: flex; align-items: center; justify-content: center; padding: var(--space-8); background: linear-gradient(180deg, var(--color-canvas) 0%, var(--color-canvas-raised) 100%);">
+            <div style="max-width: 640px; text-align: center;">
+                <div style="display: inline-flex; align-items: center; gap: var(--space-1); font-size: var(--font-size-5xl); font-weight: var(--font-weight-bold); color: var(--color-ink-900); letter-spacing: var(--letter-spacing-tighter); margin-bottom: var(--space-4);">
+                    Nexora<sup style="font-size: 0.35em; color: var(--color-ink-500); font-weight: var(--font-weight-semibold);">®</sup>
+                </div>
+
+                <p style="font-size: var(--font-size-xl); color: var(--color-text-secondary); line-height: var(--line-height-relaxed); max-width: 540px; margin: 0 auto var(--space-8);">
+                    Zorgbegeleidingssysteem voor beschermd wonen.<br>
+                    Cliëntdossiers, teambeheer en urenregistratie op één platform.
+                </p>
+
+                <div style="display: flex; gap: var(--space-3); justify-content: center;">
+                    <x-ui.button variant="primary" :href="url('/login')">
+                        Inloggen
+                        <x-layout.icon name="arrow-right" :size="16" />
+                    </x-ui.button>
+                </div>
+
+                <p style="margin-top: var(--space-12); font-size: var(--font-size-xs); color: var(--color-text-muted); letter-spacing: var(--letter-spacing-wider); text-transform: uppercase;">
+                    MBO Examenproject · Abdisamad · 2026
+                </p>
+            </div>
+        </section>
+    @endauth
 @endsection
