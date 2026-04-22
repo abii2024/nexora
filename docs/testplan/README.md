@@ -150,7 +150,10 @@ In het **examenverslag** (apart document, niet in deze repo) komt:
 - [US-01 Inloggen](./US01-inloggen.md) ✅ — 10 Pest tests, 37 asserts
 - [US-02 Rolgebaseerde toegang (Policies + middleware)](./US02-rolgebaseerde-toegang.md) ✅ — 26 Pest tests, 54 asserts
 - [US-03 Nieuwe zorgbegeleider aanmaken](./US03-medewerker-aanmaken.md) ✅ — 15 Pest tests, 53 asserts
-- US-04 t/m US-16 — komen
+- [US-04 Medewerkersoverzicht met zoek en filter](./US04-medewerkers-overzicht.md) ✅ — 19 Pest tests, 61 asserts
+- US-05 t/m US-16 — komen
+
+**Sprint 1 afgerond** — 72 tests, 207 asserts, Pint clean.
 
 ---
 
