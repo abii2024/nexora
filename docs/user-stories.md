@@ -5,7 +5,7 @@
 > **Bron:** [Trello — Nexora-platform](https://trello.com/b/ILocXzfF/nexora-platform), lijst *sprint backlog* (op prioriteit)  
 > **Totaal:** 16 user stories — volgorde = prioriteit (hoog → laag)
 
-De volgorde van deze user stories is gelijk aan de volgorde in de Trello-lijst *sprint backlog*. De hoogste prioriteit (authenticatie) staat bovenaan, de laagste (urenoverzicht-filters voor teamleider) onderaan. Elke user story bevat de INVEST-conforme formulering (*Als ... wil ik ... zodat ...*) en genummerde acceptatiecriteria die één-op-één koppelen aan de Definition of Done.
+De volgorde van deze user stories is gelijk aan de volgorde in de Trello-lijst *sprint backlog*. Hoogste prioriteit (authenticatie + rolbeheer) staat bovenaan, laagste prioriteit (profielbeheer en wachtwoord-reset) onderaan. Screenshots van de sprint backlog staan in [`sprint-backlog-screenshots/`](sprint-backlog-screenshots/).
 
 ---
 
@@ -124,47 +124,7 @@ Als teamleider wil ik medewerkers kunnen deactiveren bij uitdiensttreding zodat 
 
 ---
 
-## US-07 — Wachtwoord vergeten & resetten via e-maillink
-
-**User Story**
-Als zorgbegeleider of teamleider wil ik mijn wachtwoord kunnen resetten via een e-maillink zodat ik weer toegang krijg tot Nexora zonder mijn oude wachtwoord te hoeven weten.
-
-**Omschrijving**
-1. Link "Wachtwoord vergeten?" op `/login` → `/wachtwoord-vergeten` formulier.
-2. `Password::sendResetLink()` stuurt eenmalig token (60 min geldig); bevestigingsmelding identiek ongeacht of e-mail bestaat (user enumeration protection).
-3. `/wachtwoord-reset/{token}?email=...` laat nieuw wachtwoord kiezen (min 8 chars, `confirmed` rule).
-4. Nieuw wachtwoord bcrypt-gehasht via `Hash::make()`; token wordt na gebruik ongeldig (geen replay).
-5. Na succes: automatisch ingelogd → rol-specifiek dashboard. Ongeldig/verlopen token → duidelijke foutmelding + link om opnieuw te proberen.
-
-**Privacy / Security / Ethiek**
-- Eenmalig, tijd-beperkt token (anti-replay).
-- Identieke bevestigingsmelding voor bestaande en niet-bestaande e-mails.
-- Wachtwoord altijd bcrypt-gehasht in DB, nooit plaintext in logs.
-- Zelfbeschikking: medewerker kan zelf wachtwoord resetten zonder beheerder.
-
----
-
-## US-08 — Profielbeheer (eigen gegevens + wachtwoord wijzigen)
-
-**User Story**
-Als ingelogde zorgbegeleider of teamleider wil ik mijn eigen profielgegevens en wachtwoord kunnen bijwerken zodat mijn accountgegevens actueel blijven zonder tussenkomst van de beheerder.
-
-**Omschrijving**
-1. `/profiel` bereikbaar vanuit layout; toont huidige `name` + `email` in formulier.
-2. E-mail valideren op `unique:users,email,{id}` (eigen e-mail mag behouden blijven).
-3. Wachtwoord wijzigen is optioneel: bij invullen verplicht `current_password` validation rule.
-4. Rol, `is_active` en `team_id` kunnen NOOIT door gebruiker zelf gewijzigd worden — `UpdateProfielRequest` whitelist alleen `name`, `email`, `current_password`, `password`, `password_confirmation`.
-5. Na update: flash "Profiel bijgewerkt."; bij wachtwoordwijziging `Auth::logoutOtherDevices()` om andere sessies uit te loggen.
-
-**Privacy / Security / Ethiek**
-- AVG art. 16 (recht op rectificatie): gebruiker beheert eigen gegevens.
-- Geen privilege escalation mogelijk (rol/status whitelisted uit Form Request).
-- Current password check voor wachtwoordwijziging (geen session hijack kan nieuw wachtwoord zetten).
-- Andere sessies geïnvalideerd bij wachtwoordwissel.
-
----
-
-## US-09 — Cliënt aanmaken met persoonsgegevens
+## US-07 — Cliënt aanmaken met persoonsgegevens
 
 **User Story**
 Als teamleider wil ik nieuwe cliënten registreren met hun persoonsgegevens en zorgtype zodat ik het cliëntenbestand van mijn organisatie centraal kan opbouwen en de juiste zorg kan organiseren.
@@ -184,7 +144,7 @@ Als teamleider wil ik nieuwe cliënten registreren met hun persoonsgegevens en z
 
 ---
 
-## US-10 — Cliënten koppelen aan begeleiders (primair / secundair / tertiair)
+## US-08 — Cliënten koppelen aan begeleiders (primair / secundair / tertiair)
 
 **User Story**
 Als teamleider wil ik één of meer zorgbegeleiders aan een cliënt kunnen koppelen met een rol (primair, secundair, tertiair) zodat duidelijk is wie de hoofdverantwoordelijke zorgbegeleider is en de cliënt altijd vervangend contact heeft bij afwezigheid.
@@ -204,7 +164,7 @@ Als teamleider wil ik één of meer zorgbegeleiders aan een cliënt kunnen koppe
 
 ---
 
-## US-11 — Cliëntenoverzicht met rol-gebaseerde weergave, zoek en filter
+## US-09 — Cliëntenoverzicht met rol-gebaseerde weergave, zoek en filter
 
 **User Story**
 Als gebruiker van Nexora wil ik een cliëntenoverzicht zien dat past bij mijn rol en waarin ik kan zoeken en filteren zodat ik snel de juiste cliënt vind zonder overzicht te verliezen over mijn caseload.
@@ -224,7 +184,7 @@ Als gebruiker van Nexora wil ik een cliëntenoverzicht zien dat past bij mijn ro
 
 ---
 
-## US-12 — Cliënt bewerken en archiveren (statusbeheer + soft delete)
+## US-10 — Cliënt bewerken en archiveren (statusbeheer + soft delete)
 
 **User Story**
 Als teamleider wil ik cliëntgegevens kunnen bijwerken, de status wijzigen (Actief/Wachtlijst/Inactief) en cliënten kunnen archiveren zodat het cliëntenbestand accuraat blijft en ex-cliënten uit het actieve overzicht verdwijnen zonder dat hun historische data verloren gaat.
@@ -244,7 +204,7 @@ Als teamleider wil ik cliëntgegevens kunnen bijwerken, de status wijzigen (Acti
 
 ---
 
-## US-13 — Concept-uren aanmaken en bewerken
+## US-11 — Concept-uren aanmaken en bewerken
 
 **User Story**
 Als zorgbegeleider wil ik mijn gewerkte uren per cliënt kunnen vastleggen als concept zodat ik mijn tijd nauwkeurig kan bijhouden voordat ik deze ter goedkeuring aanbied.
@@ -263,7 +223,7 @@ Als zorgbegeleider wil ik mijn gewerkte uren per cliënt kunnen vastleggen als c
 
 ---
 
-## US-14 — Uren indienen, terugtrekken en opnieuw indienen
+## US-12 — Uren indienen, terugtrekken en opnieuw indienen
 
 **User Story**
 Als zorgbegeleider wil ik mijn concept-uren kunnen indienen, terugtrekken bij vergissing en afgekeurde uren corrigeren en opnieuw indienen zodat ik de controle houd tot definitieve goedkeuring.
@@ -282,7 +242,7 @@ Als zorgbegeleider wil ik mijn concept-uren kunnen indienen, terugtrekken bij ve
 
 ---
 
-## US-15 — Uren goedkeuren of afkeuren als teamleider
+## US-13 — Uren goedkeuren of afkeuren als teamleider
 
 **User Story**
 Als teamleider wil ik ingediende uren kunnen goedkeuren of met reden afkeuren zodat de urenadministratie correct is en fouten tijdig gecorrigeerd worden.
@@ -301,7 +261,7 @@ Als teamleider wil ik ingediende uren kunnen goedkeuren of met reden afkeuren zo
 
 ---
 
-## US-16 — Urenoverzicht met filters (teamleider)
+## US-14 — Urenoverzicht met filters (teamleider)
 
 **User Story**
 Als teamleider wil ik het urenoverzicht kunnen filteren op status, medewerker en week zodat ik efficiënt door de administratie kan werken en openstaande acties vind.
@@ -317,5 +277,45 @@ Als teamleider wil ik het urenoverzicht kunnen filteren op status, medewerker en
 - Scope op eigen team (geen cross-team leakage).
 - Geen N+1: eager loading user + client.
 - SQL-injection protection via Eloquent parameter-binding.
+
+---
+
+## US-15 — Wachtwoord vergeten & resetten via e-maillink
+
+**User Story**
+Als zorgbegeleider of teamleider wil ik mijn wachtwoord kunnen resetten via een e-maillink zodat ik weer toegang krijg tot Nexora zonder mijn oude wachtwoord te hoeven weten.
+
+**Omschrijving**
+1. Link "Wachtwoord vergeten?" op `/login` → `/wachtwoord-vergeten` formulier.
+2. `Password::sendResetLink()` stuurt eenmalig token (60 min geldig); bevestigingsmelding identiek ongeacht of e-mail bestaat (user enumeration protection).
+3. `/wachtwoord-reset/{token}?email=...` laat nieuw wachtwoord kiezen (min 8 chars, `confirmed` rule).
+4. Nieuw wachtwoord bcrypt-gehasht via `Hash::make()`; token wordt na gebruik ongeldig (geen replay).
+5. Na succes: automatisch ingelogd → rol-specifiek dashboard. Ongeldig/verlopen token → duidelijke foutmelding + link om opnieuw te proberen.
+
+**Privacy / Security / Ethiek**
+- Eenmalig, tijd-beperkt token (anti-replay).
+- Identieke bevestigingsmelding voor bestaande en niet-bestaande e-mails.
+- Wachtwoord altijd bcrypt-gehasht in DB, nooit plaintext in logs.
+- Zelfbeschikking: medewerker kan zelf wachtwoord resetten zonder beheerder.
+
+---
+
+## US-16 — Profielbeheer (eigen gegevens + wachtwoord wijzigen)
+
+**User Story**
+Als ingelogde zorgbegeleider of teamleider wil ik mijn eigen profielgegevens en wachtwoord kunnen bijwerken zodat mijn accountgegevens actueel blijven zonder tussenkomst van de beheerder.
+
+**Omschrijving**
+1. `/profiel` bereikbaar vanuit layout; toont huidige `name` + `email` in formulier.
+2. E-mail valideren op `unique:users,email,{id}` (eigen e-mail mag behouden blijven).
+3. Wachtwoord wijzigen is optioneel: bij invullen verplicht `current_password` validation rule.
+4. Rol, `is_active` en `team_id` kunnen NOOIT door gebruiker zelf gewijzigd worden — `UpdateProfielRequest` whitelist alleen `name`, `email`, `current_password`, `password`, `password_confirmation`.
+5. Na update: flash "Profiel bijgewerkt."; bij wachtwoordwijziging `Auth::logoutOtherDevices()` om andere sessies uit te loggen.
+
+**Privacy / Security / Ethiek**
+- AVG art. 16 (recht op rectificatie): gebruiker beheert eigen gegevens.
+- Geen privilege escalation mogelijk (rol/status whitelisted uit Form Request).
+- Current password check voor wachtwoordwijziging (geen session hijack kan nieuw wachtwoord zetten).
+- Andere sessies geïnvalideerd bij wachtwoordwissel.
 
 ---
