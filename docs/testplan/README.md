@@ -147,8 +147,8 @@ In het **examenverslag** (apart document, niet in deze repo) komt:
 
 ## 6. Per-US testplannen
 
-- [US-01 Inloggen](./US01-inloggen.md) ✅
-- US-02 Rolgebaseerde toegang (Policies + middleware) — komt
+- [US-01 Inloggen](./US01-inloggen.md) ✅ — 10 Pest tests, 37 asserts
+- [US-02 Rolgebaseerde toegang (Policies + middleware)](./US02-rolgebaseerde-toegang.md) ✅ — 26 Pest tests, 54 asserts
 - US-03 t/m US-16 — komen
 
 ---
