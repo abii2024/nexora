@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -14,20 +14,24 @@ class User extends Authenticatable
     use HasFactory;
     use Notifiable;
 
+    public const ROLE_ZORGBEGELEIDER = 'zorgbegeleider';
+
+    public const ROLE_TEAMLEIDER = 'teamleider';
+
     /**
-     * The attributes that are mass assignable.
-     *
      * @var list<string>
      */
     protected $fillable = [
         'name',
         'email',
         'password',
+        'role',
+        'is_active',
+        'team_id',
+        'dienstverband',
     ];
 
     /**
-     * The attributes that should be hidden for serialization.
-     *
      * @var list<string>
      */
     protected $hidden = [
@@ -36,8 +40,6 @@ class User extends Authenticatable
     ];
 
     /**
-     * Get the attributes that should be cast.
-     *
      * @return array<string, string>
      */
     protected function casts(): array
@@ -45,6 +47,22 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_active' => 'boolean',
         ];
+    }
+
+    public function team(): BelongsTo
+    {
+        return $this->belongsTo(Team::class);
+    }
+
+    public function isTeamleider(): bool
+    {
+        return $this->role === self::ROLE_TEAMLEIDER;
+    }
+
+    public function isZorgbegeleider(): bool
+    {
+        return $this->role === self::ROLE_ZORGBEGELEIDER;
     }
 }
