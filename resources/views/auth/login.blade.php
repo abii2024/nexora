@@ -1,72 +1,56 @@
-@extends('layouts.app')
+@extends('layouts.auth')
 
 @section('title', 'Inloggen — Nexora')
+@section('subtitle', 'Log in op je account')
 
 @section('content')
-    <div class="min-h-[calc(100vh-4rem)] flex items-center justify-center py-12">
-        <div class="w-full max-w-md">
-            <div class="text-center mb-8">
-                <h1 class="text-3xl font-bold text-indigo-700">Nexora</h1>
-                <p class="text-slate-600 mt-2">Log in op je account</p>
+    <x-ui.card padded>
+        @if ($errors->any())
+            <div style="margin-bottom: var(--space-5);">
+                <x-ui.alert type="error">{{ $errors->first() }}</x-ui.alert>
+            </div>
+        @endif
+
+        <form method="POST" action="{{ route('login.store') }}" style="display: flex; flex-direction: column; gap: var(--space-5);">
+            @csrf
+
+            <x-ui.input
+                name="email"
+                label="E-mailadres"
+                type="email"
+                required
+                autocomplete="email"
+                autofocus
+                placeholder="naam@nexora.test"
+            />
+
+            <x-ui.input
+                name="password"
+                label="Wachtwoord"
+                type="password"
+                required
+                autocomplete="current-password"
+                placeholder="••••••••"
+            />
+
+            <div style="display: flex; align-items: center; justify-content: space-between; font-size: var(--font-size-sm);">
+                <label style="display: inline-flex; align-items: center; gap: var(--space-2); color: var(--color-text-secondary); cursor: pointer;">
+                    <input type="checkbox" name="remember" style="accent-color: var(--color-ink-900);">
+                    <span>Onthoud mij</span>
+                </label>
+
+                <a href="#" style="color: var(--color-primary-600); font-weight: var(--font-weight-medium);" title="Komt in US-15">
+                    Wachtwoord vergeten?
+                </a>
             </div>
 
-            <div class="bg-white rounded-lg shadow-md p-8 border border-slate-200">
-                <form method="POST" action="{{ route('login.store') }}" class="space-y-5">
-                    @csrf
+            <x-ui.button type="submit" variant="primary" style="width: 100%; padding: var(--space-4) var(--space-5);">
+                Inloggen
+            </x-ui.button>
+        </form>
+    </x-ui.card>
 
-                    @if ($errors->any())
-                        <div class="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded text-sm">
-                            {{ $errors->first() }}
-                        </div>
-                    @endif
-
-                    <div>
-                        <label for="email" class="block text-sm font-medium text-slate-700 mb-1">E-mailadres</label>
-                        <input
-                            id="email"
-                            name="email"
-                            type="email"
-                            value="{{ old('email') }}"
-                            required
-                            autofocus
-                            autocomplete="email"
-                            class="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                        >
-                    </div>
-
-                    <div>
-                        <label for="password" class="block text-sm font-medium text-slate-700 mb-1">Wachtwoord</label>
-                        <input
-                            id="password"
-                            name="password"
-                            type="password"
-                            required
-                            autocomplete="current-password"
-                            class="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                        >
-                    </div>
-
-                    <div class="flex items-center justify-between">
-                        <label class="flex items-center text-sm text-slate-600">
-                            <input type="checkbox" name="remember" class="rounded border-slate-300 text-indigo-600 focus:ring-indigo-500">
-                            <span class="ml-2">Onthoud mij</span>
-                        </label>
-
-                        <a href="#" class="text-sm text-indigo-600 hover:text-indigo-800">Wachtwoord vergeten?</a>
-                    </div>
-
-                    <button
-                        type="submit"
-                        class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2.5 rounded-md transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                    >
-                        Inloggen
-                    </button>
-                </form>
-            </div>
-
-            <p class="text-center text-sm text-slate-500 mt-6">
-                Geen account? Neem contact op met je teamleider.
-            </p>
-        </div>
-    </div>
+    <p style="text-align: center; margin-top: var(--space-5); font-size: var(--font-size-sm); color: var(--color-text-secondary);">
+        Geen account? Neem contact op met je teamleider.
+    </p>
 @endsection

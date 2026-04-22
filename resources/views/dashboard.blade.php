@@ -2,39 +2,82 @@
 
 @section('title', 'Dashboard — Nexora')
 
+@php
+    $user = auth()->user();
+    $greeting = match(true) {
+        now()->hour < 12 => 'Goedemorgen',
+        now()->hour < 18 => 'Goedemiddag',
+        default => 'Goedenavond',
+    };
+@endphp
+
 @section('content')
-    <div class="space-y-6">
-        <header>
-            <h1 class="text-2xl font-bold text-slate-900">Welkom, {{ auth()->user()->name }}</h1>
-            <p class="text-slate-600 mt-1">Zorgbegeleider dashboard</p>
-        </header>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div class="bg-white rounded-lg shadow-sm border border-slate-200 p-6">
-                <h2 class="text-sm font-medium text-slate-500 uppercase tracking-wide">Mijn cliënten</h2>
-                <p class="text-3xl font-bold text-indigo-700 mt-2">0</p>
-                <p class="text-sm text-slate-500 mt-1">Nog geen gekoppelde cliënten</p>
-            </div>
-
-            <div class="bg-white rounded-lg shadow-sm border border-slate-200 p-6">
-                <h2 class="text-sm font-medium text-slate-500 uppercase tracking-wide">Concept-uren</h2>
-                <p class="text-3xl font-bold text-indigo-700 mt-2">0</p>
-                <p class="text-sm text-slate-500 mt-1">Nog niet ingediend</p>
-            </div>
-
-            <div class="bg-white rounded-lg shadow-sm border border-slate-200 p-6">
-                <h2 class="text-sm font-medium text-slate-500 uppercase tracking-wide">Goedgekeurd deze week</h2>
-                <p class="text-3xl font-bold text-emerald-600 mt-2">0 u</p>
-                <p class="text-sm text-slate-500 mt-1">Week {{ now()->weekOfYear }}</p>
-            </div>
+    <div class="page-header">
+        <div>
+            <h1 class="page-title">{{ $greeting }}, {{ explode(' ', $user->name)[0] }}</h1>
+            <p class="page-subtitle">Zorgbegeleider · overzicht van je caseload en uren.</p>
         </div>
-
-        <div class="bg-indigo-50 border border-indigo-200 rounded-lg p-6">
-            <h3 class="font-semibold text-indigo-900">Aan de slag</h3>
-            <p class="text-indigo-800 mt-1 text-sm">
-                Cliëntenoverzicht, urenregistratie en profielbeheer komen beschikbaar naarmate
-                de volgende user stories gebouwd worden.
-            </p>
+        <div class="page-actions">
+            <x-ui.button variant="secondary" href="#" title="Komt in US-11">
+                <x-layout.icon name="clock" :size="16" />
+                Uren registreren
+            </x-ui.button>
+            <x-ui.button variant="primary" href="#" title="Komt in US-11">
+                <x-layout.icon name="plus" :size="16" />
+                Nieuwe uren
+            </x-ui.button>
         </div>
     </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: var(--space-5); margin-bottom: var(--space-8);">
+        <x-ui.stats-card
+            label="Mijn cliënten"
+            value="0"
+            tone="mint"
+            hint="Nog geen gekoppelde cliënten"
+        >
+            <x-slot:icon>
+                <x-layout.icon name="users" :size="18" />
+            </x-slot:icon>
+        </x-ui.stats-card>
+
+        <x-ui.stats-card
+            label="Concept-uren"
+            value="0"
+            tone="amber"
+            hint="Nog niet ingediend"
+        >
+            <x-slot:icon>
+                <x-layout.icon name="clock" :size="18" />
+            </x-slot:icon>
+        </x-ui.stats-card>
+
+        <x-ui.stats-card
+            label="Goedgekeurd deze week"
+            value="0u"
+            tone="green"
+            hint="Week {{ now()->weekOfYear }}"
+        >
+            <x-slot:icon>
+                <x-layout.icon name="check-square" :size="18" />
+            </x-slot:icon>
+        </x-ui.stats-card>
+    </div>
+
+    <x-ui.card title="Aan de slag" subtitle="De komende user stories maken deze functionaliteiten beschikbaar.">
+        <ul style="display: flex; flex-direction: column; gap: var(--space-3); list-style: none; padding: 0;">
+            <li style="display: flex; align-items: center; gap: var(--space-3); font-size: var(--font-size-sm); color: var(--color-text-secondary);">
+                <span style="width: 28px; height: 28px; border-radius: var(--radius-md); background: var(--color-accent-mint); color: var(--color-accent-mint-fg); display: inline-flex; align-items: center; justify-content: center;"><x-layout.icon name="users" :size="16" /></span>
+                Cliëntenoverzicht — <span class="badge badge-neutral">US-09</span>
+            </li>
+            <li style="display: flex; align-items: center; gap: var(--space-3); font-size: var(--font-size-sm); color: var(--color-text-secondary);">
+                <span style="width: 28px; height: 28px; border-radius: var(--radius-md); background: var(--color-accent-amber); color: var(--color-accent-amber-fg); display: inline-flex; align-items: center; justify-content: center;"><x-layout.icon name="clock" :size="16" /></span>
+                Urenregistratie — <span class="badge badge-neutral">US-11</span>
+            </li>
+            <li style="display: flex; align-items: center; gap: var(--space-3); font-size: var(--font-size-sm); color: var(--color-text-secondary);">
+                <span style="width: 28px; height: 28px; border-radius: var(--radius-md); background: var(--color-accent-purple); color: var(--color-accent-purple-fg); display: inline-flex; align-items: center; justify-content: center;"><x-layout.icon name="user" :size="16" /></span>
+                Profielbeheer — <span class="badge badge-neutral">US-16</span>
+            </li>
+        </ul>
+    </x-ui.card>
 @endsection
