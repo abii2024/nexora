@@ -27,7 +27,7 @@
             <x-ui.button variant="secondary" href="#" title="Komt in US-13/14">
                 Uren verwerken
             </x-ui.button>
-            <x-ui.button variant="primary" href="#" title="Komt in US-03">
+            <x-ui.button variant="primary" :href="route('team.create')">
                 <x-layout.icon name="plus" :size="16" />
                 Medewerker toevoegen
             </x-ui.button>
