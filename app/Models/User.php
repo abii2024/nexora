@@ -5,6 +5,7 @@ namespace App\Models;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -54,6 +55,16 @@ class User extends Authenticatable
     public function team(): BelongsTo
     {
         return $this->belongsTo(Team::class);
+    }
+
+    /**
+     * Cliënten waar deze gebruiker aan gekoppeld is (als zorgbegeleider).
+     */
+    public function clients(): BelongsToMany
+    {
+        return $this->belongsToMany(Client::class, 'client_caregivers')
+            ->withPivot(['role', 'created_by_user_id'])
+            ->withTimestamps();
     }
 
     public function isTeamleider(): bool
