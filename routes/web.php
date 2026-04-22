@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\TeamController;
 use App\Http\Controllers\Teamleider\DashboardController as TeamleiderDashboardController;
 use Illuminate\Support\Facades\Route;
 
@@ -23,5 +24,11 @@ Route::middleware('auth')->group(function () {
 
     Route::middleware('teamleider')->prefix('teamleider')->name('teamleider.')->group(function () {
         Route::get('/dashboard', TeamleiderDashboardController::class)->name('dashboard');
+    });
+
+    Route::middleware('teamleider')->group(function () {
+        Route::get('/team', [TeamController::class, 'index'])->name('team.index');
+        Route::get('/team/create', [TeamController::class, 'create'])->name('team.create');
+        Route::post('/team', [TeamController::class, 'store'])->name('team.store');
     });
 });
