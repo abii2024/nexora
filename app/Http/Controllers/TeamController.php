@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Team\StoreTeamMemberRequest;
+use App\Http\Requests\Team\UpdateTeamMemberRequest;
 use App\Models\User;
+use App\Services\UserService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
@@ -83,5 +85,33 @@ class TeamController extends Controller
         return redirect()
             ->route('team.index')
             ->with('success', 'Medewerker aangemaakt.');
+    }
+
+    /**
+     * Formulier om een teamlid te bewerken (US-05).
+     */
+    public function edit(User $user): View
+    {
+        $this->authorize('update', $user);
+
+        return view('team.edit', ['member' => $user]);
+    }
+
+    /**
+     * Bijwerken van een teamlid met audit-trail (US-05 kern).
+     * Alle logica staat in UserService::updateWithAudit — die garandeert
+     * atomiciteit + self-demotion guard + AVG-audit-rij per gewijzigd veld.
+     */
+    public function update(UpdateTeamMemberRequest $request, User $user, UserService $users): RedirectResponse
+    {
+        $users->updateWithAudit(
+            member: $user,
+            payload: $request->validatedPayload(),
+            changedBy: $request->user(),
+        );
+
+        return redirect()
+            ->route('team.index')
+            ->with('success', 'Medewerker bijgewerkt.');
     }
 }
