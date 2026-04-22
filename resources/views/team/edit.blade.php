@@ -96,5 +96,45 @@
                 </div>
             </form>
         </x-ui.card>
+
+        @if($member->id !== auth()->id())
+            <div style="margin-top: var(--space-6);">
+                <x-ui.card padded>
+                    <h2 style="font-size: var(--font-size-base); font-weight: var(--font-weight-semibold); color: var(--color-ink-900); margin-bottom: var(--space-2);">
+                        Accountstatus
+                    </h2>
+
+                    @if($member->is_active)
+                        <p style="font-size: var(--font-size-sm); color: var(--color-text-secondary); margin-bottom: var(--space-4);">
+                            Deactiveren blokkeert direct de toegang. De medewerker kan niet meer inloggen, maar alle historische gegevens (uren, cli&euml;nt-koppelingen) blijven behouden voor de Wgbo-bewaarplicht.
+                        </p>
+                        <form method="POST"
+                              action="{{ route('team.deactivate', $member) }}"
+                              onsubmit="return confirm('Weet je zeker dat je {{ $member->name }} wilt deactiveren? De medewerker kan daarna niet meer inloggen.');"
+                        >
+                            @csrf
+                            <x-ui.button type="submit" variant="danger">
+                                <x-layout.icon name="log-out" :size="16" />
+                                Deactiveren
+                            </x-ui.button>
+                        </form>
+                    @else
+                        <p style="font-size: var(--font-size-sm); color: var(--color-text-secondary); margin-bottom: var(--space-4);">
+                            Deze medewerker is gedeactiveerd en kan niet inloggen. Heractiveren geeft direct weer toegang met het bestaande wachtwoord.
+                        </p>
+                        <form method="POST"
+                              action="{{ route('team.activate', $member) }}"
+                              onsubmit="return confirm('{{ $member->name }} weer activeren?');"
+                        >
+                            @csrf
+                            <x-ui.button type="submit" variant="primary">
+                                <x-layout.icon name="check-square" :size="16" />
+                                Heractiveren
+                            </x-ui.button>
+                        </form>
+                    @endif
+                </x-ui.card>
+            </div>
+        @endif
     </div>
 @endsection
