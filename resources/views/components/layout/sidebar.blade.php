@@ -12,7 +12,7 @@
                     'href' => $isTeamleider ? route('teamleider.dashboard') : route('dashboard'),
                     'active' => request()->routeIs('dashboard') || request()->routeIs('teamleider.dashboard'),
                 ],
-                ['label' => 'Cliënten', 'icon' => 'users', 'href' => '#', 'active' => request()->routeIs('clienten*'), 'disabled' => true],
+                ['label' => 'Cliënten', 'icon' => 'users', 'href' => route('clients.index'), 'active' => request()->routeIs('clients.*')],
                 ['label' => 'Taken', 'icon' => 'check-square', 'href' => '#', 'active' => request()->routeIs('taken*'), 'disabled' => true],
                 ['label' => 'Agenda', 'icon' => 'calendar', 'href' => '#', 'active' => request()->routeIs('agenda*'), 'disabled' => true],
             ]),
