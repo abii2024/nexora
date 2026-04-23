@@ -73,7 +73,8 @@ class Client extends Model
     public function caregivers(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'client_caregivers')
-            ->withPivot(['role', 'created_by_user_id'])
+            ->using(ClientCaregiver::class)
+            ->withPivot(['id', 'role', 'created_by_user_id'])
             ->withTimestamps();
     }
 
