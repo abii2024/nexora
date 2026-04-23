@@ -20,7 +20,7 @@
         'praktijk' => [
             'label' => 'Praktijk',
             'items' => [
-                ['label' => 'Urenregistratie', 'icon' => 'clock', 'href' => '#', 'active' => request()->routeIs('uren*'), 'disabled' => true],
+                ['label' => 'Urenregistratie', 'icon' => 'clock', 'href' => route('uren.index'), 'active' => request()->routeIs('uren.*')],
                 ['label' => 'Documenten', 'icon' => 'folder', 'href' => '#', 'disabled' => true],
                 ['label' => 'Rapportages', 'icon' => 'bar-chart', 'href' => '#', 'disabled' => true],
                 ['label' => 'Incidenten', 'icon' => 'alert-circle', 'href' => '#', 'disabled' => true],
