@@ -16,7 +16,7 @@ Dit document beschrijft **welke soorten testen** worden uitgevoerd op Nexora en 
 
 **Waarom**: Dekt elk acceptatiecriterium automatisch af. Draait bij elke commit — regressie-bescherming voor latere sprints.
 
-**Waar**: `tests/Feature/<Module>/<Usecase>Test.php`.
+**Waar**: `tests/Feature/US-NN.php`.
 
 **Voorbeeld uit US-01:**
 ```php
@@ -31,7 +31,7 @@ it('logs in an active zorgbegeleider and redirects to /dashboard', function () {
 **Uitvoeren:**
 ```bash
 ./vendor/bin/pest                     # alles
-./vendor/bin/pest --filter=LoginTest  # één suite
+./vendor/bin/pest tests/Feature/US-01.php   # één US
 ```
 
 ### 1.2 Handmatige browser-tests
@@ -124,7 +124,7 @@ Voor **elke** user story worden minimaal deze alternatieve paden getest (naar ge
 ./vendor/bin/pest
 
 # Eén US
-./vendor/bin/pest --filter=LoginTest
+./vendor/bin/pest tests/Feature/US-01.php
 
 # Coverage (indien xdebug/pcov actief)
 ./vendor/bin/pest --coverage

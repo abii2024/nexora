@@ -3,14 +3,14 @@
 > **User story:** Als teamleider wil ik een overzicht van alle medewerkers binnen mijn organisatie met zoek- en filtermogelijkheden zodat ik snel de juiste collega vind en teamsamenstelling inzichtelijk is.
 >
 > **Branch:** `feature/medewerkers-overzicht`
-> **Feature test:** [`tests/Feature/Team/TeamIndexTest.php`](../../tests/Feature/Team/TeamIndexTest.php)
+> **Feature test:** [`tests/Feature/US-04.php`](../../tests/Feature/US-04.php)
 > **Algemeen testplan:** [README.md](./README.md)
 
 ## 1. Soorten testen uitgevoerd
 
 | Soort | Tool | Locatie | Aantal |
 |---|---|---|---|
-| Feature test (geautomatiseerd) | Pest v4 | `tests/Feature/Team/TeamIndexTest.php` | 19 tests · 61 asserts |
+| Feature test (geautomatiseerd) | Pest v4 | `tests/Feature/US-04.php` | 19 tests · 61 asserts |
 | Handmatige browser-test | Chrome / Safari | `http://nexora.test/team` | 8 TC |
 
 ## 2. Test-gebruikers (uit `DatabaseSeeder`)
@@ -118,7 +118,7 @@ Setup: `php artisan migrate:fresh --seed`
 ### Geautomatiseerde Pest tests
 
 ```text
-$ ./vendor/bin/pest tests/Feature/Team/TeamIndexTest.php
+$ ./vendor/bin/pest tests/Feature/US-04.php
 
    PASS  Tests\Feature\Team\TeamIndexTest
   ✓ it renders only users from the authenticated teamleider team

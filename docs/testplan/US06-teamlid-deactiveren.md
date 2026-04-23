@@ -3,14 +3,14 @@
 > **User story:** Als teamleider wil ik medewerkers kunnen deactiveren bij uitdiensttreding zodat ze niet meer kunnen inloggen of cliëntdata kunnen benaderen, maar hun historische gegevens behouden blijven voor audit en bewaartermijnen.
 >
 > **Branch:** `feature/teamlid-deactiveren`
-> **Feature test:** [`tests/Feature/Team/DeactivateTeamMemberTest.php`](../../tests/Feature/Team/DeactivateTeamMemberTest.php)
+> **Feature test:** [`tests/Feature/US-06.php`](../../tests/Feature/US-06.php)
 > **Algemeen testplan:** [README.md](./README.md)
 
 ## 1. Soorten testen uitgevoerd
 
 | Soort | Tool | Locatie | Aantal |
 |---|---|---|---|
-| Feature test (geautomatiseerd) | Pest v4 | `tests/Feature/Team/DeactivateTeamMemberTest.php` | 19 tests · 62 asserts |
+| Feature test (geautomatiseerd) | Pest v4 | `tests/Feature/US-06.php` | 19 tests · 62 asserts |
 | Handmatige browser-test | Chrome / Safari | `http://nexora.test/team/{id}/edit` | 8 TC |
 
 ## 2. Test-gebruikers
@@ -122,7 +122,7 @@ Setup: `php artisan migrate:fresh --seed`
 ### Geautomatiseerde Pest tests
 
 ```text
-$ ./vendor/bin/pest tests/Feature/Team/DeactivateTeamMemberTest.php
+$ ./vendor/bin/pest tests/Feature/US-06.php
 
    PASS  Tests\Feature\Team\DeactivateTeamMemberTest
   ✓ it deactivates an active member and writes audit log

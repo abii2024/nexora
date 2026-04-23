@@ -4,9 +4,9 @@
 >
 > **Branch:** `feature/autorisatie`
 > **Feature tests:**
-> - [`tests/Feature/Policies/ClientPolicyTest.php`](../../tests/Feature/Policies/ClientPolicyTest.php)
-> - [`tests/Feature/Services/ClientScopeTest.php`](../../tests/Feature/Services/ClientScopeTest.php)
-> - [`tests/Feature/Auth/AuthorizationTest.php`](../../tests/Feature/Auth/AuthorizationTest.php)
+> - [`tests/Feature/US-02.php`](../../tests/Feature/US-02.php)
+> - [`tests/Feature/US-02.php`](../../tests/Feature/US-02.php)
+> - [`tests/Feature/US-02.php`](../../tests/Feature/US-02.php)
 >
 > **Algemeen testplan:** [README.md](./README.md)
 
@@ -14,9 +14,9 @@
 
 | Soort | Tool | Locatie | Aantal |
 |---|---|---|---|
-| Policy tests | Pest v4 | `tests/Feature/Policies/ClientPolicyTest.php` | 12 tests · 23 asserts |
-| Service scope tests | Pest v4 | `tests/Feature/Services/ClientScopeTest.php` | 6 tests · 17 asserts |
-| Authorization/middleware tests | Pest v4 | `tests/Feature/Auth/AuthorizationTest.php` | 8 tests · 14 asserts |
+| Policy tests | Pest v4 | `tests/Feature/US-02.php` | 12 tests · 23 asserts |
+| Service scope tests | Pest v4 | `tests/Feature/US-02.php` | 6 tests · 17 asserts |
+| Authorization/middleware tests | Pest v4 | `tests/Feature/US-02.php` | 8 tests · 14 asserts |
 | Handmatige browser-test | Chrome/Safari | `http://nexora.test` | 5 TC |
 
 **Totaal US-02:** 26 geautomatiseerde tests, 54 asserts.
@@ -102,7 +102,7 @@ Setup: `php artisan migrate:fresh --seed`
 ### Geautomatiseerde Pest tests (US-02 suites)
 
 ```text
-$ ./vendor/bin/pest --filter='ClientPolicy|ClientScope|Authorization'
+$ ./vendor/bin/pest tests/Feature/US-02.php
 
    PASS  Tests\Feature\Auth\AuthorizationTest
   ✓ it redirects guest from /dashboard to /login
