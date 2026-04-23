@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Client;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Centrale plek voor cliënt-queries.
@@ -43,5 +44,23 @@ class ClientService
         }
 
         return Client::query()->whereRaw('1 = 0');
+    }
+
+    /**
+     * Maakt een nieuwe cliënt binnen een DB-transactie (US-07 AC-4 + AC-5).
+     *
+     * Server-side toegevoegd door StoreClientRequest::validatedPayload():
+     *  - team_id          = auth()->user()->team_id
+     *  - created_by_user_id = auth()->user()->id (audit)
+     *
+     * Transactie garandeert atomiciteit — als er in de toekomst een extra
+     * gekoppelde insert bijkomt (zoals automatische caregiver-koppeling uit
+     * US-08), rollback bij fout.
+     *
+     * @param  array<string, mixed>  $payload  uit StoreClientRequest
+     */
+    public function create(array $payload): Client
+    {
+        return DB::transaction(fn () => Client::create($payload));
     }
 }
