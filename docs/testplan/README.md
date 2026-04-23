@@ -154,10 +154,11 @@ In het **examenverslag** (apart document, niet in deze repo) komt:
 - [US-05 Teamlid bewerken (rol + dienstverband)](./US05-teamlid-bewerken.md) ✅ — 16 Pest tests, 54 asserts
 - [US-06 Teamlid deactiveren en heractiveren](./US06-teamlid-deactiveren.md) ✅ — 19 Pest tests, 62 asserts
 - [US-07 Cliënt aanmaken met persoonsgegevens](./US07-client-aanmaken.md) ✅ — 21 Pest tests, 75 asserts
-- US-08 t/m US-16 — komen
+- [US-08 Cliënten koppelen aan begeleiders (primair/secundair/tertiair)](./US08-caregivers-koppeling.md) ✅ — 29 Pest tests, 70 asserts
+- US-09 t/m US-16 — komen
 
 **Sprint 1 afgerond** — 72 tests, 207 asserts, Pint clean.
-**Sprint 2 in progress** — US-05 ✓ · US-06 ✓ · US-07 ✓ · US-08 volgt (128 tests · 398 asserts)
+**Sprint 2 afgerond** — US-05 ✓ · US-06 ✓ · US-07 ✓ · US-08 ✓ (157 tests · 468 asserts totaal)
 
 ---
 

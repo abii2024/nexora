@@ -118,6 +118,61 @@
                     </div>
                 </section>
 
+                {{-- ── 4. Begeleiders (US-08) ──────────────────────────────── --}}
+                <section style="display: flex; flex-direction: column; gap: var(--space-4); border-top: 1px solid var(--color-border); padding-top: var(--space-5);">
+                    <header>
+                        <h2 style="font-size: var(--font-size-base); font-weight: var(--font-weight-semibold); color: var(--color-ink-900);">Begeleiders</h2>
+                        <p style="font-size: var(--font-size-xs); color: var(--color-text-muted); margin-top: var(--space-1);">
+                            Kies welke zorgbegeleiders aan deze cliënt gekoppeld worden. De eerste wordt automatisch <strong>primair</strong>, de tweede <strong>secundair</strong>, de rest tertiair. Je kunt expliciet een andere primair kiezen via de radio-knop.
+                        </p>
+                    </header>
+
+                    @if($availableCaregivers->isEmpty())
+                        <div style="padding: var(--space-4); background: var(--color-ink-50); border-radius: var(--radius-md); font-size: var(--font-size-sm); color: var(--color-text-secondary);">
+                            Geen actieve zorgbegeleiders beschikbaar in je team. Maak eerst zorgbegeleiders aan via <a href="{{ route('team.create') }}" style="color: var(--color-primary-600);">Teamleden</a>.
+                        </div>
+                    @else
+                        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: var(--space-3);">
+                            @foreach($availableCaregivers as $caregiver)
+                                @php
+                                    $checkedIds = old('caregiver_ids', []);
+                                    $isChecked = in_array((string) $caregiver->id, array_map('strval', (array) $checkedIds), true);
+                                    $isPrimary = (string) old('primary_user_id') === (string) $caregiver->id;
+                                @endphp
+                                <label style="display: flex; align-items: flex-start; gap: var(--space-3); padding: var(--space-3); border: 1px solid var(--color-border); border-radius: var(--radius-md); cursor: pointer;">
+                                    <input
+                                        type="checkbox"
+                                        name="caregiver_ids[]"
+                                        value="{{ $caregiver->id }}"
+                                        {{ $isChecked ? 'checked' : '' }}
+                                        style="margin-top: 2px; accent-color: var(--color-ink-900);"
+                                    >
+                                    <span style="flex: 1;">
+                                        <span style="display: block; font-weight: var(--font-weight-medium); color: var(--color-ink-900); font-size: var(--font-size-sm);">{{ $caregiver->name }}</span>
+                                        <span style="display: block; font-size: var(--font-size-xs); color: var(--color-text-muted);">{{ $caregiver->email }}</span>
+                                        <span style="display: inline-flex; align-items: center; gap: var(--space-1); margin-top: var(--space-2); font-size: var(--font-size-xs); color: var(--color-text-secondary);">
+                                            <input
+                                                type="radio"
+                                                name="primary_user_id"
+                                                value="{{ $caregiver->id }}"
+                                                {{ $isPrimary ? 'checked' : '' }}
+                                                style="accent-color: var(--color-primary-500);"
+                                            >
+                                            Primair
+                                        </span>
+                                    </span>
+                                </label>
+                            @endforeach
+                        </div>
+                        @error('caregiver_ids')
+                            <p class="form-error">{{ $message }}</p>
+                        @enderror
+                        @error('primary_user_id')
+                            <p class="form-error">{{ $message }}</p>
+                        @enderror
+                    @endif
+                </section>
+
                 <div style="display: flex; gap: var(--space-3); justify-content: flex-end; border-top: 1px solid var(--color-border); padding-top: var(--space-5);">
                     <x-ui.button variant="secondary" :href="route('clients.index')">Annuleren</x-ui.button>
                     <x-ui.button type="submit" variant="primary">
