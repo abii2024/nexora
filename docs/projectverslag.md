@@ -3,7 +3,7 @@
 > **Project:** Nexora — zorgbegeleidingssysteem voor beschermd wonen
 > **Auteur:** Abdisamad (abii2024)
 > **Examen:** PvB Software Developer Niveau 4 (14–25 april 2026)
-> **Versie:** 1.3 — bijgewerkt tijdens sprint 3 (US-09 afgerond)
+> **Versie:** 1.4 — bijgewerkt tijdens sprint 3 (US-09 + US-10 afgerond)
 
 Dit document is het **levend procesverslag** van Nexora. Het beschrijft hoe het project is opgebouwd, welke keuzes zijn gemaakt, welke sprints zijn afgerond, wat daarin gebouwd is en wat nog volgt. Het wordt bij elke sprint-afronding bijgewerkt.
 
@@ -151,16 +151,22 @@ GitHub-repo: [abii2024/nexora](https://github.com/abii2024/nexora)
 | US | Titel | PR | Pest tests | Asserts |
 |---|---|---|---|---|
 | US-09 | Cliëntenoverzicht met rol-gebaseerde weergave, zoek en filter | #11 | 27 | 67 |
-| US-10 | Cliënt bewerken en archiveren | — | — | — |
+| US-10 | Cliënt bewerken en archiveren (statusbeheer + soft delete) | — (lokaal, sprint-batch) | 31 | 74 |
 | US-11 | Concept-uren aanmaken en bewerken | — | — | — |
 | US-12 | Uren indienen, terugtrekken en opnieuw indienen | — | — | — |
 
-**Kerntechnologieën geïntroduceerd in sprint 3 (US-09):**
-- `ClientService::getPaginated` met filter-whitelist (search / status / care_type / sort) + `->with(['caregivers', 'team'])` eager loading
-- Rol-specifieke view-branching in `clients/index.blade.php` — teamleider ziet tabel + totaal-banner, zorgbegeleider ziet kaart-grid + eigen-caseload-banner
-- Herbruikbare `<x-clients.filter-bar>` Blade-component met query-string-preservation via `withQueryString()`
-- Drie verschillende empty-states (filters-leeg / teamleider-leeg / zorgbeg-leeg) via `<x-ui.empty-state>`
-- N+1-regressie-test met `DB::listen` — harde bovengrens op aantal queries bij paginatie
+**Kerntechnologieën geïntroduceerd in sprint 3 (US-09 + US-10):**
+- `ClientService::getPaginated` met filter-whitelist (search / status / care_type / sort) + `->with(['caregivers', 'team'])` eager loading (US-09)
+- Rol-specifieke view-branching in `clients/index.blade.php` — teamleider ziet tabel + totaal-banner, zorgbegeleider ziet kaart-grid + eigen-caseload-banner (US-09)
+- Herbruikbare `<x-clients.filter-bar>` Blade-component met query-string-preservation via `withQueryString()` (US-09)
+- Drie verschillende empty-states (filters-leeg / teamleider-leeg / zorgbeg-leeg) via `<x-ui.empty-state>` (US-09)
+- N+1-regressie-test met `DB::listen` — harde bovengrens op aantal queries bij paginatie (US-09)
+- `SoftDeletes`-trait + `deleted_at` kolom op `clients` (Wgbo-compliant archiveren, US-10)
+- `client_status_logs` audit-tabel + `ClientStatusLog` model (immutable — `UPDATED_AT=null` zoals `UserAuditLog` uit US-05)
+- `UpdateClientRequest` met `Rule::unique->ignore($id)->whereNull('deleted_at')` voor BSN (US-10)
+- `ClientService::update/archive/restore` — `update()` logt status-diff alleen bij daadwerkelijke wijziging (US-10)
+- Route-volgorde + `whereNumber('client')` om conflict tussen `/clients/archive` en `/clients/{id}` te voorkomen (US-10)
+- Permanente verwijdering bewust UI-onbereikbaar: geen route + `forceDelete`-policy returnt false (dataverlies-preventie, US-10)
 
 ### 🕐 Sprint 4 — Uren compleet + auth afronding (gepland)
 
@@ -179,7 +185,7 @@ GitHub-repo: [abii2024/nexora](https://github.com/abii2024/nexora)
 
 **Framework:** Pest v4 met `RefreshDatabase` trait (SQLite in-memory).
 
-**Totaal na US-09 (tijdens sprint 3):** 184 tests · 535 asserts · Duration ≈ 1,8s · **alle groen**.
+**Totaal na US-10 (tijdens sprint 3):** 215 tests · 609 asserts · Duration ≈ 2,4s · **alle groen**.
 
 ### Examen-eisen testrapportage — dekking
 
@@ -208,8 +214,10 @@ Elk per-US testplan (`docs/testplan/US<NN>-*.md`) dekt de 6 verplichte elementen
 | US-06 | [tests/Feature/US-06.php](../tests/Feature/US-06.php) | 19 | 62 |
 | US-07 | [tests/Feature/US-07.php](../tests/Feature/US-07.php) | 21 | 75 |
 | US-08 | [tests/Feature/US-08.php](../tests/Feature/US-08.php) | 29 | 70 |
+| US-09 | [tests/Feature/US-09.php](../tests/Feature/US-09.php) | 27 | 67 |
+| US-10 | [tests/Feature/US-10.php](../tests/Feature/US-10.php) | 31 | 74 |
 | Voorbeelden | tests/Feature/ExampleTest.php | 2 | 2 |
-| **Totaal** | | **157** | **468** |
+| **Totaal** | | **215** | **609** |
 
 Per-US testscenario's + handmatige TC's staan in [docs/testplan/](testplan/). Screenshots-checklists staan in [docs/screenshots/](screenshots/) — deze worden gebundeld opgeleverd aan het einde van het project.
 
@@ -225,10 +233,11 @@ Zie [docs/erd-files/erd.mmd](erd-files/) voor de volledige Mermaid-ERD. Tabellen
 |---|---|---|
 | `users` | 1 (US-01) | Login + rol + team + is_active |
 | `teams` | 1 (US-01) | Teamindeling per organisatie |
-| `clients` | 2 (US-02 stub, US-07 volledig) | Cliëntdossier |
+| `clients` | 2 (US-02 stub, US-07 volledig, US-10 soft_deletes) | Cliëntdossier |
 | `client_caregivers` | 2 (US-02 stub, US-08 volledig) | Pivot met role primair/secundair/tertiair |
 | `user_audit_logs` | 2 (US-05) | Immutable log voor AVG art. 30 |
 | `notifications` | 2 (US-08) | Laravel-default polymorphic notifications |
+| `client_status_logs` | 3 (US-10) | Immutable log van statuswijzigingen (AVG art. 5) |
 
 Nog te komen in sprint 3/4: `urenregistratie`, `client_status_logs`, `password_reset_tokens` (default Laravel).
 
@@ -245,7 +254,8 @@ Nog te komen in sprint 3/4: `urenregistratie`, `client_status_logs`, `password_r
 | Medewerker bewerken / deactiveren | ❌ | ❌ | ✅ |
 | `/clients` overzicht | ❌ | ✅ eigen koppelingen | ✅ eigen team |
 | Cliënt aanmaken | ❌ | ❌ | ✅ |
-| Cliënt bewerken (US-10) | ❌ | ❌ | ✅ |
+| Cliënt bewerken + archiveren (US-10) | ❌ | ❌ | ✅ |
+| Gearchiveerd-overzicht + herstellen | ❌ | ❌ | ✅ |
 | Begeleiders koppelen (US-08) | ❌ | ❌ | ✅ |
 | Uren registreren (US-11) | ❌ | ✅ eigen | ✅ |
 | Uren goedkeuren (US-13) | ❌ | ❌ | ✅ |
