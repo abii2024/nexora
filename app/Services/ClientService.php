@@ -31,7 +31,7 @@ class ClientService
      */
     public function scopedForUser(User $user): Builder
     {
-        if (! $user->is_active) {
+        if (!$user->is_active) {
             return Client::query()->whereRaw('1 = 0');
         }
 
