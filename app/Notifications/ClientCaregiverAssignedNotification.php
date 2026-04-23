@@ -19,7 +19,8 @@ class ClientCaregiverAssignedNotification extends Notification
         public readonly Client $client,
         public readonly string $role,
         public readonly User $assignedBy,
-    ) {}
+    ) {
+    }
 
     /**
      * @return array<int, string>

@@ -35,7 +35,7 @@ class UserService
 
         return DB::transaction(function () use ($member, $payload, $changedBy, $auditable) {
             foreach ($auditable as $field) {
-                if (! array_key_exists($field, $payload)) {
+                if (!array_key_exists($field, $payload)) {
                     continue;
                 }
 
@@ -96,7 +96,7 @@ class UserService
             }
         }
 
-        if (! $member->is_active) {
+        if (!$member->is_active) {
             return $member; // idempotent — al inactief
         }
 
@@ -160,7 +160,7 @@ class UserService
 
         $table = config('session.table', 'sessions');
 
-        if (! DB::getSchemaBuilder()->hasTable($table)) {
+        if (!DB::getSchemaBuilder()->hasTable($table)) {
             return;
         }
 
@@ -181,7 +181,7 @@ class UserService
         $newRole = $payload['role'] ?? $member->role;
         $becomesZorgbegeleider = $newRole !== User::ROLE_TEAMLEIDER;
 
-        if (! ($isSelfEdit && $wasTeamleider && $becomesZorgbegeleider)) {
+        if (!($isSelfEdit && $wasTeamleider && $becomesZorgbegeleider)) {
             return;
         }
 

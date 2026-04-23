@@ -24,7 +24,7 @@ class UserPolicy
 
     public function view(User $user, User $model): bool
     {
-        if (! $user->is_active) {
+        if (!$user->is_active) {
             return false;
         }
 

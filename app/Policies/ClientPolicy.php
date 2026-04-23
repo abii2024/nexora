@@ -25,7 +25,7 @@ class ClientPolicy
 
     public function view(User $user, Client $client): bool
     {
-        if (! $user->is_active) {
+        if (!$user->is_active) {
             return false;
         }
 

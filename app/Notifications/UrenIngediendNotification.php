@@ -20,7 +20,8 @@ class UrenIngediendNotification extends Notification
     public function __construct(
         protected Urenregistratie $uren,
         protected User $submittedBy,
-    ) {}
+    ) {
+    }
 
     /**
      * @return array<int, string>

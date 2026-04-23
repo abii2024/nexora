@@ -124,13 +124,13 @@ class UrenregistratieService
             UrenStatus::Goedgekeurd => [],
         };
 
-        if (! in_array($to, $allowed, true)) {
+        if (!in_array($to, $allowed, true)) {
             throw new InvalidStateTransitionException($from, $to);
         }
 
         // Extra AC-1: indienen (Concept→Ingediend en Afgekeurd→Ingediend) vereist
         // dat de entry volledig is (cliënt + uren>0 + beide tijden).
-        if ($to === UrenStatus::Ingediend && ! $uren->isIndienbaar()) {
+        if ($to === UrenStatus::Ingediend && !$uren->isIndienbaar()) {
             throw new InvalidStateTransitionException(
                 $from,
                 $to,
