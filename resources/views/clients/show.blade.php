@@ -62,7 +62,60 @@
         </x-ui.card>
     </div>
 
-    <p style="margin-top: var(--space-6); font-size: var(--font-size-xs); color: var(--color-text-muted);">
-        Begeleiders koppelen (primair/secundair/tertiair) komt in US-08. Bewerken + archiveren in US-10.
+    {{-- US-08: Gekoppelde begeleiders --}}
+    @php
+        $caregivers = $client->caregivers->sortBy(function ($c) {
+            return ['primair' => 0, 'secundair' => 1, 'tertiair' => 2][$c->pivot->role] ?? 9;
+        });
+    @endphp
+
+    <div style="margin-top: var(--space-5);">
+        <x-ui.card title="Begeleiders">
+            <x-slot:actions>
+                @can('update', $client)
+                    <x-ui.button variant="secondary" :href="route('clients.caregivers.edit', $client)">
+                        <x-layout.icon name="user-cog" :size="16" />
+                        Begeleiders beheren
+                    </x-ui.button>
+                @endcan
+            </x-slot:actions>
+
+            @if($caregivers->isEmpty())
+                <x-ui.empty-state
+                    title="Geen begeleiders gekoppeld"
+                    description="Deze cliënt heeft nog geen primaire zorgbegeleider. Koppel er minstens één om continuïteit van zorg te garanderen."
+                >
+                    <x-slot:icon>
+                        <x-layout.icon name="users" :size="32" />
+                    </x-slot:icon>
+                    @can('update', $client)
+                        <x-slot:action>
+                            <x-ui.button variant="primary" :href="route('clients.caregivers.edit', $client)">
+                                Begeleiders koppelen
+                            </x-ui.button>
+                        </x-slot:action>
+                    @endcan
+                </x-ui.empty-state>
+            @else
+                <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: var(--space-3);">
+                    @foreach($caregivers as $caregiver)
+                        @php $role = $caregiver->pivot->role; @endphp
+                        <li style="display: flex; align-items: center; gap: var(--space-3); padding: var(--space-3); border: 1px solid var(--color-border); border-radius: var(--radius-md);">
+                            <span style="flex: 1;">
+                                <span style="display: block; font-weight: var(--font-weight-medium); color: var(--color-ink-900); font-size: var(--font-size-sm);">{{ $caregiver->name }}</span>
+                                <span style="display: block; font-size: var(--font-size-xs); color: var(--color-text-muted);">{{ $caregiver->email }}</span>
+                            </span>
+                            <x-ui.badge tone="{{ $role === 'primair' ? 'success' : ($role === 'secundair' ? 'warning' : 'neutral') }}">
+                                {{ ucfirst($role) }}
+                            </x-ui.badge>
+                        </li>
+                    @endforeach
+                </ul>
+            @endif
+        </x-ui.card>
+    </div>
+
+    <p style="margin-top: var(--space-4); font-size: var(--font-size-xs); color: var(--color-text-muted);">
+        Bewerken + archiveren in US-10.
     </p>
 @endsection
