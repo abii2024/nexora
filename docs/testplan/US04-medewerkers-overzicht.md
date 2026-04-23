@@ -230,3 +230,23 @@ Verdeling per US:
 ### Eindoordeel
 
 ✅ **US-04 kan als "Done" gemarkeerd worden op Trello.** Alle 5 omschrijvingsbullets + alle 3 Privacy-bullets zijn gerealiseerd en getest. Sprint 1 (US-01 t/m US-04) is hiermee **compleet** — 60 tests over 4 US's dekken authentication, autorisatie en teambeheer basis.
+
+## 6. Analyse van gebruikte informatiebronnen
+
+| Bron | Gebruikt? | Bijdrage / bevinding |
+|---|---|---|
+| **Pest-testoutput** | ✅ 19 tests / 61 asserts | Bewijs dat zoek/filter/paginate/sort correct werken + XSS + SQL-injection afgeweerd. |
+| **Eigen bug-meldingen tijdens development** | ✅ 1 ontdekt | Initieel faalde test `filters by role = zorgbegeleider` want Fatima (auth-user) stond in sidebar-footer. **Fix:** assertions veranderd naar e-mail (alleen in tabel-rij) i.p.v. naam (ook in sidebar). Bug zat in test, niet in code. |
+| **Trello-kaart AC + DoD** | ✅ 5/5 AC + 8/10 DoD | 2 items open: screenshots + handmatig. Zelfs 1 item dat geblokkeerd werd in UI verwijderd op Trello als "niet meer relevant". |
+| **user-stories.md US-04** | ✅ brondocument | Alle 5 omschrijvingsbullets inclusief "inactieven onderaan met grijze badge" nauwgezet vertaald. |
+| **Ontwerpdocument / beveiliging.md** | ✅ referentie | XSS- en SQL-injection-testen komen rechtstreeks uit "defense in depth" sectie. |
+| **Feedback presentatie** | — | N.v.t. |
+| **Retrospective** | — | N.v.t. |
+
+## 7. Interpretatie van bevindingen uit bronnen
+
+1. **Layout-impact op assertions.** De Fatima-bug liet zien dat `assertSee('naam')` fragiel is in apps met een sidebar die auth-user toont. **Les voor toekomstige US's:** filter-tests baseren op unieke velden (e-mail, ID) i.p.v. display-naam.
+2. **XSS + SQL-injection in één suite.** Door beide security-tests in dezelfde file te bundelen is regressie-detectie eenvoudig: een foute Blade-escape of ruwe `DB::raw` wordt meteen opgepikt.
+3. **`withQueryString()` voor paginatie is een vergeten-effect-beschermer.** Test `preserves filters across pagination` vangt een klassiek Laravel-probleem op (filters vallen weg bij page-2-klik). Impliciet verzekert deze test dat de user-ervaring consistent blijft over meerdere pagina's.
+4. **Empty-state met verschillende copy per filter-staat** is een UX-verbetering die werd geborgd door test `shows empty state message when no results match filters` — zonder test zou een generieke "no users" melding ook geaccepteerd zijn, wat minder helpend is voor de gebruiker.
+5. **Conclusie per bron:** Pest-testen + user-stories.md + ontwerpdocument wijzen unaniem op Done. De gevonden test-bug is opgelost en heeft geleid tot **duidelijker test-conventie** voor volgende US'en.

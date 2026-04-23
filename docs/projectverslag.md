@@ -172,6 +172,23 @@ GitHub-repo: [abii2024/nexora](https://github.com/abii2024/nexora)
 
 **Totaal na sprint 2:** 157 tests · 468 asserts · Duration ≈ 1,5s · **alle groen**.
 
+### Examen-eisen testrapportage — dekking
+
+Elk per-US testplan (`docs/testplan/US<NN>-*.md`) dekt de 6 verplichte elementen uit de examen-opdracht:
+
+| # | Examen-eis | Plaats in US-testplan |
+|---|---|---|
+| 1 | Testplan: welke soort testen + hoe omgegaan | §1 + algemeen [README.md](testplan/) |
+| 2 | Testscenario's met **verwachte + werkelijke** resultaten | §3 (TC-XX tabellen, 4-koloms) |
+| 3 | Resultaten van de testen | §4 (Pest-output + handmatige TC-samenvatting + dekkingsmatrix) |
+| 4 | Getrokken conclusies uit de testen | §5 (Functioneel / Privacy / Code kwaliteit / Openstaand / Eindoordeel) |
+| 5 | Analyse van gebruikte informatiebronnen (testresultaten, feedback, retrospective, bugs) | §6 (tabel met 7 bronnen per US) |
+| 6 | Interpretatie van bevindingen uit verschillende bronnen | §7 (4-6 genummerde verbindende inzichten) |
+
+**Bronnen die momenteel beschikbaar zijn:** Pest-testoutput, eigen bug-meldingen tijdens development, Trello AC/DoD checkboxes, `user-stories.md`, ontwerpdocumenten, `eisen-wensen-uitgangspunten.md`.
+
+**Bronnen die later beschikbaar worden:** presentatie-feedback (na sprint 4), retrospective-input (einde project). Deze worden op dat moment teruggevoegd aan elk testplan §6.
+
 | US | Bestand | Tests | Asserts |
 |---|---|---|---|
 | US-01 | [tests/Feature/US-01.php](../tests/Feature/US-01.php) | 10 | 37 |

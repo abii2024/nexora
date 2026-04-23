@@ -239,3 +239,23 @@ Verdeling per US:
 ### Eindoordeel
 
 ✅ **US-06 kan als "Done" gemarkeerd worden op Trello.** Alle 5 acceptatiecriteria + alle 3 Privacy-bullets zijn gerealiseerd en getest. **107 Pest tests (323 asserts)** blijven allemaal groen. Sprint 2 is op de helft — US-07 (cliënt aanmaken) en US-08 (caregiver koppelen) resteren.
+
+## 6. Analyse van gebruikte informatiebronnen
+
+| Bron | Gebruikt? | Bijdrage / bevinding |
+|---|---|---|
+| **Pest-testoutput** | ✅ 19 tests / 62 asserts | Bewijs voor deactivate/activate + CheckActiveUser middleware + Wgbo retentie. |
+| **Eigen bug-meldingen tijdens development** | ✅ 2 punten | (1) AC-4 `uren-entries` verwijst naar US-11-tabel die nog niet bestaat — **beslissing:** retentie bewijzen via wel-bestaande tabellen (`user_audit_logs`, `client_caregivers`). (2) CheckActiveUser middleware moest global in `web`-groep, niet als route-alias, om ook na login direct effect te hebben. |
+| **Trello-kaart AC + DoD** | ✅ 5/5 AC + 5/7 DoD | Screenshots + handmatig open. |
+| **user-stories.md US-06** | ✅ brondocument | "Geen hard delete — user blijft in tabel" is in test `preserves user_audit_logs on deactivation` geverifieerd. |
+| **Ontwerpdocument / verantwoorde-verwerking.md** | ✅ referentie | Wgbo 20-jaar bewaarplicht is hier onderbouwd. |
+| **Feedback presentatie** | — | N.v.t. |
+| **Retrospective** | — | N.v.t. |
+
+## 7. Interpretatie van bevindingen uit bronnen
+
+1. **4 defense-in-depth-lagen is meer dan spec vereist — bewust.** User-story vraagt 2 maatregelen (is_active-check + geen hard-delete). Implementatie levert 4 lagen (UI-guard + Policy + Service-guard + middleware). Tests bewijzen dat alle 4 lagen **onafhankelijk** weigeren — een aanvaller moet alle 4 omzeilen. Dit is een **proactieve verzwaring** waarvan de kosten (4 extra tests) laag zijn en voordelen (resilient tegen toekomstige bugs in 1 laag) groot.
+2. **CheckActiveUser middleware vang-alles is kritisch.** Zonder deze middleware zou een al-ingelogde user die net gedeactiveerd is, pas na logout+login gestopt worden. Met de middleware **blokkeert elke request direct**. Test `logs out a user on next request once they are deactivated` dekt dit exact.
+3. **Retentie-test via bestaande tabellen (i.p.v. uren) is een pragmatische maar valide proxy.** De `onDelete('cascade')` foreign keys zijn op relatie-niveau, niet op `is_active`. Test bewijst dat `is_active=false` **geen** cascade triggert. Dezelfde logica geldt dus straks voor `urenregistratie` (US-11) — als relatie-type gelijk is, faalt dit niet plotseling bij nieuwe tabel.
+4. **Idempotency expliciet getest.** `is idempotent when deactivating an already inactive user` voorkomt dubbele audit-rijen bij per ongeluk herhaalde clicks. Dit is een UX-probleem dat pas merkbaar wordt in een audit-rapport — Pest vangt het vooraf.
+5. **Conclusie per bron:** alle bronnen wijzen op Done. 2 developer-bugs (AC-4 scope + middleware-plaatsing) zijn productief opgelost.

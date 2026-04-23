@@ -191,3 +191,25 @@ Duration: ~3.7s
 ✅ **US-08 kan als "Done" gemarkeerd worden op Trello.** Alle 5 acceptatiecriteria + Privacy-bullets gerealiseerd en getest.
 
 **Sprint 2 is hiermee afgerond** (US-05, US-06, US-07, US-08). Klaar voor batch-push naar GitHub en `sprint-2` tag. Volgende: Sprint 3 (US-09 t/m US-12).
+
+## 6. Analyse van gebruikte informatiebronnen
+
+| Bron | Gebruikt? | Bijdrage / bevinding |
+|---|---|---|
+| **Pest-testoutput** | ✅ 29 tests / 70 asserts over 3 describe-groepen | Bewijs voor pure function (auto-roles) + service (DB + notifications) + HTTP integratie. |
+| **Eigen bug-meldingen tijdens development** | ✅ 1 kritisch opgelost | Eerste implementatie `syncCaregivers` deed direct `updateExistingPivot` — dit **zou crashen op partial-unique-index** bij role-swap (A primair→secundair, B secundair→primair gelijktijdig). **Fix:** staging-fase waarbij blijvende pivots tijdelijk op `tertiair` gezet worden. Tertiair heeft geen unique-constraint → veilig tussenstation. |
+| **Trello-kaart AC + DoD** | ✅ 5/5 AC + 7/9 DoD | Screenshots + handmatig open. |
+| **user-stories.md US-08** | ✅ brondocument | "Elke nieuwe gekoppelde begeleider krijgt ClientCaregiverAssignedNotification" vertaald in test met `Notification::fake()` + `assertSentTo`. |
+| **Ontwerpdocument / verantwoorde-verwerking.md** | ✅ referentie | "Continuïteit van zorg" via primair/secundair is hier onderbouwd. |
+| **Examenopdracht** | ✅ referentie | Pivot-constraints (unique + partial) komen uit de user-story expliciet. |
+| **Feedback presentatie** | — | N.v.t. |
+| **Retrospective** | — | N.v.t. |
+
+## 7. Interpretatie van bevindingen uit bronnen
+
+1. **Staging-fase voor role-swap is pure-engineering-inzicht.** Zonder de bug-ontdekking tijdens ontwikkeling had de feature in productie kunnen crashen bij een concurrent swap. De test `promotes a new primary and demotes the old one to secundair` **reproduceert** exact dit scenario — het is nu een regressie-anker.
+2. **Partial unique op DB-niveau is belangrijker dan tests suggereren.** Applicatie-code zou 2 primair tegelijk kunnen proberen te schrijven in race-conditie tussen twee teamleiders. De DB-level constraint vangt dit zonder app-hulp. Test `rejects a second primair for the same client via partial unique index` bewijst dit via **raw DB insert** die app-logic omzeilt.
+3. **`Notification::fake()` voor database-channel is even waardevol als voor e-mail.** Zelfs zonder echte SMTP-server bewijzen we dat de notification-send-call correct getriggerd wordt. E-mail-uitbreiding in vervolg-story = 1 regel `via()` aanpassen.
+4. **3 describe-groepen = 3 isolatie-niveaus.** Pure functie (zonder DB) test `computeCaregiverRoles` in < 1ms. Service-laag test real-DB maar zonder HTTP. HTTP-integratie test volledige pipeline. Deze piramide = **snelle feedback + volledig vertrouwen**.
+5. **Cross-team + role + active-check in CaregiverAssignmentRequest.** Deze 3 guards in 1 Form Request voorkomen dat een teamleider foute user-IDs in het form injecteert. Alle 3 zijn afzonderlijk getest (`rejects caregiver from another team`, `rejects inactive caregiver`, `rejects teamleider as caregiver`).
+6. **Conclusie per bron:** alle bronnen bevestigen Done. De **belangrijkste bug-vondst** (swap-race via partial-unique) is een **lesson learned** dat we meenemen naar US-10 (client bewerken): staging-patroon bij multi-constraint-swaps.
