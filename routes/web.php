@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\ClientController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\Teamleider\DashboardController as TeamleiderDashboardController;
@@ -35,4 +36,11 @@ Route::middleware('auth')->group(function () {
         Route::post('/team/{user}/deactivate', [TeamController::class, 'deactivate'])->name('team.deactivate');
         Route::post('/team/{user}/activate', [TeamController::class, 'activate'])->name('team.activate');
     });
+
+    // Cliëntbeheer — autorisatie via ClientPolicy (US-02).
+    // Beschikbaar voor beide rollen; scope wordt afgedwongen in service+policy.
+    Route::get('/clients', [ClientController::class, 'index'])->name('clients.index');
+    Route::get('/clients/create', [ClientController::class, 'create'])->name('clients.create');
+    Route::post('/clients', [ClientController::class, 'store'])->name('clients.store');
+    Route::get('/clients/{client}', [ClientController::class, 'show'])->name('clients.show');
 });
