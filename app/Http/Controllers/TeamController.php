@@ -114,4 +114,36 @@ class TeamController extends Controller
             ->route('team.index')
             ->with('success', 'Medewerker bijgewerkt.');
     }
+
+    /**
+     * Deactiveert een teamlid (US-06).
+     *
+     * 'delete' in UserPolicy = deactiveren (geen hard delete vanwege Wgbo
+     * 20-jaar dossierplicht). Self-deactivation is geblokkeerd in de policy.
+     */
+    public function deactivate(User $user, UserService $users): RedirectResponse
+    {
+        $this->authorize('delete', $user);
+
+        $users->deactivate($user, auth()->user());
+
+        return redirect()
+            ->route('team.index')
+            ->with('success', "{$user->name} is gedeactiveerd.");
+    }
+
+    /**
+     * Heractiveert een gedeactiveerd teamlid (US-06).
+     * Wachtwoord blijft behouden — user kan direct weer inloggen.
+     */
+    public function activate(User $user, UserService $users): RedirectResponse
+    {
+        $this->authorize('restore', $user);
+
+        $users->activate($user, auth()->user());
+
+        return redirect()
+            ->route('team.index')
+            ->with('success', "{$user->name} is heractiveerd.");
+    }
 }

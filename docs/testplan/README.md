@@ -16,7 +16,7 @@ Dit document beschrijft **welke soorten testen** worden uitgevoerd op Nexora en 
 
 **Waarom**: Dekt elk acceptatiecriterium automatisch af. Draait bij elke commit — regressie-bescherming voor latere sprints.
 
-**Waar**: `tests/Feature/<Module>/<Usecase>Test.php`.
+**Waar**: `tests/Feature/US-NN.php`.
 
 **Voorbeeld uit US-01:**
 ```php
@@ -31,7 +31,7 @@ it('logs in an active zorgbegeleider and redirects to /dashboard', function () {
 **Uitvoeren:**
 ```bash
 ./vendor/bin/pest                     # alles
-./vendor/bin/pest --filter=LoginTest  # één suite
+./vendor/bin/pest tests/Feature/US-01.php   # één US
 ```
 
 ### 1.2 Handmatige browser-tests
@@ -124,7 +124,7 @@ Voor **elke** user story worden minimaal deze alternatieve paden getest (naar ge
 ./vendor/bin/pest
 
 # Eén US
-./vendor/bin/pest --filter=LoginTest
+./vendor/bin/pest tests/Feature/US-01.php
 
 # Coverage (indien xdebug/pcov actief)
 ./vendor/bin/pest --coverage
@@ -152,10 +152,11 @@ In het **examenverslag** (apart document, niet in deze repo) komt:
 - [US-03 Nieuwe zorgbegeleider aanmaken](./US03-medewerker-aanmaken.md) ✅ — 15 Pest tests, 53 asserts
 - [US-04 Medewerkersoverzicht met zoek en filter](./US04-medewerkers-overzicht.md) ✅ — 19 Pest tests, 61 asserts
 - [US-05 Teamlid bewerken (rol + dienstverband)](./US05-teamlid-bewerken.md) ✅ — 16 Pest tests, 54 asserts
-- US-06 t/m US-16 — komen
+- [US-06 Teamlid deactiveren en heractiveren](./US06-teamlid-deactiveren.md) ✅ — 19 Pest tests, 62 asserts
+- US-07 t/m US-16 — komen
 
 **Sprint 1 afgerond** — 72 tests, 207 asserts, Pint clean.
-**Sprint 2 in progress** — US-05 ✓ · US-06/07/08 volgen
+**Sprint 2 in progress** — US-05 ✓ · US-06 ✓ · US-07/08 volgen (107 tests · 323 asserts)
 
 ---
 

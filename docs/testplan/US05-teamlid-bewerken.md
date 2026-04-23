@@ -3,14 +3,14 @@
 > **User story:** Als teamleider wil ik gegevens van bestaande teamleden kunnen bijwerken (naam, email, rol, dienstverband) zodat het medewerkersregister actueel blijft bij functie- of contractwijzigingen.
 >
 > **Branch:** `feature/teamlid-bewerken`
-> **Feature test:** [`tests/Feature/Team/UpdateTeamMemberTest.php`](../../tests/Feature/Team/UpdateTeamMemberTest.php)
+> **Feature test:** [`tests/Feature/US-05.php`](../../tests/Feature/US-05.php)
 > **Algemeen testplan:** [README.md](./README.md)
 
 ## 1. Soorten testen uitgevoerd
 
 | Soort | Tool | Locatie | Aantal |
 |---|---|---|---|
-| Feature test (geautomatiseerd) | Pest v4 | `tests/Feature/Team/UpdateTeamMemberTest.php` | 16 tests · 54 asserts |
+| Feature test (geautomatiseerd) | Pest v4 | `tests/Feature/US-05.php` | 16 tests · 54 asserts |
 | Handmatige browser-test | Chrome / Safari | `http://nexora.test/team/{id}/edit` | 7 TC |
 
 ## 2. Test-gebruikers
@@ -103,7 +103,7 @@ Setup: `php artisan migrate:fresh --seed`
 ### Geautomatiseerde Pest tests
 
 ```text
-$ ./vendor/bin/pest tests/Feature/Team/UpdateTeamMemberTest.php
+$ ./vendor/bin/pest tests/Feature/US-05.php
 
    PASS  Tests\Feature\Team\UpdateTeamMemberTest
   ✓ it updates name and writes an audit log row
