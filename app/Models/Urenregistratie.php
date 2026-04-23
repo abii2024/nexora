@@ -65,7 +65,7 @@ class Urenregistratie extends Model
     {
         return $this->client_id !== null
             && (float) $this->uren > 0
-            && ! empty($this->starttijd)
-            && ! empty($this->eindtijd);
+            && !empty($this->starttijd)
+            && !empty($this->eindtijd);
     }
 }

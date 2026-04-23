@@ -13,7 +13,7 @@ class EnsureZorgbegeleider
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (! $request->user() || ! $request->user()->isZorgbegeleider()) {
+        if (!$request->user() || !$request->user()->isZorgbegeleider()) {
             abort(403);
         }
 
