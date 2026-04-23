@@ -54,25 +54,28 @@
     </div>
 
     @if($rows->isEmpty())
+        @php
+            $showCreateAction = $activeStatus === UrenStatus::Concept && auth()->user()->can('create', App\Models\Urenregistratie::class);
+            $emptyDescription = $activeStatus === UrenStatus::Concept
+                ? 'Klik "Uren toevoegen" om je eerste concept te maken.'
+                : 'Er zijn geen uren met deze status.';
+        @endphp
         <x-ui.card>
-            <x-ui.empty-state
-                title="Nog geen uren in deze tab"
-                description="{{ $activeStatus === UrenStatus::Concept ? 'Klik \"Uren toevoegen\" om je eerste concept te maken.' : 'Er zijn geen uren met deze status.' }}"
-            >
-                <x-slot:icon>
-                    <x-layout.icon name="clock" :size="32" />
-                </x-slot:icon>
-                @if($activeStatus === UrenStatus::Concept)
-                    @can('create', App\Models\Urenregistratie::class)
-                        <x-slot:action>
-                            <x-ui.button variant="primary" :href="route('uren.create')">
-                                <x-layout.icon name="plus" :size="16" />
-                                Uren toevoegen
-                            </x-ui.button>
-                        </x-slot:action>
-                    @endcan
-                @endif
-            </x-ui.empty-state>
+            @if($showCreateAction)
+                <x-ui.empty-state title="Nog geen uren in deze tab" :description="$emptyDescription">
+                    <x-slot:icon><x-layout.icon name="clock" :size="32" /></x-slot:icon>
+                    <x-slot:action>
+                        <x-ui.button variant="primary" :href="route('uren.create')">
+                            <x-layout.icon name="plus" :size="16" />
+                            Uren toevoegen
+                        </x-ui.button>
+                    </x-slot:action>
+                </x-ui.empty-state>
+            @else
+                <x-ui.empty-state title="Nog geen uren in deze tab" :description="$emptyDescription">
+                    <x-slot:icon><x-layout.icon name="clock" :size="32" /></x-slot:icon>
+                </x-ui.empty-state>
+            @endif
         </x-ui.card>
     @else
         <x-ui.card>

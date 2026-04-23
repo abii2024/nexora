@@ -22,7 +22,7 @@ class StoreUrenregistratieRequest extends FormRequest
             'client_id' => [
                 'required',
                 'integer',
-                Rule::exists('clients', 'id')->whereNull('deleted_at'),
+                Rule::exists('clients', 'id'),
             ],
             'datum' => ['required', 'date', 'before_or_equal:today'],
             'starttijd' => ['required', 'date_format:H:i'],
