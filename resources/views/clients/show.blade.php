@@ -13,7 +13,13 @@
                 <x-ui.badge tone="neutral">{{ strtoupper($client->care_type) }}</x-ui.badge>
             </p>
         </div>
-        <div class="page-actions">
+        <div class="page-actions" style="display: flex; gap: var(--space-2);">
+            @can('update', $client)
+                <x-ui.button variant="secondary" :href="route('clients.edit', $client)">
+                    <x-layout.icon name="edit" :size="16" />
+                    Bewerken
+                </x-ui.button>
+            @endcan
             <x-ui.button variant="ghost" :href="route('clients.index')">
                 <x-layout.icon name="chevron-right" :size="14" />
                 Terug naar overzicht
@@ -115,7 +121,24 @@
         </x-ui.card>
     </div>
 
-    <p style="margin-top: var(--space-4); font-size: var(--font-size-xs); color: var(--color-text-muted);">
-        Bewerken + archiveren in US-10.
-    </p>
+    {{-- US-10: Recente statuswijzigingen (audit-trail preview) --}}
+    @if($client->statusLogs->isNotEmpty())
+        <div style="margin-top: var(--space-5);">
+            <x-ui.card title="Recente statuswijzigingen">
+                <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: var(--space-2);">
+                    @foreach($client->statusLogs as $log)
+                        <li style="display: flex; align-items: center; gap: var(--space-3); padding: var(--space-2) var(--space-3); font-size: var(--font-size-sm); border-bottom: 1px solid var(--color-border);">
+                            <span style="color: var(--color-text-muted); font-variant-numeric: tabular-nums; font-size: var(--font-size-xs); min-width: 120px;">{{ $log->created_at?->format('d-m-Y H:i') }}</span>
+                            <span style="flex: 1; color: var(--color-text-secondary);">
+                                <x-ui.badge tone="neutral">{{ ucfirst($log->old_status) }}</x-ui.badge>
+                                →
+                                <x-ui.badge tone="{{ $log->new_status === 'actief' ? 'success' : ($log->new_status === 'wacht' ? 'warning' : 'neutral') }}">{{ ucfirst($log->new_status) }}</x-ui.badge>
+                            </span>
+                            <span style="color: var(--color-text-muted); font-size: var(--font-size-xs);">door {{ $log->changedBy?->name ?? '—' }}</span>
+                        </li>
+                    @endforeach
+                </ul>
+            </x-ui.card>
+        </div>
+    @endif
 @endsection
