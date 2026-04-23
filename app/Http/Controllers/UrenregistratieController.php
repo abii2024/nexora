@@ -106,6 +106,55 @@ class UrenregistratieController extends Controller
     }
 
     /**
+     * Concept → Ingediend (US-12 AC-1 + AC-2).
+     */
+    public function submit(Request $request, Urenregistratie $uren): RedirectResponse
+    {
+        $this->authorize('submit', $uren);
+
+        $this->uren->submit($uren, $request->user());
+
+        return redirect()
+            ->route('uren.index', ['status' => UrenStatus::Ingediend->value])
+            ->with('success', 'Uren ingediend voor goedkeuring.');
+    }
+
+    /**
+     * Ingediend → Concept (US-12 AC-3).
+     */
+    public function withdraw(Request $request, Urenregistratie $uren): RedirectResponse
+    {
+        $this->authorize('withdraw', $uren);
+
+        $this->uren->withdraw($uren, $request->user());
+
+        return redirect()
+            ->route('uren.index', ['status' => UrenStatus::Concept->value])
+            ->with('success', 'Uren teruggetrokken — nu weer bewerkbaar als concept.');
+    }
+
+    /**
+     * Afgekeurd → Ingediend (US-12 AC-4) — combineert update + submit.
+     */
+    public function resubmit(UpdateUrenregistratieRequest $request, Urenregistratie $uren): RedirectResponse
+    {
+        $this->authorize('resubmit', $uren);
+
+        $payload = $request->validatedPayload();
+
+        if (!$this->ownCaregiverClients()->contains('id', $payload['client_id'])) {
+            abort(403, 'Deze cliënt hoort niet bij jouw caseload.');
+        }
+
+        $this->uren->update($uren, $payload);
+        $this->uren->resubmit($uren, $request->user());
+
+        return redirect()
+            ->route('uren.index', ['status' => UrenStatus::Ingediend->value])
+            ->with('success', 'Uren gecorrigeerd en opnieuw ingediend.');
+    }
+
+    /**
      * De cliënten waarvoor de huidige zorgbegeleider uren mag registreren
      * — eigen primair/secundair/tertiair-koppelingen, alleen actieve cliënten.
      *
