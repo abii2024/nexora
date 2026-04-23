@@ -3,7 +3,7 @@
 > **Project:** Nexora — zorgbegeleidingssysteem voor beschermd wonen
 > **Auteur:** Abdisamad (abii2024)
 > **Examen:** PvB Software Developer Niveau 4 (14–25 april 2026)
-> **Versie:** 1.2 — bijgewerkt einde sprint 2
+> **Versie:** 1.3 — bijgewerkt tijdens sprint 3 (US-09 afgerond)
 
 Dit document is het **levend procesverslag** van Nexora. Het beschrijft hoe het project is opgebouwd, welke keuzes zijn gemaakt, welke sprints zijn afgerond, wat daarin gebouwd is en wat nog volgt. Het wordt bij elke sprint-afronding bijgewerkt.
 
@@ -146,14 +146,23 @@ GitHub-repo: [abii2024/nexora](https://github.com/abii2024/nexora)
 
 **Tag:** [`sprint-2`](https://github.com/abii2024/nexora/tree/sprint-2)
 
-### 📋 Sprint 3 — Cliënt compleet + uren basis (gepland)
+### 📋 Sprint 3 — Cliënt compleet + uren basis (bezig)
 
-| US | Titel | Scope-preview |
-|---|---|---|
-| US-09 | Cliëntenoverzicht met rol-gebaseerde weergave | Zoek + filter + paginatie op `/clients` (zorgbeg = kaarten, teamleider = tabel) |
-| US-10 | Cliënt bewerken en archiveren | `UpdateClientRequest`, `SoftDeletes`, `client_status_logs`, `/clients/archive` |
-| US-11 | Concept-uren aanmaken en bewerken | `urenregistratie` tabel, Concept-status, time-calc validatie |
-| US-12 | Uren indienen, terugtrekken en opnieuw indienen | State-machine (concept→ingediend→afgekeurd), notification naar teamleider |
+| US | Titel | PR | Pest tests | Asserts |
+|---|---|---|---|---|
+| US-09 | Cliëntenoverzicht met rol-gebaseerde weergave, zoek en filter | #11 | 27 | 67 |
+| US-10 | Cliënt bewerken en archiveren | — | — | — |
+| US-11 | Concept-uren aanmaken en bewerken | — | — | — |
+| US-12 | Uren indienen, terugtrekken en opnieuw indienen | — | — | — |
+
+**Kerntechnologieën geïntroduceerd in sprint 3 (US-09):**
+- `ClientService::getPaginated` met filter-whitelist (search / status / care_type / sort) + `->with(['caregivers', 'team'])` eager loading
+- Rol-specifieke view-branching in `clients/index.blade.php` — teamleider ziet tabel + totaal-banner, zorgbegeleider ziet kaart-grid + eigen-caseload-banner
+- Herbruikbare `<x-clients.filter-bar>` Blade-component met query-string-preservation via `withQueryString()`
+- Drie verschillende empty-states (filters-leeg / teamleider-leeg / zorgbeg-leeg) via `<x-ui.empty-state>`
+- N+1-regressie-test met `DB::listen` — harde bovengrens op aantal queries bij paginatie
+
+### 🕐 Sprint 4 — Uren compleet + auth afronding (gepland)
 
 ### 🕐 Sprint 4 — Uren compleet + auth afronding (gepland)
 
@@ -170,7 +179,7 @@ GitHub-repo: [abii2024/nexora](https://github.com/abii2024/nexora)
 
 **Framework:** Pest v4 met `RefreshDatabase` trait (SQLite in-memory).
 
-**Totaal na sprint 2:** 157 tests · 468 asserts · Duration ≈ 1,5s · **alle groen**.
+**Totaal na US-09 (tijdens sprint 3):** 184 tests · 535 asserts · Duration ≈ 1,8s · **alle groen**.
 
 ### Examen-eisen testrapportage — dekking
 

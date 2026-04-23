@@ -9,26 +9,49 @@ use App\Models\User;
 use App\Services\ClientService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 
 class ClientController extends Controller
 {
     public function __construct(protected ClientService $clients) {}
 
     /**
-     * Cliëntenoverzicht (US-07 stub — volledige uitwerking met zoek+filter
-     * komt in US-09).
+     * Cliëntenoverzicht met rol-gebaseerde weergave, zoek en filter (US-09).
+     *
+     *  - Teamleider: tabel met alle team-cliënten + totaal-banner + create-CTA.
+     *  - Zorgbegeleider: kaartweergave met alleen gekoppelde cliënten + info-banner.
+     *  - Filters (search/status/care_type/sort) blijven bij paginatie via withQueryString.
      */
-    public function index(): View
+    public function index(Request $request): View
     {
         $this->authorize('viewAny', Client::class);
 
-        $members = $this->clients->scopedForUser(auth()->user())
-            ->with('caregivers')
-            ->orderBy('achternaam')
-            ->orderBy('voornaam')
-            ->get();
+        $user = auth()->user();
 
-        return view('clients.index', ['clients' => $members]);
+        $filters = [
+            'search' => trim((string) $request->query('search', '')),
+            'status' => $request->query('status'),
+            'care_type' => $request->query('care_type'),
+            'sort' => $request->query('sort', 'name'),
+        ];
+
+        $clients = $this->clients->getPaginated($user, $filters);
+
+        // Totalen voor de rol-banner (teamleider ziet actief/wacht/inactief,
+        // zorgbegeleider ziet alleen eigen-caseload-tellers).
+        $scope = $this->clients->scopedForUser($user);
+        $totals = [
+            'totaal' => (clone $scope)->count(),
+            'actief' => (clone $scope)->where('status', Client::STATUS_ACTIEF)->count(),
+            'wacht' => (clone $scope)->where('status', Client::STATUS_WACHT)->count(),
+            'inactief' => (clone $scope)->where('status', Client::STATUS_INACTIEF)->count(),
+        ];
+
+        return view('clients.index', [
+            'clients' => $clients,
+            'filters' => $filters,
+            'totals' => $totals,
+        ]);
     }
 
     /**
