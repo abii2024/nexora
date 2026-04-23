@@ -11,7 +11,7 @@ Plaats hier de screenshots van de handmatige uitvoering van het [testplan](../..
 - [ ] `05-success-flash.png` — redirect naar `/team` met groene flash "Medewerker aangemaakt." + nieuwe rij in tabel
 - [ ] `06-new-member-login.png` — nieuwe medewerker kan inloggen (TC-02 stap 4)
 - [ ] `07-zorgbeg-403.png` — zorgbegeleider probeert `/team/create` → 403 (TC-05)
-- [ ] `08-pest-output.png` — terminal: `./vendor/bin/pest tests/Feature/Team` 15/15 groen
+- [ ] `08-pest-output.png` — terminal: `./vendor/bin/pest tests/Feature/US-03.php` 15/15 groen
 
 ## Testgebruikers
 

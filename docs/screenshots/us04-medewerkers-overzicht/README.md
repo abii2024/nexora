@@ -12,7 +12,7 @@ Plaats hier de screenshots van de handmatige uitvoering van het [testplan](../..
 - [ ] `06-paginatie.png` — `/team?page=2` na 30 extra seed-users (pagination links onderaan)
 - [ ] `07-xss-escape.png` — zoekterm `<script>alert('xss')</script>` → Blade escape in input-veld, geen alert
 - [ ] `08-zorgbeg-403.png` — zorgbegeleider probeert `/team` → 403
-- [ ] `09-pest-output.png` — terminal: `./vendor/bin/pest tests/Feature/Team/TeamIndexTest.php` 19/19 groen
+- [ ] `09-pest-output.png` — terminal: `./vendor/bin/pest tests/Feature/US-04.php` 19/19 groen
 
 ## Testgebruikers
 

@@ -13,7 +13,7 @@ Plaats hier de screenshots van de handmatige uitvoering van het [testplan](../..
 - [ ] `07-reactivated-login.png` — heractiveerde user logt in met bestaand wachtwoord → /dashboard
 - [ ] `08-audit-log-tinker.png` — tinker output van `User::find(x)->auditLogs` met is_active rijen
 - [ ] `09-zorgbeg-403.png` — zorgbegeleider probeert POST /team/{id}/deactivate → 403
-- [ ] `10-pest-output.png` — terminal: `./vendor/bin/pest tests/Feature/Team/DeactivateTeamMemberTest.php` 19/19 groen
+- [ ] `10-pest-output.png` — terminal: `./vendor/bin/pest tests/Feature/US-06.php` 19/19 groen
 
 ## Testgebruikers
 
