@@ -30,5 +30,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/team', [TeamController::class, 'index'])->name('team.index');
         Route::get('/team/create', [TeamController::class, 'create'])->name('team.create');
         Route::post('/team', [TeamController::class, 'store'])->name('team.store');
+        Route::get('/team/{user}/edit', [TeamController::class, 'edit'])->name('team.edit');
+        Route::put('/team/{user}', [TeamController::class, 'update'])->name('team.update');
     });
 });

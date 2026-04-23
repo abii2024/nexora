@@ -109,6 +109,7 @@
                                 <th style="padding: var(--space-3) var(--space-4);">Dienstverband</th>
                                 <th style="padding: var(--space-3) var(--space-4);">Status</th>
                                 <th style="padding: var(--space-3) var(--space-4);">Aangemaakt</th>
+                                <th style="padding: var(--space-3) var(--space-4); text-align: right;">Acties</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -128,6 +129,19 @@
                                         </x-ui.badge>
                                     </td>
                                     <td style="padding: var(--space-3) var(--space-4); color: var(--color-text-muted);">{{ $member->created_at?->format('d-m-Y') }}</td>
+                                    <td style="padding: var(--space-3) var(--space-4); text-align: right;">
+                                        <a
+                                            href="{{ route('team.edit', $member) }}"
+                                            title="Bewerken"
+                                            aria-label="Bewerken {{ $member->name }}"
+                                            style="display: inline-flex; align-items: center; gap: var(--space-1); color: var(--color-ink-700); padding: var(--space-1) var(--space-2); border-radius: var(--radius-md); font-size: var(--font-size-xs); font-weight: var(--font-weight-medium);"
+                                            onmouseover="this.style.background='var(--color-ink-50)';this.style.color='var(--color-ink-900)'"
+                                            onmouseout="this.style.background='transparent';this.style.color='var(--color-ink-700)'"
+                                        >
+                                            <x-layout.icon name="settings" :size="14" />
+                                            Bewerken
+                                        </a>
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>

@@ -6,6 +6,7 @@ use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -65,6 +66,14 @@ class User extends Authenticatable
         return $this->belongsToMany(Client::class, 'client_caregivers')
             ->withPivot(['role', 'created_by_user_id'])
             ->withTimestamps();
+    }
+
+    /**
+     * Audit-log van alle veldwijzigingen op dit user-record (US-05).
+     */
+    public function auditLogs(): HasMany
+    {
+        return $this->hasMany(UserAuditLog::class)->orderByDesc('created_at');
     }
 
     public function isTeamleider(): bool
