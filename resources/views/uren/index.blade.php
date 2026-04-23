@@ -102,11 +102,26 @@
                                     <x-ui.badge tone="{{ $row->status->badgeTone() }}">{{ $row->status->label() }}</x-ui.badge>
                                 </td>
                                 <td style="padding: var(--space-3) var(--space-4); text-align: right;">
-                                    @can('update', $row)
-                                        <x-ui.button variant="ghost" :href="route('uren.edit', $row)">Bewerken</x-ui.button>
-                                    @else
-                                        <span style="color: var(--color-text-muted); font-size: var(--font-size-xs);">Read-only</span>
-                                    @endcan
+                                    <div style="display: inline-flex; gap: var(--space-2); justify-content: flex-end; align-items: center;">
+                                        @can('update', $row)
+                                            <x-ui.button variant="ghost" :href="route('uren.edit', $row)">Bewerken</x-ui.button>
+                                        @endcan
+                                        @can('submit', $row)
+                                            <form method="POST" action="{{ route('uren.submit', $row) }}" style="display: inline;">
+                                                @csrf
+                                                <x-ui.button type="submit" variant="primary">Indienen</x-ui.button>
+                                            </form>
+                                        @endcan
+                                        @can('withdraw', $row)
+                                            <form method="POST" action="{{ route('uren.withdraw', $row) }}" style="display: inline;" onsubmit="return confirm('Deze uren-registratie terugtrekken naar concept?');">
+                                                @csrf
+                                                <x-ui.button type="submit" variant="secondary">Terugtrekken</x-ui.button>
+                                            </form>
+                                        @endcan
+                                        @if($row->status === UrenStatus::Goedgekeurd)
+                                            <span style="color: var(--color-text-muted); font-size: var(--font-size-xs);">Read-only</span>
+                                        @endif
+                                    </div>
                                 </td>
                             </tr>
                         @endforeach
