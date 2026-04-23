@@ -4,8 +4,8 @@ namespace App\Exceptions;
 
 use App\Enums\UrenStatus;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use RuntimeException;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * US-12 AC-5: wordt opgegooid vanuit UrenregistratieService::transition()
