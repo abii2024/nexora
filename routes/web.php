@@ -32,5 +32,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/team', [TeamController::class, 'store'])->name('team.store');
         Route::get('/team/{user}/edit', [TeamController::class, 'edit'])->name('team.edit');
         Route::put('/team/{user}', [TeamController::class, 'update'])->name('team.update');
+        Route::post('/team/{user}/deactivate', [TeamController::class, 'deactivate'])->name('team.deactivate');
+        Route::post('/team/{user}/activate', [TeamController::class, 'activate'])->name('team.activate');
     });
 });

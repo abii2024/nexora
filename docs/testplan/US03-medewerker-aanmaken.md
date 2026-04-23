@@ -3,14 +3,14 @@
 > **User story:** Als teamleider wil ik nieuwe zorgbegeleiders kunnen toevoegen met een initieel wachtwoord zodat ik het team kan uitbreiden zonder systeembeheerder.
 >
 > **Branch:** `feature/medewerker-aanmaken`
-> **Feature test:** [`tests/Feature/Team/CreateTeamMemberTest.php`](../../tests/Feature/Team/CreateTeamMemberTest.php)
+> **Feature test:** [`tests/Feature/US-03.php`](../../tests/Feature/US-03.php)
 > **Algemeen testplan:** [README.md](./README.md)
 
 ## 1. Soorten testen uitgevoerd
 
 | Soort | Tool | Locatie | Aantal |
 |---|---|---|---|
-| Feature test (geautomatiseerd) | Pest v4 | `tests/Feature/Team/CreateTeamMemberTest.php` | 15 tests · 53 asserts |
+| Feature test (geautomatiseerd) | Pest v4 | `tests/Feature/US-03.php` | 15 tests · 53 asserts |
 | Handmatige browser-test | Chrome / Safari | `http://nexora.test/team/create` | 7 TC |
 
 ## 2. Test-gebruikers
@@ -101,7 +101,7 @@ Setup: `php artisan migrate:fresh --seed`
 ### Geautomatiseerde Pest tests
 
 ```text
-$ ./vendor/bin/pest tests/Feature/Team
+$ ./vendor/bin/pest tests/Feature/US-03.php
 
    PASS  Tests\Feature\Team\CreateTeamMemberTest
   ✓ it renders the create form with all required fields for teamleider  0.28s

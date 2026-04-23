@@ -11,7 +11,7 @@ Plaats hier de screenshots van de handmatige uitvoering van het [testplan](../..
 - [ ] `05-email-duplicaat-error.png` — email al in gebruik fout
 - [ ] `06-audit-log-tinker.png` — `php artisan tinker` met `User::find(x)->auditLogs` tonend rijen
 - [ ] `07-zorgbeg-403.png` — zorgbegeleider probeert `/team/{id}/edit` → 403
-- [ ] `08-pest-output.png` — terminal: `./vendor/bin/pest tests/Feature/Team/UpdateTeamMemberTest.php` 16/16 groen
+- [ ] `08-pest-output.png` — terminal: `./vendor/bin/pest tests/Feature/US-05.php` 16/16 groen
 
 ## Testgebruikers
 

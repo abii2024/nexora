@@ -3,14 +3,14 @@
 > **User story:** Als zorgbegeleider of teamleider wil ik met mijn e-mailadres en wachtwoord kunnen inloggen op Nexora zodat ik veilig toegang krijg tot de cliëntgegevens en functionaliteiten die bij mijn rol horen.
 >
 > **Branch:** `feature/authenticatie`
-> **Feature test:** [`tests/Feature/Auth/LoginTest.php`](../../tests/Feature/Auth/LoginTest.php)
+> **Feature test:** [`tests/Feature/US-01.php`](../../tests/Feature/US-01.php)
 > **Algemeen testplan:** [README.md](./README.md)
 
 ## Soorten testen uitgevoerd
 
 | Soort | Tool | Locatie | Aantal |
 |---|---|---|---|
-| Feature test (geautomatiseerd) | Pest v4 | `tests/Feature/Auth/LoginTest.php` | 10 tests · 37 asserts |
+| Feature test (geautomatiseerd) | Pest v4 | `tests/Feature/US-01.php` | 10 tests · 37 asserts |
 | Handmatige browser-test | Chrome / Safari | `http://nexora.test/login` | 9 testcases (TC-01 t/m TC-09) |
 
 ## Test-gebruikers (uit `DatabaseSeeder`)
@@ -121,7 +121,7 @@ Setup: `php artisan migrate:fresh --seed`
 ### Geautomatiseerde Pest tests
 
 ```text
-$ ./vendor/bin/pest --filter=LoginTest
+$ ./vendor/bin/pest tests/Feature/US-01.php
 
    PASS  Tests\Feature\Auth\LoginTest
   ✓ it logs in an active zorgbegeleider and redirects to /dashboard    0.35s

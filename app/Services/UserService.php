@@ -64,6 +64,110 @@ class UserService
     }
 
     /**
+     * Deactiveert een teamlid (US-06). Blokkeert self-deactivation en
+     * voorkomt dat de laatste actieve teamleider wordt uitgeschakeld.
+     *
+     * Legt een audit-rij vast en invalideert alle session-rijen van de
+     * target user zodat andere devices direct uitloggen (defense-in-depth
+     * naast CheckActiveUser middleware).
+     *
+     * @throws ValidationException
+     */
+    public function deactivate(User $member, User $changedBy): User
+    {
+        if ($member->id === $changedBy->id) {
+            throw ValidationException::withMessages([
+                'is_active' => 'Je kunt jezelf niet deactiveren.',
+            ]);
+        }
+
+        if ($member->isTeamleider()) {
+            $otherActive = User::query()
+                ->where('team_id', $member->team_id)
+                ->where('id', '!=', $member->id)
+                ->where('role', User::ROLE_TEAMLEIDER)
+                ->where('is_active', true)
+                ->count();
+
+            if ($otherActive === 0) {
+                throw ValidationException::withMessages([
+                    'is_active' => 'Je kunt de enige actieve teamleider van het team niet deactiveren.',
+                ]);
+            }
+        }
+
+        if (! $member->is_active) {
+            return $member; // idempotent — al inactief
+        }
+
+        return DB::transaction(function () use ($member, $changedBy) {
+            UserAuditLog::create([
+                'user_id' => $member->id,
+                'changed_by_user_id' => $changedBy->id,
+                'field' => 'is_active',
+                'old_value' => '1',
+                'new_value' => '0',
+            ]);
+
+            $member->is_active = false;
+            $member->save();
+
+            $this->invalidateSessionsFor($member);
+
+            return $member;
+        });
+    }
+
+    /**
+     * Heractiveert een teamlid (US-06). Wachtwoord blijft ongewijzigd —
+     * user kan direct weer inloggen met bestaand wachtwoord.
+     */
+    public function activate(User $member, User $changedBy): User
+    {
+        if ($member->is_active) {
+            return $member; // idempotent — al actief
+        }
+
+        return DB::transaction(function () use ($member, $changedBy) {
+            UserAuditLog::create([
+                'user_id' => $member->id,
+                'changed_by_user_id' => $changedBy->id,
+                'field' => 'is_active',
+                'old_value' => '0',
+                'new_value' => '1',
+            ]);
+
+            $member->is_active = true;
+            $member->save();
+
+            return $member;
+        });
+    }
+
+    /**
+     * Verwijdert openstaande web-sessies voor een user uit de database-
+     * session store, zodat andere devices bij de volgende request niet
+     * meer herkend worden. Werkt alleen als SESSION_DRIVER=database.
+     *
+     * Fallback: CheckActiveUser middleware vangt de rest op bij elke
+     * authenticated request (zelfs met file-session driver werkt dat).
+     */
+    protected function invalidateSessionsFor(User $member): void
+    {
+        if (config('session.driver') !== 'database') {
+            return;
+        }
+
+        $table = config('session.table', 'sessions');
+
+        if (! DB::getSchemaBuilder()->hasTable($table)) {
+            return;
+        }
+
+        DB::table($table)->where('user_id', $member->id)->delete();
+    }
+
+    /**
      * Verhindert dat een team zonder actieve teamleider komt te staan.
      *
      * Regel: als de target-user zijn eigen rol wijzigt van teamleider naar
