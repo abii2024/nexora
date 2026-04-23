@@ -21,7 +21,7 @@ class UrenregistratiePolicy
 
     public function view(User $user, Urenregistratie $uren): bool
     {
-        if (! $user->is_active) {
+        if (!$user->is_active) {
             return false;
         }
 
@@ -42,7 +42,7 @@ class UrenregistratiePolicy
      */
     public function update(User $user, Urenregistratie $uren): bool
     {
-        if (! $user->is_active) {
+        if (!$user->is_active) {
             return false;
         }
 

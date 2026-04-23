@@ -14,7 +14,9 @@ use Illuminate\Http\Request;
 
 class UrenregistratieController extends Controller
 {
-    public function __construct(protected UrenregistratieService $uren) {}
+    public function __construct(protected UrenregistratieService $uren)
+    {
+    }
 
     /**
      * Uren-overzicht met 4 status-tabs (US-11 AC-1).
@@ -64,7 +66,7 @@ class UrenregistratieController extends Controller
         $payload = $request->validatedPayload();
 
         // Extra defense in depth: cliënt moet aan deze zorgbegeleider gekoppeld zijn.
-        if (! $this->ownCaregiverClients()->contains('id', $payload['client_id'])) {
+        if (!$this->ownCaregiverClients()->contains('id', $payload['client_id'])) {
             abort(403, 'Deze cliënt hoort niet bij jouw caseload.');
         }
 
@@ -92,7 +94,7 @@ class UrenregistratieController extends Controller
     {
         $payload = $request->validatedPayload();
 
-        if (! $this->ownCaregiverClients()->contains('id', $payload['client_id'])) {
+        if (!$this->ownCaregiverClients()->contains('id', $payload['client_id'])) {
             abort(403, 'Deze cliënt hoort niet bij jouw caseload.');
         }
 
