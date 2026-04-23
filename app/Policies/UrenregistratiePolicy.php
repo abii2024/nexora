@@ -54,4 +54,34 @@ class UrenregistratiePolicy
     {
         return false;
     }
+
+    /**
+     * US-12 AC-1: alleen eigenaar mag eigen concept-entry indienen.
+     */
+    public function submit(User $user, Urenregistratie $uren): bool
+    {
+        return $user->is_active
+            && $uren->user_id === $user->id
+            && $uren->status->isSubmittable();
+    }
+
+    /**
+     * US-12 AC-3: alleen eigenaar mag ingediende entry terugtrekken.
+     */
+    public function withdraw(User $user, Urenregistratie $uren): bool
+    {
+        return $user->is_active
+            && $uren->user_id === $user->id
+            && $uren->status->isWithdrawable();
+    }
+
+    /**
+     * US-12 AC-4: alleen eigenaar mag afgekeurde entry corrigeren + opnieuw indienen.
+     */
+    public function resubmit(User $user, Urenregistratie $uren): bool
+    {
+        return $user->is_active
+            && $uren->user_id === $user->id
+            && $uren->status->canResubmit();
+    }
 }
