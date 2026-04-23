@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Client;
 use App\Models\User;
 use App\Notifications\ClientCaregiverAssignedNotification;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
@@ -15,6 +16,7 @@ use Illuminate\Support\Facades\Notification;
  * US-02: scopedForUser (scope-regels op één plek voor AVG-auditeerbaarheid).
  * US-07: create (DB-transactie + audit-velden).
  * US-08: computeCaregiverRoles + syncCaregivers (rol-toewijzing + notifications).
+ * US-09: getPaginated (zoek + filter + sort + paginate + eager loading).
  */
 class ClientService
 {
@@ -44,6 +46,53 @@ class ClientService
         }
 
         return Client::query()->whereRaw('1 = 0');
+    }
+
+    /**
+     * US-09: Levert een gefilterd, gesorteerd en gepagineerd cliënten-overzicht
+     * met eager-loaded caregivers + team om N+1 te voorkomen.
+     *
+     * Bouwt bovenop scopedForUser() — dezelfde rol-regels, nu met toegevoegde
+     * user-filters uit de query-string. Alle filter-waarden worden server-side
+     * gevalideerd via whitelist (geen SQL-injection mogelijk).
+     *
+     * @param  array<string, mixed>  $filters  search/status/care_type/sort
+     */
+    public function getPaginated(User $user, array $filters = [], int $perPage = 15): LengthAwarePaginator
+    {
+        $query = $this->scopedForUser($user)
+            ->with(['caregivers', 'team']);
+
+        // Zoekterm op voornaam OF achternaam (LIKE %term%, case-insensitive via SQLite NOCASE).
+        $search = trim((string) ($filters['search'] ?? ''));
+        if ($search !== '') {
+            $query->where(function (Builder $q) use ($search) {
+                $q->where('voornaam', 'like', "%{$search}%")
+                    ->orWhere('achternaam', 'like', "%{$search}%");
+            });
+        }
+
+        // Status-filter via whitelist.
+        $status = $filters['status'] ?? null;
+        if (in_array($status, [Client::STATUS_ACTIEF, Client::STATUS_WACHT, Client::STATUS_INACTIEF], true)) {
+            $query->where('status', $status);
+        }
+
+        // Care-type filter via whitelist (WMO/WLZ/JW).
+        $careType = $filters['care_type'] ?? null;
+        if (in_array($careType, [Client::CARE_WMO, Client::CARE_WLZ, Client::CARE_JW], true)) {
+            $query->where('care_type', $careType);
+        }
+
+        // Sortering via whitelist (geen arbitrary column-name via user-input).
+        $sort = $filters['sort'] ?? 'name';
+        match ($sort) {
+            'status' => $query->orderBy('status')->orderBy('achternaam')->orderBy('voornaam'),
+            'created_at' => $query->orderByDesc('created_at'),
+            default => $query->orderBy('achternaam')->orderBy('voornaam'),
+        };
+
+        return $query->paginate($perPage)->withQueryString();
     }
 
     /**
