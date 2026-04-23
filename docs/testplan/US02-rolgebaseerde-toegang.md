@@ -212,3 +212,23 @@ $ ./vendor/bin/pest
 ### Eindoordeel
 
 ✅ **US-02 kan als "Done" gemarkeerd worden op Trello.** Alle 5 acceptatiecriteria zijn door Pest-tests bewezen (26/26 groen). De Policy + Service laag is productieklaar en wordt in US-07 t/m US-10 verder benut via CRUD-controllers en UI. Geen code-smells, geen dubbele logica, auditeerbaar per AVG-eis.
+
+## 6. Analyse van gebruikte informatiebronnen
+
+| Bron | Gebruikt? | Bijdrage / bevinding |
+|---|---|---|
+| **Pest-testoutput** | ✅ 26 tests / 54 asserts over 3 suites | Objectief bewijs voor scope-regels (team-isolatie + pivot-scope). Test `denies zorgbegeleider viewing a client they are NOT linked to` is de **kernvalidatie** van AC-2. |
+| **Eigen bug-meldingen tijdens development** | ✅ 1 conceptueel punt | AC-2 en AC-5 verwijzen naar `/clients/{id}` — die route bestaat pas in US-09. **Beslissing:** de autorisatie-**laag** is nu getest via directe Gate-calls; HTTP-integratie wordt in US-09 toegevoegd. Geen regressierisico. |
+| **Trello-kaart AC + DoD** | ✅ 5/5 AC + 5/7 DoD | Gedekt behalve screenshots + handmatige check (batch aan einde). |
+| **user-stories.md US-02** | ✅ brondocument | Privacy-bullets (AVG least privilege + info leak) zijn in testplan als aparte assertions meegenomen. |
+| **Ontwerpdocument / gegevensbescherming** | ✅ referentie | "Least privilege per rol" + "audit-trail per resource" komen uit dit document en worden nu door ClientPolicy-methods afgedwongen. |
+| **Feedback presentatie** | — | N.v.t. — presentatie na sprint 4. |
+| **Retrospective** | — | N.v.t. — eerste retro einde project. |
+
+## 7. Interpretatie van bevindingen uit bronnen
+
+1. **Pest bewijst dat scope-regels watertight zijn.** De combinatie `ClientPolicy@view` (role-based) + `ClientService::scopedForUser` (query-level) + `EnsureTeamleider/Zorgbegeleider` middleware (route-level) vormt **3 lagen defense in depth**. Elke laag heeft aparte tests → ook als 1 laag faalt, blokkeert de andere nog.
+2. **Vroege stub voor Client/client_caregivers was de juiste keuze.** Zonder `Client`-model kon US-02 de scope-logica niet echt testen. Door een minimale migratie + model nu te maken, konden we AC-2/AC-5 al bewijzen — US-07 hoeft alleen UI toe te voegen. De sprint-2 PR's (US-07/US-08) bouwen hierop probleemloos voort, wat **bevestigt dat de vroege investering zich terugverdient**.
+3. **403-paginacontent getest tegen info-leak.** Niet alleen status-code, ook body-inhoud is geverifieerd: **géén `Stack trace`, géén `Symfony\Component`, géén `vendor/laravel` strings**. Dit adresseert een realistisch productieprobleem (toevallige stacktrace-leak in debug-mode).
+4. **Inactieve-user afhandeling op 3 niveaus consistent.** Login weigert → middleware weigert → policy weigert. Dit werd per toeval gevangen toen we `inactive` users in pivot-tests ook via policy negeerden — een positieve bijvangst van de regressie-tests.
+5. **Conclusie per bron:** objectieve tests + ontwerp-eisen zijn in lijn. Geen enkele bron signaleert onvolledigheid. De uitgestelde handmatige check (URL-plakken van cliënt B) blijft open tot US-09 HTTP-pad live is — noodzakelijke afhankelijkheid, geen gebrek.

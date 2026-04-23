@@ -195,3 +195,24 @@ Duration: 0.78s
 ### Eindoordeel
 
 ✅ **US-03 kan als "Done" gemarkeerd worden op Trello.** Alle 5 omschrijvingsbullets + alle 3 Privacy-bullets zijn gerealiseerd en getest. De volgende sprint-items (US-04 t/m US-06) bouwen hier naadloos op voort via de reeds aangelegde `UserPolicy`.
+
+## 6. Analyse van gebruikte informatiebronnen
+
+| Bron | Gebruikt? | Bijdrage / bevinding |
+|---|---|---|
+| **Pest-testoutput** | ✅ 15 tests / 53 asserts | Bewijs dat happy-path + 9 validatie-edges + 3 autorisatie-edges correct werken. |
+| **Eigen bug-meldingen tijdens development** | ✅ 1 gevangen | Initiële Pest-run faalde op `$this->authorize()` in controller. **Oorzaak:** Laravel 12 levert `AuthorizesRequests` trait niet default mee. **Fix:** trait toegevoegd aan base `Controller`. Dit was een architectuurverbetering die **alle volgende US-controllers ten goede komt** (US-05, US-07, US-08 gebruiken hetzelfde patroon). |
+| **Trello-kaart AC + DoD** | ✅ 5/5 AC + 6/8 DoD | Gedekt behalve screenshots + handmatig. |
+| **user-stories.md US-03** | ✅ brondocument | Bullet "Initieel wachtwoord buiten app gecommuniceerd" vertaald naar UI-hint op form + verbetervoorstel voor e-mail. |
+| **eisen-wensen-uitgangspunten.md** | ✅ context | Unique e-mail + bcrypt + role whitelist komen hier uit. |
+| **Ontwerpdocument / beveiliging.md** | ✅ referentie | Mass-assignment-protection via `$fillable` is hier onderbouwd. |
+| **Feedback presentatie** | — | N.v.t. |
+| **Retrospective** | — | N.v.t. |
+
+## 7. Interpretatie van bevindingen uit bronnen
+
+1. **Bug-fix op Laravel 12 default bracht structureel voordeel.** De ontbrekende `AuthorizesRequests` trait zou anders bij elke volgende controller opnieuw hebben gebeten. Nu 1× gefixed in base-class → 0 duplicatie in US-04/05/07/08.
+2. **Privilege escalation-test is key validator.** Het feit dat Pest-test `rejects a role outside the whitelist` **faalt zodra iemand `$fillable`-whitelist weghaalt**, maakt van deze test een **veiligheidsankerpunt**. Dit is meer waard dan een happy-path-test.
+3. **UI-hint over "wachtwoord buiten app communiceren" sluit functioneel en ethisch gat.** Geen e-mail-verzending in scope = risico dat wachtwoord via chat of spreadsheet gedeeld wordt. Door dit expliciet in de UI te noemen wordt de teamleider **bewust gemaakt van de verantwoordelijkheid**. Signaal dat testen + ontwerpdocument samen werken.
+4. **Mass-assignment-test (`ignores a hidden team_id input`) bewijst defense in depth.** Validated-payload-patroon werkt: ook als een aanvaller hidden form fields zou injecteren, wordt `team_id` overschreven met auth-waarde.
+5. **Conclusie per bron:** alle bronnen wijzen op US-03 Done. De 1 ontdekte developer-bug (missende trait) is direct een refactor-kans gebleken voor de hele controller-stack.

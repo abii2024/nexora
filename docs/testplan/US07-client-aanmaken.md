@@ -198,3 +198,24 @@ Screenshots + handmatige verificatie worden aan het einde van alle 16 US's in é
 ### Eindoordeel
 
 ✅ **US-07 kan als "Done" gemarkeerd worden op Trello.** Alle 5 acceptatiecriteria + Privacy bullets gerealiseerd. Cliëntbeheer-basis staat; US-08/US-09/US-10 bouwen hier voort.
+
+## 6. Analyse van gebruikte informatiebronnen
+
+| Bron | Gebruikt? | Bijdrage / bevinding |
+|---|---|---|
+| **Pest-testoutput** | ✅ 21 tests / 75 asserts | Bewijs voor form-render + 4 BSN-constraints + happy path + 4 edge-cases + mass-assignment-protection. |
+| **Eigen bug-meldingen tijdens development** | ✅ 1 gevangen | Initiële test `shows the newly created client on the index` faalde — BSN `123456789` niet zichtbaar op index. **Oorzaak:** bewust gekozen om BSN NIET in index-tabel te tonen (AVG-dataminimalisatie). **Fix:** test aangepast naar `assertDontSee('123456789')` + comment dat dit intentional is. Test werd daarmee een **specification-assertion**. |
+| **Trello-kaart AC + DoD** | ✅ 5/5 AC + 5/7 DoD | Screenshots + handmatig open. |
+| **user-stories.md US-07** | ✅ brondocument | Privacy-bullets (AVG art. 9 + dataminimalisatie + mass-assignment protection) 1-op-1 vertaald. |
+| **Ontwerpdocument / gegevensbescherming.md** | ✅ referentie | Cliëntgegevens als "bijzondere persoonsgegevens" (AVG art. 9) is hier onderbouwd. |
+| **Feedback presentatie** | — | N.v.t. |
+| **Retrospective** | — | N.v.t. |
+
+## 7. Interpretatie van bevindingen uit bronnen
+
+1. **BSN-afwezigheid op index werd specificatie, niet bug.** De falende test onthulde dat de UI een bewuste dataminimalisatie-keuze maakt. De fix (`assertDontSee`) is nu **actief bewijs** dat het frontend GEEN BSN lekt op een lijst-pagina — een AVG-relevante garantie.
+2. **Nullable BSN valideert de dataminimalisatie-filosofie.** Test `accepts a nullable BSN` bewijst dat het form werkt zonder BSN — de teamleider is niet gedwongen tot overbodige verzameling.
+3. **Mass-assignment-test detecteert toekomstige regressies.** Als iemand ooit `$fillable` uitbreidt of `validatedPayload()` bypasst, faalt deze test direct.
+4. **`before:today` op geboortedatum vangt een typefout die anders niet zou opvallen.** Test bewijst dat een per ongeluk ingevoerde toekomst-datum (2036 i.p.v. 1936) geblokkeerd wordt. Semantische validatie boven syntactische.
+5. **Cross-team show-test (US-02 regressie) laat zien dat scope-regels persistent zijn.** Na US-07 werkt de ClientPolicy@view uit US-02 nog steeds — geen per ongeluk verzwakte access-control.
+6. **Conclusie per bron:** alle bronnen wijzen op Done. De 1 gevangen bug leverde een AVG-specificatie-anchor op, wat een **verhoging van de documentatie-kwaliteit** betekent.

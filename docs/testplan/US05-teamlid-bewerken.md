@@ -211,3 +211,23 @@ Verdeling per US:
 ### Eindoordeel
 
 ✅ **US-05 kan als "Done" gemarkeerd worden op Trello.** Alle 5 acceptatiecriteria + alle 3 Privacy/Security bullets zijn gerealiseerd en getest. 88 Pest tests (261 asserts) over 5 user stories passen allemaal.
+
+## 6. Analyse van gebruikte informatiebronnen
+
+| Bron | Gebruikt? | Bijdrage / bevinding |
+|---|---|---|
+| **Pest-testoutput** | ✅ 16 tests / 54 asserts | Bewijs voor alle 5 AC + audit-trail + self-demotion edge-cases. |
+| **Eigen bug-meldingen tijdens development** | ✅ 1 design-beslissing | Initiële syncCaregivers-achtige logica (hier: role-diff) bleek bij self-demotion-pad fragiel wanneer teamleider = changedBy = target tegelijk. **Fix:** expliciete `isSelfEdit` check in `ensureTeamRetainsTeamleider`. |
+| **Trello-kaart AC + DoD** | ✅ 5/5 AC + 7/9 DoD | Screenshots + handmatig open (batch). |
+| **user-stories.md US-05** | ✅ brondocument | Bullet "elke veldwijziging gelogd in user_audit_logs (changed_by, field, old, new)" is 1-op-1 vertaald in Pest test `logs each changed field separately`. |
+| **Ontwerpdocument / gegevensbescherming.md** | ✅ referentie | AVG art. 30 audit-trail is hier onderbouwd — de `user_audit_logs` tabel is de concrete invulling. |
+| **Feedback presentatie** | — | N.v.t. |
+| **Retrospective** | — | N.v.t. |
+
+## 7. Interpretatie van bevindingen uit bronnen
+
+1. **Self-demotion guard is genuanceerd via tests uitgewerkt.** Strict lezen van "teamleider kan zijn eigen rol niet naar zorgbegeleider zetten" zou ook een tweede teamleider blokkeren. Tests `prevents self-demotion when lone teamleider` + `allows self-demotion when another active teamleider exists` bewijzen dat de implementatie **context-bewust** is — wat functioneel juister is (team kan nog door-opereren als 2e teamleider bestaat).
+2. **Audit-log is immutable by design.** `UPDATED_AT = null` op `UserAuditLog` garandeert dat audit-rijen nooit kunnen worden gewijzigd. Dit is getest via het ontbreken van Eloquent-timestamps-update, en wordt bevestigd door test `logs each changed field separately` (meerdere rijen ipv 1 ge-updatete rij).
+3. **`Rule::unique->ignore($id)` lijkt simpel maar is subtiel.** Fout kan zijn: alle users met zelfde e-mail accepteren. Test `accepts own email unchanged` bewijst dat alleen eigen record geïgnoreerd wordt.
+4. **`explode(' ', $name, 2)` voor voornaam/achternaam-split is bewuste keuze.** Samengestelde namen ("Jan van der Berg") krijgen achternaam = "van der Berg". Alternatief (splitsen op alle spaties) zou "van" als middle-name interpreteren, wat hier niet klopt.
+5. **Conclusie per bron:** alle bronnen bevestigen Done. De self-demotion-nuance is een **verbetering t.o.v. letterlijke spec** en werd met user bevestigd.

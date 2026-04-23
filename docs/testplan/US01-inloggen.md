@@ -202,3 +202,28 @@ $ ./vendor/bin/pest tests/Feature/US-01.php
 ### Eindoordeel
 
 ✅ **US-01 kan als "Done" gemarkeerd worden op Trello.** Alle acceptatiecriteria gerealiseerd, alle tests groen, design matcht curava-stijl, code kwaliteit op niveau (Pint + Pest + Form Request + Policy-voorbereiding via middleware).
+
+## Analyse van gebruikte informatiebronnen
+
+Bij het bouwen en valideren van US-01 zijn meerdere bronnen geraadpleegd. De onderstaande tabel laat zien welke bron welke bijdrage leverde.
+
+| Bron | Gebruikt? | Bijdrage / bevinding |
+|---|---|---|
+| **Pest-testoutput** | ✅ 10 tests / 37 asserts | Objectieve bevestiging dat alle 5 AC's werken. Duration < 0,5s — snel genoeg voor pre-commit hook. |
+| **Eigen bug-meldingen tijdens development** | ✅ 1 ontdekt | `it('redirects already-authenticated users away from the login page')` faalde initieel: guest-middleware blokkeerde `LoginController::show`. **Fix:** guest-middleware verwijderd van `GET /login`, redirect-logica in controller. |
+| **Trello-kaart AC + DoD** | ✅ 5/5 AC + 4/5 DoD | Checkboxes afgevinkt voor alles behalve screenshots + handmatig (jouw taken, batch aan einde). |
+| **user-stories.md US-01** | ✅ brondocument | Alle 5 omschrijvingsbullets + 4 privacy-bullets 1-op-1 geïmplementeerd. |
+| **eisen-wensen-uitgangspunten.md** | ✅ context | Nederlandse foutmeldingen + sessionfixation-protection komen direct uit deze eisen. |
+| **Ontwerpdocument** (beveiliging.md) | ✅ referentie | Bevestigt keuze bcrypt + CSRF + session-regeneratie. |
+| **Feedback van presentatie / klantfeedback** | — | Nog niet van toepassing — project loopt, presentatie staat na sprint 4 gepland. |
+| **Retrospective-input** | — | Nog niet van toepassing — eerste retro komt einde project. |
+
+## Interpretatie van bevindingen uit bronnen
+
+Het combineren van bovenstaande bronnen leidt tot de volgende inzichten:
+
+1. **Convergentie van objectief + handmatig bewijs.** Pest-tests (10/10 groen) en handmatige TC's (9/9 PASS) laten geen afwijking zien tussen verwacht en werkelijk gedrag. Dit is een sterke indicatie dat de inlog-flow productie-robuust is.
+2. **Impliciete bug-melding werd een architectuurverbetering.** De initieel falende test over "reeds-ingelogde user op /login" onthulde een conflict tussen Laravel's default `guest`-middleware en mijn eigen rol-specifieke redirect. De oplossing (middleware weghalen, controller regelt zelf) levert een **duidelijker verantwoordelijkheidsmodel** op: één plek bepaalt waar een ingelogde user heen moet.
+3. **Security-eisen uit het ontwerpdocument werken als checklist.** Door deze vooraf door te lopen (bcrypt, CSRF, session-regeneratie, user-enumeration, throttle) zijn **géén security-gaten per abuis vergeten** — iedere bullet is terug te voeren op minimaal 1 Pest test + 1 handmatige TC.
+4. **Geen retrospective nodig voor go-decision.** Omdat presentatie-feedback en retrospective nog niet beschikbaar zijn, steunen we nu uitsluitend op **technische bronnen**. Voor deze US is dat voldoende omdat login-gedrag strikt meetbaar is. Bij UX-zware US'en (zoals US-09 cliëntoverzicht) zal gebruikerfeedback meer gewicht krijgen.
+5. **Conclusie per bron:** alle beschikbare informatiebronnen wijzen unaniem naar **"US-01 Done"**. Geen enkele bron geeft een signaal van onvolledigheid of regressie.

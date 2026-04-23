@@ -58,12 +58,14 @@ it('logs in an active zorgbegeleider and redirects to /dashboard', function () {
 
 1. **Acceptatiecriteria → tests**: elke AC uit de user story krijgt **minimaal 1** Pest test met een duidelijke `it('...')` beschrijving.
 2. **Alternatieve scenario's** worden verplicht meegenomen (zie §3).
-3. **Testplan-document** `docs/testplan/US<NN>-<naam>.md` bevat:
-   - Test-gebruikers tabel
-   - TC-XX tabel per scenario (verwacht + werkelijk resultaat)
-   - Pest-dekkings-mapping
-   - Testresultaten (Pest output)
-   - Conclusies
+3. **Testplan-document** `docs/testplan/US<NN>-<naam>.md` bevat **7 verplichte secties** (matchen de 6 examen-eisen voor het testrapport):
+   1. **Soorten testen uitgevoerd** (welke soort + hoe omgegaan) — examen-eis 1
+   2. **Test-gebruikers / test-data**
+   3. **Handmatige testscenario's** met `verwacht + werkelijk resultaat` tabel — examen-eis 2
+   4. **Resultaten van de testen** — Pest-output + handmatige TC-samenvatting + dekkingsmatrix — examen-eis 3
+   5. **Conclusies** — Functioneel / Privacy & security / Code kwaliteit / Openstaand / Eindoordeel — examen-eis 4
+   6. **Analyse van gebruikte informatiebronnen** — tabel met Pest-output, bug-meldingen, Trello, user-stories.md, ontwerpdocument, presentatie-feedback (n.v.t.), retrospective (n.v.t.) — examen-eis 5
+   7. **Interpretatie van bevindingen uit bronnen** — 4-6 genummerde punten die bronnen met elkaar verbinden en conclusie trekken — examen-eis 6
 4. **Screenshots** in `docs/screenshots/us<nn>-<naam>/` met README-checklist.
 5. **US wordt pas "klaar"** als alle Pest tests groen zijn + handmatige TC's afgevinkt.
 
