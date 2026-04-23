@@ -14,7 +14,9 @@ use Illuminate\Http\Request;
 
 class ClientController extends Controller
 {
-    public function __construct(protected ClientService $clients) {}
+    public function __construct(protected ClientService $clients)
+    {
+    }
 
     /**
      * Cliëntenoverzicht met rol-gebaseerde weergave, zoek en filter (US-09).
