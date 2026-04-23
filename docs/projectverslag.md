@@ -3,7 +3,7 @@
 > **Project:** Nexora — zorgbegeleidingssysteem voor beschermd wonen
 > **Auteur:** Abdisamad (abii2024)
 > **Examen:** PvB Software Developer Niveau 4 (14–25 april 2026)
-> **Versie:** 1.3 — bijgewerkt tijdens sprint 3 (US-09 afgerond)
+> **Versie:** 1.5 — bijgewerkt tijdens sprint 3 (US-09 + US-10 + US-11 lokaal afgerond)
 
 Dit document is het **levend procesverslag** van Nexora. Het beschrijft hoe het project is opgebouwd, welke keuzes zijn gemaakt, welke sprints zijn afgerond, wat daarin gebouwd is en wat nog volgt. Het wordt bij elke sprint-afronding bijgewerkt.
 
@@ -151,9 +151,17 @@ GitHub-repo: [abii2024/nexora](https://github.com/abii2024/nexora)
 | US | Titel | PR | Pest tests | Asserts |
 |---|---|---|---|---|
 | US-09 | Cliëntenoverzicht met rol-gebaseerde weergave, zoek en filter | #11 | 27 | 67 |
-| US-10 | Cliënt bewerken en archiveren | — | — | — |
-| US-11 | Concept-uren aanmaken en bewerken | — | — | — |
+| US-10 | Cliënt bewerken en archiveren (statusbeheer + soft delete) | — (lokaal, sprint-batch) | 31 | 74 |
+| US-11 | Concept-uren aanmaken en bewerken | — (lokaal, sprint-batch) | 28 | 77 |
 | US-12 | Uren indienen, terugtrekken en opnieuw indienen | — | — | — |
+
+**Kerntechnologieën geïntroduceerd in sprint 3 (US-11):**
+- `App\Enums\UrenStatus` — PHP 8.4 backed-string enum (Concept / Ingediend / Goedgekeurd / Afgekeurd) + helpers `label()`, `badgeTone()`, `isEditable()`
+- `urenregistraties` tabel — user_id / client_id / datum / starttijd / eindtijd / uren(decimal 5,2) / notities / status
+- `UrenregistratieService::computeDuration` — integer-seconds → decimaal (geen float-wobble)
+- `UrenregistratiePolicy`: `update()` vereist eigenaar + `status->isEditable()`; `delete()` altijd false (uren immutable)
+- `user_id` + `status` buiten `$fillable` — altijd via `service->create($user, $payload)` (defense in depth tegen mass-assignment)
+- Status-tabs via URL `/uren?status=…` (shareable links, werkt zonder JS)
 
 **Kerntechnologieën geïntroduceerd in sprint 3 (US-09):**
 - `ClientService::getPaginated` met filter-whitelist (search / status / care_type / sort) + `->with(['caregivers', 'team'])` eager loading
