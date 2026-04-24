@@ -163,7 +163,8 @@ In het **examenverslag** (apart document, niet in deze repo) komt:
 - [US-12 Uren indienen, terugtrekken en opnieuw indienen](./US12-uren-indienen.md) ✅ — 31 Pest tests, 62 asserts
 - [US-13 Uren goedkeuren of afkeuren als teamleider](./US13-uren-beoordelen.md) ✅ — 27 Pest tests, 63 asserts
 - [US-14 Urenoverzicht met filters (teamleider)](./US14-uren-overzicht.md) ✅ — 22 Pest tests, 44 asserts
-- US-15 t/m US-16 — komen
+- [US-15 Wachtwoord vergeten & resetten via e-maillink](./US15-wachtwoord-reset.md) ✅ — 16 Pest tests, 46 asserts
+- US-16 — komt (parallelle branch)
 
 **Sprint 4 bezig** — US-13 ✓ · US-14 ✓ · US-15 … · US-16 … (323 tests · 855 asserts)
 

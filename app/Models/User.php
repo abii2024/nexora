@@ -85,4 +85,12 @@ class User extends Authenticatable
     {
         return $this->role === self::ROLE_ZORGBEGELEIDER;
     }
+
+    /**
+     * US-15: Nederlandse variant van de Laravel reset-notificatie.
+     */
+    public function sendPasswordResetNotification($token): void
+    {
+        $this->notify(new \App\Notifications\WachtwoordResetNotification($token));
+    }
 }
