@@ -3,7 +3,7 @@
 > **Project:** Nexora — zorgbegeleidingssysteem voor beschermd wonen
 > **Auteur:** Abdisamad (abii2024)
 > **Examen:** PvB Software Developer Niveau 4 (14–25 april 2026)
-> **Versie:** 1.8 — sprint 4 bezig (US-13 + US-14 + US-15 lokaal afgerond; US-16 nog open)
+> **Versie:** 1.9 — sprint 4 bezig (US-13 + US-14 lokaal afgerond; US-15/16 nog open)
 
 Dit document is het **levend procesverslag** van Nexora. Het beschrijft hoe het project is opgebouwd, welke keuzes zijn gemaakt, welke sprints zijn afgerond, wat daarin gebouwd is en wat nog volgt. Het wordt bij elke sprint-afronding bijgewerkt.
 
@@ -194,30 +194,20 @@ GitHub-repo: [abii2024/nexora](https://github.com/abii2024/nexora)
 |---|---|---|---|---|
 | US-13 | Uren goedkeuren of afkeuren als teamleider | — (lokaal, sprint-batch) | 27 | 63 |
 | US-14 | Urenoverzicht met filters (teamleider) | — (lokaal, sprint-batch) | 22 | 44 |
-| US-15 | Wachtwoord vergeten & resetten via e-maillink | — (lokaal, sprint-batch) | 16 | 46 |
+| US-15 | Wachtwoord vergeten & resetten via e-maillink | — | — | — |
 | US-16 | Profielbeheer (eigen gegevens + wachtwoord) | — | — | — |
 
-**Kerntechnologieën geïntroduceerd in sprint 4 (US-13 + US-14 + US-15):**
-
-*US-13 — Uren goedkeuren/afkeuren:*
-- `TeamleiderUrenController` consumeert US-12 `transition()`-matrix zonder matrix-wijziging (OCP)
-- `AfkeurUrenRequest` met `prepareForValidation`-trim + `min:10`
-- `UrenGoedgekeurdNotification` + `UrenAfgekeurdNotification` (database, reden in payload)
-- Native `<dialog>`-modal voor afkeur-formulier
-
-*US-14 — Urenoverzicht met filters:*
-- `UrenregistratieService::getPaginatedForTeamleider` met whitelist (status/medewerker/week) + sort
-- Herbruikbare `<x-uren.filter-bar>` + HTML `<input type="week">` (ISO 8601)
-- Week-summary header (subtotaal per medewerker + weektotaal)
-- N+1 regressie-test via `DB::listen`
-
-*US-15 — Wachtwoord reset:*
-- `WachtwoordResetNotification` (mail-kanaal) met NL markdown-template
-- `User::sendPasswordResetNotification` override voor NL-translate
-- `ForgotPasswordController` + `ResetPasswordController` gebruiken `Password::sendResetLink` / `Password::reset`
-- Enumeration-protection: identieke flash-melding voor bestaand + onbekend e-mailadres
-- Auto-login na succesvolle reset + rol-specifieke dashboard-redirect
-- `MAIL_MAILER=log` in `.env.example` — geen SMTP-setup nodig voor development
+**Kerntechnologieën geïntroduceerd in sprint 4 (US-13 + US-14):**
+- Teamleider-kant van state-machine: `TeamleiderUrenController` met `index/approve/reject`; consumeert US-12 `transition()`-matrix zonder matrix-wijziging (OCP)
+- `UrenregistratieService::approve/reject + scopedForTeamleider` — team-scoped queries + `forceFill` voor audit-metadata (`goedgekeurd_door_user_id` + `beoordeeld_op`)
+- `AfkeurUrenRequest` met `prepareForValidation`-trim + `required|string|min:10|max:500` voor `teamleider_notitie` — whitespace-only geweigerd
+- Twee database-notificaties naar zorgbegeleider: `UrenGoedgekeurdNotification` + `UrenAfgekeurdNotification` (reden in payload)
+- Native `<dialog>`-modal (zonder JS-library) voor afkeur-formulier — toegankelijk out-of-the-box
+- Policy uitgebreid met `goedkeuren/afkeuren` (teamleider + eigen team + status=Ingediend)
+- `UrenregistratieService::getPaginatedForTeamleider` met filter-whitelist (status/medewerker/week) + sort (datum/medewerker/duur) + `withQueryString` paginatie (US-14)
+- Herbruikbare `<x-uren.filter-bar>` Blade-component + HTML `<input type="week">` voor ISO 8601 `YYYY-Www` (US-14)
+- Week-summary header met subtotaal-per-medewerker + weektotaal (US-14)
+- N+1-regressie-test met `DB::listen` — harde bovengrens op queries bij paginatie (US-14)
 
 ---
 
@@ -225,8 +215,7 @@ GitHub-repo: [abii2024/nexora](https://github.com/abii2024/nexora)
 
 **Framework:** Pest v4 met `RefreshDatabase` trait (SQLite in-memory).
 
-**Totaal op US-15 branch (sprint 4, lokaal):** 290 tests · 794 asserts · **alle groen**.
-Verwacht bij sprint-4 merge: ~355 tests (sprint 3 = 274 + US-13 27 + US-14 22 + US-15 16 + US-16 ≈ 15).
+**Totaal na US-14 (tijdens sprint 4):** 323 tests · 855 asserts · Duration ≈ 3,4s · **alle groen**.
 
 ### Examen-eisen testrapportage — dekking
 
@@ -259,9 +248,10 @@ Elk per-US testplan (`docs/testplan/US<NN>-*.md`) dekt de 6 verplichte elementen
 | US-10 | [tests/Feature/US-10.php](../tests/Feature/US-10.php) | 31 | 74 |
 | US-11 | [tests/Feature/US-11.php](../tests/Feature/US-11.php) | 28 | 77 |
 | US-12 | [tests/Feature/US-12.php](../tests/Feature/US-12.php) | 31 | 62 |
-| US-15 | [tests/Feature/US-15.php](../tests/Feature/US-15.php) | 16 | 46 |
+| US-13 | [tests/Feature/US-13.php](../tests/Feature/US-13.php) | 27 | 63 |
+| US-14 | [tests/Feature/US-14.php](../tests/Feature/US-14.php) | 22 | 44 |
 | Voorbeelden | tests/Feature/ExampleTest.php | 2 | 2 |
-| **Totaal (US-15 branch)** | | **290** | **794** |
+| **Totaal** | | **323** | **855** |
 
 Per-US testscenario's + handmatige TC's staan in [docs/testplan/](testplan/). Screenshots-checklists staan in [docs/screenshots/](screenshots/) — deze worden gebundeld opgeleverd aan het einde van het project.
 
