@@ -21,6 +21,15 @@
     </div>
 
     <div style="max-width: 720px;">
+        @if($uren->status === \App\Enums\UrenStatus::Afgekeurd && $uren->afkeur_reden)
+            <div style="margin-bottom: var(--space-5);">
+                <x-ui.alert type="warning">
+                    <strong>Teamleider-notitie bij afkeur:</strong>
+                    <p style="margin-top: var(--space-2); white-space: pre-wrap;">{{ $uren->afkeur_reden }}</p>
+                </x-ui.alert>
+            </div>
+        @endif
+
         <x-ui.card padded>
             @if($errors->any())
                 <div style="margin-bottom: var(--space-5);">
@@ -35,9 +44,16 @@
                 </div>
             @endif
 
-            <form method="POST" action="{{ route('uren.update', $uren) }}" style="display: flex; flex-direction: column; gap: var(--space-5);">
+            @php
+                $isAfgekeurd = $uren->status === \App\Enums\UrenStatus::Afgekeurd;
+                $formAction = $isAfgekeurd ? route('uren.resubmit', $uren) : route('uren.update', $uren);
+                $formMethod = $isAfgekeurd ? null : 'PUT';
+            @endphp
+            <form method="POST" action="{{ $formAction }}" style="display: flex; flex-direction: column; gap: var(--space-5);">
                 @csrf
-                @method('PUT')
+                @if($formMethod)
+                    @method($formMethod)
+                @endif
 
                 <div class="space-y-2">
                     <label for="client_id" class="form-label">Cliënt <span style="color: var(--color-danger);">*</span></label>
@@ -88,7 +104,7 @@
                     <x-ui.button variant="secondary" :href="route('uren.index', ['status' => $uren->status->value])">Annuleren</x-ui.button>
                     <x-ui.button type="submit" variant="primary">
                         <x-layout.icon name="check" :size="16" />
-                        Opslaan
+                        {{ $isAfgekeurd ? 'Opslaan en opnieuw indienen' : 'Opslaan' }}
                     </x-ui.button>
                 </div>
             </form>

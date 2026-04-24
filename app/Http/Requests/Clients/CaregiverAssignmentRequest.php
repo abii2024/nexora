@@ -58,7 +58,7 @@ class CaregiverAssignmentRequest extends FormRequest
             $ids = array_values(array_unique(array_map('intval', $this->input('caregiver_ids', []) ?? [])));
             $primaryId = $this->input('primary_user_id');
 
-            if ($primaryId !== null && $primaryId !== '' && ! in_array((int) $primaryId, $ids, true)) {
+            if ($primaryId !== null && $primaryId !== '' && !in_array((int) $primaryId, $ids, true)) {
                 $v->errors()->add('primary_user_id', 'De primaire begeleider moet ook aangevinkt zijn.');
             }
 
