@@ -1,10 +1,13 @@
 <?php
 
+use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ProfielController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\TeamController;
+use App\Http\Controllers\TeamleiderUrenController;
 use App\Http\Controllers\Teamleider\DashboardController as TeamleiderDashboardController;
 use App\Http\Controllers\UrenregistratieController;
 use Illuminate\Support\Facades\Route;
@@ -17,6 +20,14 @@ Route::get('/login', [LoginController::class, 'show'])->name('login');
 Route::post('/login', [LoginController::class, 'store'])
     ->middleware('guest')
     ->name('login.store');
+
+// US-15: Wachtwoord vergeten + resetten via e-maillink
+Route::middleware('guest')->group(function () {
+    Route::get('/wachtwoord-vergeten', [ForgotPasswordController::class, 'show'])->name('password.request');
+    Route::post('/wachtwoord-vergeten', [ForgotPasswordController::class, 'store'])->name('password.email');
+    Route::get('/wachtwoord-herstellen/{token}', [ResetPasswordController::class, 'show'])->name('password.reset');
+    Route::post('/wachtwoord-herstellen', [ResetPasswordController::class, 'store'])->name('password.update');
+});
 
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [LoginController::class, 'destroy'])->name('logout');
@@ -31,6 +42,14 @@ Route::middleware('auth')->group(function () {
 
     Route::middleware('teamleider')->prefix('teamleider')->name('teamleider.')->group(function () {
         Route::get('/dashboard', TeamleiderDashboardController::class)->name('dashboard');
+
+        // US-13: uren-beoordeling (goedkeuren / afkeuren)
+        Route::get('/uren', [TeamleiderUrenController::class, 'index'])->name('uren.index');
+        Route::post('/uren/{uren}/goedkeuren', [TeamleiderUrenController::class, 'approve'])->name('uren.approve');
+        Route::post('/uren/{uren}/afkeuren', [TeamleiderUrenController::class, 'reject'])->name('uren.reject');
+
+        // US-14: urenoverzicht met filters (status/medewerker/week)
+        Route::get('/uren-overzicht', [TeamleiderUrenController::class, 'overzicht'])->name('uren.overzicht');
     });
 
     Route::middleware('teamleider')->group(function () {

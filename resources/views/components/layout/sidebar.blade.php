@@ -19,13 +19,15 @@
         ],
         'praktijk' => [
             'label' => 'Praktijk',
-            'items' => [
+            'items' => array_values(array_filter([
                 ['label' => 'Urenregistratie', 'icon' => 'clock', 'href' => route('uren.index'), 'active' => request()->routeIs('uren.*')],
+                $isTeamleider ? ['label' => 'Uren beoordelen', 'icon' => 'check-square', 'href' => route('teamleider.uren.index'), 'active' => request()->routeIs('teamleider.uren.index')] : null,
+                $isTeamleider ? ['label' => 'Urenoverzicht', 'icon' => 'bar-chart', 'href' => route('teamleider.uren.overzicht'), 'active' => request()->routeIs('teamleider.uren.overzicht')] : null,
                 ['label' => 'Documenten', 'icon' => 'folder', 'href' => '#', 'disabled' => true],
                 ['label' => 'Rapportages', 'icon' => 'bar-chart', 'href' => '#', 'disabled' => true],
                 ['label' => 'Incidenten', 'icon' => 'alert-circle', 'href' => '#', 'disabled' => true],
                 ['label' => 'Overdracht', 'icon' => 'arrows', 'href' => '#', 'disabled' => true],
-            ],
+            ])),
         ],
         'overig' => [
             'label' => 'Overig',

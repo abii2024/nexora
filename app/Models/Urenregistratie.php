@@ -45,6 +45,7 @@ class Urenregistratie extends Model
             'datum' => 'date',
             'uren' => 'decimal:2',
             'status' => UrenStatus::class,
+            'beoordeeld_op' => 'datetime',
         ];
     }
 
@@ -56,6 +57,14 @@ class Urenregistratie extends Model
     public function client(): BelongsTo
     {
         return $this->belongsTo(Client::class);
+    }
+
+    /**
+     * US-13: teamleider die deze entry heeft goedgekeurd of afgekeurd.
+     */
+    public function goedgekeurdDoor(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'goedgekeurd_door_user_id');
     }
 
     /**
