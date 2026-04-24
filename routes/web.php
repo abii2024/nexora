@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\TeamController;
@@ -17,6 +19,14 @@ Route::get('/login', [LoginController::class, 'show'])->name('login');
 Route::post('/login', [LoginController::class, 'store'])
     ->middleware('guest')
     ->name('login.store');
+
+// US-15: Wachtwoord vergeten + resetten via e-maillink
+Route::middleware('guest')->group(function () {
+    Route::get('/wachtwoord-vergeten', [ForgotPasswordController::class, 'show'])->name('password.request');
+    Route::post('/wachtwoord-vergeten', [ForgotPasswordController::class, 'store'])->name('password.email');
+    Route::get('/wachtwoord-herstellen/{token}', [ResetPasswordController::class, 'show'])->name('password.reset');
+    Route::post('/wachtwoord-herstellen', [ResetPasswordController::class, 'store'])->name('password.update');
+});
 
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [LoginController::class, 'destroy'])->name('logout');
