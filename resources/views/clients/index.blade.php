@@ -24,7 +24,13 @@
                 @endif
             </p>
         </div>
-        <div class="page-actions">
+        <div class="page-actions" style="display: flex; gap: var(--space-2);">
+            @if($isTeamleider)
+                <x-ui.button variant="ghost" :href="route('clients.archive.index')">
+                    <x-layout.icon name="archive" :size="16" />
+                    Archief
+                </x-ui.button>
+            @endif
             @can('create', App\Models\Client::class)
                 <x-ui.button variant="primary" :href="route('clients.create')">
                     <x-layout.icon name="plus" :size="16" />
@@ -186,6 +192,6 @@
     </div>
 
     <p style="margin-top: var(--space-4); font-size: var(--font-size-xs); color: var(--color-text-muted);">
-        Cliënt bewerken + archiveren komt in US-10. Urenregistratie in US-11.
+        Urenregistratie komt in US-11.
     </p>
 @endsection
