@@ -161,7 +161,10 @@ In het **examenverslag** (apart document, niet in deze repo) komt:
 - [US-10 Cliënt bewerken en archiveren (statusbeheer + soft delete)](./US10-client-bewerken-archiveren.md) ✅ — 31 Pest tests, 74 asserts
 - [US-11 Concept-uren aanmaken en bewerken](./US11-concept-uren-aanmaken.md) ✅ — 28 Pest tests, 77 asserts
 - [US-12 Uren indienen, terugtrekken en opnieuw indienen](./US12-uren-indienen.md) ✅ — 31 Pest tests, 62 asserts
-- US-13 t/m US-16 — komen
+- [US-13 Uren goedkeuren of afkeuren als teamleider](./US13-uren-beoordelen.md) ✅ — 27 Pest tests, 63 asserts
+- US-14 t/m US-16 — komen
+
+**Sprint 4 bezig** — US-13 ✓ · US-14 … · US-15 … · US-16 … (301 tests · 811 asserts)
 
 **Sprint 1 afgerond** — 72 tests, 207 asserts, Pint clean.
 **Sprint 2 afgerond** — US-05 ✓ · US-06 ✓ · US-07 ✓ · US-08 ✓ (157 tests · 468 asserts totaal)
