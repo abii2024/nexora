@@ -6,6 +6,8 @@ use App\Enums\UrenStatus;
 use App\Exceptions\InvalidStateTransitionException;
 use App\Models\Urenregistratie;
 use App\Models\User;
+use App\Notifications\UrenAfgekeurdNotification;
+use App\Notifications\UrenGoedgekeurdNotification;
 use App\Notifications\UrenIngediendNotification;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
@@ -21,7 +23,7 @@ use Illuminate\Support\Facades\Notification;
 class UrenregistratieService
 {
     /**
-     * Alleen eigen uren (zorgbegeleider). Teamleider-scope komt in US-13.
+     * Alleen eigen uren (zorgbegeleider). Teamleider-scope: zie scopedForTeamleider.
      */
     public function scopedForUser(User $user, ?UrenStatus $status = null): Builder
     {
@@ -36,6 +38,86 @@ class UrenregistratieService
         }
 
         return $query;
+    }
+
+    /**
+     * US-13: alle uren van het team van een teamleider, met optionele status-filter.
+     * Default op Ingediend — dat is wat de /teamleider/uren beoordelings-pagina toont.
+     */
+    public function scopedForTeamleider(User $teamleider, ?UrenStatus $status = UrenStatus::Ingediend): Builder
+    {
+        $query = Urenregistratie::query()
+            ->whereHas('user', fn (Builder $q) => $q->where('team_id', $teamleider->team_id))
+            ->with(['client', 'user'])
+            ->orderBy('user_id')
+            ->orderByDesc('datum')
+            ->orderByDesc('starttijd');
+
+        if ($status !== null) {
+            $query->where('status', $status->value);
+        }
+
+        return $query;
+    }
+
+    /**
+     * US-14: gefilterd, gesorteerd en gepagineerd overzicht voor teamleider.
+     *
+     * Filters (alle via whitelist — geen SQL-injection):
+     *  - status: concept/ingediend/goedgekeurd/afgekeurd (default: ingediend)
+     *  - medewerker: user_id (int, moet in eigen team zitten)
+     *  - week: ISO 8601 week-string `YYYY-Www` (bijv. "2026-W17")
+     *
+     * Sortering (klikbare kolomkoppen, AC-3):
+     *  - datum (default, desc)
+     *  - medewerker (oplopend op achternaam — via naam-join is overkill; sort op user_id stabiel)
+     *  - duur (uren, desc)
+     *
+     * @param  array<string, mixed>  $filters
+     */
+    public function getPaginatedForTeamleider(User $teamleider, array $filters = [], int $perPage = 20): LengthAwarePaginator
+    {
+        $query = Urenregistratie::query()
+            ->whereHas('user', fn (Builder $q) => $q->where('team_id', $teamleider->team_id))
+            ->with(['client', 'user']);
+
+        // Status-filter (whitelist).
+        $status = $filters['status'] ?? UrenStatus::Ingediend->value;
+        if ($status !== 'alle') {
+            $statusEnum = UrenStatus::tryFrom((string) $status);
+            if ($statusEnum !== null) {
+                $query->where('status', $statusEnum->value);
+            }
+        }
+
+        // Medewerker-filter: user_id moet in eigen team zitten.
+        $medewerker = $filters['medewerker'] ?? null;
+        if (is_numeric($medewerker) && (int) $medewerker > 0) {
+            $query->whereHas('user', fn (Builder $q) => $q->where('id', (int) $medewerker)->where('team_id', $teamleider->team_id));
+        }
+
+        // Week-filter: ISO 8601 `YYYY-Www` → [start_of_week, end_of_week].
+        $week = $filters['week'] ?? null;
+        if (is_string($week) && preg_match('/^(\d{4})-W(\d{1,2})$/', $week, $m)) {
+            $year = (int) $m[1];
+            $weekNr = (int) $m[2];
+            if ($weekNr >= 1 && $weekNr <= 53) {
+                $start = now()->setISODate($year, $weekNr)->startOfWeek()->toDateString();
+                $end = now()->setISODate($year, $weekNr)->endOfWeek()->toDateString();
+                $query->whereBetween('datum', [$start, $end]);
+            }
+        }
+
+        // Sortering (whitelist).
+        $sort = $filters['sort'] ?? 'datum';
+        $direction = ($filters['direction'] ?? 'desc') === 'asc' ? 'asc' : 'desc';
+        match ($sort) {
+            'medewerker' => $query->orderBy('user_id', $direction)->orderByDesc('datum'),
+            'duur' => $query->orderBy('uren', $direction),
+            default => $query->orderBy('datum', $direction)->orderByDesc('starttijd'),
+        };
+
+        return $query->paginate($perPage)->withQueryString();
     }
 
     public function getPaginated(User $user, ?UrenStatus $status = null, int $perPage = 15): LengthAwarePaginator
@@ -188,5 +270,57 @@ class UrenregistratieService
     public function resubmit(Urenregistratie $uren, User $actor): void
     {
         $this->transition($uren, UrenStatus::Ingediend, $actor);
+    }
+
+    /**
+     * US-13 AC-2: teamleider keurt ingediende uren goed → Ingediend → Goedgekeurd.
+     *
+     *  - transition() regelt de state-check en weigert invalid transities.
+     *  - Metadata: goedgekeurd_door_user_id + beoordeeld_op.
+     *  - UrenGoedgekeurdNotification naar de zorgbegeleider (eigenaar).
+     */
+    public function approve(Urenregistratie $uren, User $teamleider): void
+    {
+        DB::transaction(function () use ($uren, $teamleider) {
+            $this->transition($uren, UrenStatus::Goedgekeurd, $teamleider);
+
+            $uren->forceFill([
+                'goedgekeurd_door_user_id' => $teamleider->id,
+                'beoordeeld_op' => now(),
+            ])->save();
+
+            if ($uren->user) {
+                Notification::send(
+                    $uren->user,
+                    new UrenGoedgekeurdNotification($uren, $teamleider)
+                );
+            }
+        });
+    }
+
+    /**
+     * US-13 AC-3: teamleider keurt ingediende uren af met verplichte reden → Ingediend → Afgekeurd.
+     *
+     *  - Reden ≥10 tekens wordt door AfkeurUrenRequest afgedwongen; hier geen extra check.
+     *  - afkeur_reden wordt opgeslagen zodat de zorgbegeleider het in de edit-banner ziet.
+     */
+    public function reject(Urenregistratie $uren, User $teamleider, string $reden): void
+    {
+        DB::transaction(function () use ($uren, $teamleider, $reden) {
+            $this->transition($uren, UrenStatus::Afgekeurd, $teamleider);
+
+            $uren->forceFill([
+                'afkeur_reden' => $reden,
+                'goedgekeurd_door_user_id' => $teamleider->id,
+                'beoordeeld_op' => now(),
+            ])->save();
+
+            if ($uren->user) {
+                Notification::send(
+                    $uren->user,
+                    new UrenAfgekeurdNotification($uren, $teamleider, $reden)
+                );
+            }
+        });
     }
 }

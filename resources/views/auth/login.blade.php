@@ -5,6 +5,12 @@
 
 @section('content')
     <x-ui.card padded>
+        @if (session('status'))
+            <div style="margin-bottom: var(--space-5);">
+                <x-ui.alert type="success">{{ session('status') }}</x-ui.alert>
+            </div>
+        @endif
+
         @if ($errors->any())
             <div style="margin-bottom: var(--space-5);">
                 <x-ui.alert type="error">{{ $errors->first() }}</x-ui.alert>
@@ -39,7 +45,7 @@
                     <span>Onthoud mij</span>
                 </label>
 
-                <a href="#" style="color: var(--color-primary-600); font-weight: var(--font-weight-medium);" title="Komt in US-15">
+                <a href="{{ route('password.request') }}" style="color: var(--color-primary-600); font-weight: var(--font-weight-medium);">
                     Wachtwoord vergeten?
                 </a>
             </div>

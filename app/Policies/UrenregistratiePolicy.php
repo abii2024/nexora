@@ -84,4 +84,26 @@ class UrenregistratiePolicy
             && $uren->user_id === $user->id
             && $uren->status->canResubmit();
     }
+
+    /**
+     * US-13 AC-2: alleen teamleider van hetzelfde team mag ingediende uren goedkeuren.
+     */
+    public function goedkeuren(User $user, Urenregistratie $uren): bool
+    {
+        return $user->is_active
+            && $user->isTeamleider()
+            && $uren->user?->team_id === $user->team_id
+            && $uren->status === \App\Enums\UrenStatus::Ingediend;
+    }
+
+    /**
+     * US-13 AC-3: alleen teamleider van hetzelfde team mag ingediende uren afkeuren.
+     */
+    public function afkeuren(User $user, Urenregistratie $uren): bool
+    {
+        return $user->is_active
+            && $user->isTeamleider()
+            && $uren->user?->team_id === $user->team_id
+            && $uren->status === \App\Enums\UrenStatus::Ingediend;
+    }
 }
