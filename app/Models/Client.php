@@ -7,11 +7,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Client extends Model
 {
     /** @use HasFactory<ClientFactory> */
     use HasFactory;
+    use SoftDeletes;
 
     public const STATUS_ACTIEF = 'actief';
 
@@ -76,6 +79,14 @@ class Client extends Model
             ->using(ClientCaregiver::class)
             ->withPivot(['id', 'role', 'created_by_user_id'])
             ->withTimestamps();
+    }
+
+    /**
+     * Immutable statuswijzigingen — audit trail voor AVG art. 5 (juistheid + traceerbaarheid).
+     */
+    public function statusLogs(): HasMany
+    {
+        return $this->hasMany(ClientStatusLog::class)->latest();
     }
 
     public function fullName(): string
