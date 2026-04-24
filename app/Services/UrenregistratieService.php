@@ -60,6 +60,66 @@ class UrenregistratieService
         return $query;
     }
 
+    /**
+     * US-14: gefilterd, gesorteerd en gepagineerd overzicht voor teamleider.
+     *
+     * Filters (alle via whitelist — geen SQL-injection):
+     *  - status: concept/ingediend/goedgekeurd/afgekeurd (default: ingediend)
+     *  - medewerker: user_id (int, moet in eigen team zitten)
+     *  - week: ISO 8601 week-string `YYYY-Www` (bijv. "2026-W17")
+     *
+     * Sortering (klikbare kolomkoppen, AC-3):
+     *  - datum (default, desc)
+     *  - medewerker (oplopend op achternaam — via naam-join is overkill; sort op user_id stabiel)
+     *  - duur (uren, desc)
+     *
+     * @param  array<string, mixed>  $filters
+     */
+    public function getPaginatedForTeamleider(User $teamleider, array $filters = [], int $perPage = 20): LengthAwarePaginator
+    {
+        $query = Urenregistratie::query()
+            ->whereHas('user', fn (Builder $q) => $q->where('team_id', $teamleider->team_id))
+            ->with(['client', 'user']);
+
+        // Status-filter (whitelist).
+        $status = $filters['status'] ?? UrenStatus::Ingediend->value;
+        if ($status !== 'alle') {
+            $statusEnum = UrenStatus::tryFrom((string) $status);
+            if ($statusEnum !== null) {
+                $query->where('status', $statusEnum->value);
+            }
+        }
+
+        // Medewerker-filter: user_id moet in eigen team zitten.
+        $medewerker = $filters['medewerker'] ?? null;
+        if (is_numeric($medewerker) && (int) $medewerker > 0) {
+            $query->whereHas('user', fn (Builder $q) => $q->where('id', (int) $medewerker)->where('team_id', $teamleider->team_id));
+        }
+
+        // Week-filter: ISO 8601 `YYYY-Www` → [start_of_week, end_of_week].
+        $week = $filters['week'] ?? null;
+        if (is_string($week) && preg_match('/^(\d{4})-W(\d{1,2})$/', $week, $m)) {
+            $year = (int) $m[1];
+            $weekNr = (int) $m[2];
+            if ($weekNr >= 1 && $weekNr <= 53) {
+                $start = now()->setISODate($year, $weekNr)->startOfWeek()->toDateString();
+                $end = now()->setISODate($year, $weekNr)->endOfWeek()->toDateString();
+                $query->whereBetween('datum', [$start, $end]);
+            }
+        }
+
+        // Sortering (whitelist).
+        $sort = $filters['sort'] ?? 'datum';
+        $direction = ($filters['direction'] ?? 'desc') === 'asc' ? 'asc' : 'desc';
+        match ($sort) {
+            'medewerker' => $query->orderBy('user_id', $direction)->orderByDesc('datum'),
+            'duur' => $query->orderBy('uren', $direction),
+            default => $query->orderBy('datum', $direction)->orderByDesc('starttijd'),
+        };
+
+        return $query->paginate($perPage)->withQueryString();
+    }
+
     public function getPaginated(User $user, ?UrenStatus $status = null, int $perPage = 15): LengthAwarePaginator
     {
         return $this->scopedForUser($user, $status)

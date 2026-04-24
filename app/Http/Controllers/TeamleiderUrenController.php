@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Enums\UrenStatus;
 use App\Http\Requests\Uren\AfkeurUrenRequest;
 use App\Models\Urenregistratie;
+use App\Models\User;
 use App\Services\UrenregistratieService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -65,5 +66,46 @@ class TeamleiderUrenController extends Controller
         return redirect()
             ->route('teamleider.uren.index')
             ->with('success', 'Uren afgekeurd — reden verzonden naar medewerker.');
+    }
+
+    /**
+     * US-14: urenoverzicht met filters (status/medewerker/week) + sorteren + paginatie.
+     */
+    public function overzicht(Request $request): View
+    {
+        $this->authorize('viewAny', Urenregistratie::class);
+
+        $user = $request->user();
+
+        $filters = [
+            'status' => $request->query('status', UrenStatus::Ingediend->value),
+            'medewerker' => $request->query('medewerker', ''),
+            'week' => $request->query('week', ''),
+            'sort' => $request->query('sort', 'datum'),
+            'direction' => $request->query('direction', 'desc'),
+        ];
+
+        $rows = $this->uren->getPaginatedForTeamleider($user, $filters);
+
+        $medewerkers = User::query()
+            ->where('team_id', $user->team_id)
+            ->where('role', User::ROLE_ZORGBEGELEIDER)
+            ->where('is_active', true)
+            ->orderBy('name')
+            ->get(['id', 'name']);
+
+        // Samenvatting voor de header: groepeer zichtbare rijen per medewerker.
+        $weekSummary = $rows
+            ->getCollection()
+            ->groupBy(fn ($r) => $r->user?->name ?? '—')
+            ->map(fn ($group) => (float) $group->sum(fn ($r) => (float) $r->uren));
+
+        return view('teamleider.uren.overzicht', [
+            'rows' => $rows,
+            'filters' => $filters,
+            'medewerkers' => $medewerkers,
+            'weekSummary' => $weekSummary,
+            'weekTotal' => (float) $weekSummary->sum(),
+        ]);
     }
 }
