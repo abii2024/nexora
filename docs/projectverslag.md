@@ -3,7 +3,7 @@
 > **Project:** Nexora — zorgbegeleidingssysteem voor beschermd wonen
 > **Auteur:** Abdisamad (abii2024)
 > **Examen:** PvB Software Developer Niveau 4 (14–25 april 2026)
-> **Versie:** 1.7 — sprint 3 afgerond + gepusht (US-09 t/m US-12 op `main`, tag `sprint-3`)
+> **Versie:** 1.9 — **alle 16 user stories lokaal afgerond** (sprint-4 batch-merge naar main nog te doen)
 
 Dit document is het **levend procesverslag** van Nexora. Het beschrijft hoe het project is opgebouwd, welke keuzes zijn gemaakt, welke sprints zijn afgerond, wat daarin gebouwd is en wat nog volgt. Het wordt bij elke sprint-afronding bijgewerkt.
 
@@ -188,14 +188,43 @@ GitHub-repo: [abii2024/nexora](https://github.com/abii2024/nexora)
 
 **Tag:** [`sprint-3`](https://github.com/abii2024/nexora/tree/sprint-3) — 4 merged PRs (#11 · #12 · #13 · #14).
 
-### 🕐 Sprint 4 — Uren compleet + auth afronding (gepland)
+### 🕐 Sprint 4 — Uren compleet + auth afronding (alle 4 US lokaal afgerond, batch-merge volgt)
 
-| US | Titel | Scope-preview |
-|---|---|---|
-| US-13 | Uren goedkeuren of afkeuren als teamleider | `goedkeur`/`afkeur` state-transitions, verplichte afkeurreden |
-| US-14 | Urenoverzicht met filters | 3 filters (status/medewerker/week) + samenvattende header |
-| US-15 | Wachtwoord vergeten & resetten via e-maillink | `Password::sendResetLink`, token lifecycle, user-enumeration-protection |
-| US-16 | Profielbeheer (eigen gegevens + wachtwoord) | `/profiel`, `current_password` rule, `logoutOtherDevices` |
+| US | Titel | PR | Pest tests | Asserts |
+|---|---|---|---|---|
+| US-13 | Uren goedkeuren of afkeuren als teamleider | — (lokaal, sprint-batch) | 27 | 63 |
+| US-14 | Urenoverzicht met filters (teamleider) | — (lokaal, sprint-batch) | 22 | 44 |
+| US-15 | Wachtwoord vergeten & resetten via e-maillink | — (lokaal, sprint-batch) | 16 | 46 |
+| US-16 | Profielbeheer (eigen gegevens + wachtwoord) | — (lokaal, sprint-batch) | 21 | 52 |
+| **Subtotaal** | | 4 PRs | **86** | **205** |
+
+**Kerntechnologieën geïntroduceerd in sprint 4:**
+
+*US-13 — Uren goedkeuren/afkeuren:*
+- `TeamleiderUrenController` consumeert US-12 `transition()`-matrix zonder matrix-wijziging (OCP)
+- `AfkeurUrenRequest` met `prepareForValidation`-trim + `min:10`
+- `UrenGoedgekeurdNotification` + `UrenAfgekeurdNotification` (database, reden in payload)
+- Native `<dialog>`-modal voor afkeur-formulier
+
+*US-14 — Urenoverzicht met filters:*
+- `UrenregistratieService::getPaginatedForTeamleider` met whitelist (status/medewerker/week) + sort
+- Herbruikbare `<x-uren.filter-bar>` + HTML `<input type="week">` (ISO 8601)
+- Week-summary header (subtotaal per medewerker + weektotaal)
+- N+1 regressie-test via `DB::listen`
+
+*US-15 — Wachtwoord reset:*
+- `WachtwoordResetNotification` (mail-kanaal) met NL markdown-template
+- `User::sendPasswordResetNotification`-override voor NL-translate
+- `ForgotPasswordController` + `ResetPasswordController` gebruiken `Password::sendResetLink` / `Password::reset`
+- Enumeration-protection: identieke flash-melding voor bestaand + onbekend e-mailadres
+- Auto-login na succesvolle reset + rol-specifieke dashboard-redirect
+- `MAIL_MAILER=log` in `.env.example` — geen SMTP-setup nodig voor development
+
+*US-16 — Profielbeheer:*
+- `UpdateProfielRequest` met `current_password`-rule + email-unique-ignore
+- `ProfielController::update` met `forceFill` (geen mass-assignment-paden) + `Auth::logoutOtherDevices`
+- `AuthenticateSession`-middleware ingeschakeld in `bootstrap/app.php` → andere sessies geïnvalideerd bij password-change
+- Mass-assignment-probes voor `role` / `is_active` / `team_id` structureel geblokkeerd in request-rules
 
 ---
 
