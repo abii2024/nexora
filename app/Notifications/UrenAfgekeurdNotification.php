@@ -22,7 +22,8 @@ class UrenAfgekeurdNotification extends Notification
         protected Urenregistratie $uren,
         protected User $afgekeurdDoor,
         protected string $reden,
-    ) {}
+    ) {
+    }
 
     /**
      * @return array<int, string>

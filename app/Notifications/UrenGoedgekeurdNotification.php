@@ -20,7 +20,8 @@ class UrenGoedgekeurdNotification extends Notification
     public function __construct(
         protected Urenregistratie $uren,
         protected User $goedgekeurdDoor,
-    ) {}
+    ) {
+    }
 
     /**
      * @return array<int, string>
