@@ -32,6 +32,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/uren', [TeamleiderUrenController::class, 'index'])->name('uren.index');
         Route::post('/uren/{uren}/goedkeuren', [TeamleiderUrenController::class, 'approve'])->name('uren.approve');
         Route::post('/uren/{uren}/afkeuren', [TeamleiderUrenController::class, 'reject'])->name('uren.reject');
+
+        // US-14: urenoverzicht met filters (status/medewerker/week)
+        Route::get('/uren-overzicht', [TeamleiderUrenController::class, 'overzicht'])->name('uren.overzicht');
     });
 
     Route::middleware('teamleider')->group(function () {
