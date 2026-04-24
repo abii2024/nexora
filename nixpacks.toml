@@ -1,0 +1,17 @@
+[phase.setup]
+nixPkgs = ['php84', 'php84Packages.composer', 'nodejs_22']
+
+[phase.install]
+cmds = [
+  'composer install --no-dev --prefer-dist --optimize-autoloader',
+  'npm ci'
+]
+
+[phase.build]
+cmds = [
+  'npm run build',
+  'php artisan view:cache'
+]
+
+[start]
+cmd = 'bash scripts/railway-start.sh'
