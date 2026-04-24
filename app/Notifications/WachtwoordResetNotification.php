@@ -38,7 +38,7 @@ class WachtwoordResetNotification extends Notification
 
         return (new MailMessage())
             ->subject('Wachtwoord herstellen — Nexora')
-            ->view('emails.wachtwoord-reset', [
+            ->markdown('emails.wachtwoord-reset', [
                 'url' => $url,
                 'minuten' => (int) (config('auth.passwords.'.config('auth.defaults.passwords').'.expire') ?? 60),
                 'naam' => $notifiable->name ?? '',
