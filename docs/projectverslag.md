@@ -3,7 +3,7 @@
 > **Project:** Nexora — zorgbegeleidingssysteem voor beschermd wonen
 > **Auteur:** Abdisamad (abii2024)
 > **Examen:** PvB Software Developer Niveau 4 (14–25 april 2026)
-> **Versie:** 1.4 — bijgewerkt tijdens sprint 3 (US-09 + US-10 afgerond)
+> **Versie:** 1.5 — bijgewerkt tijdens sprint 3 (US-09 + US-10 + US-11 lokaal afgerond)
 
 Dit document is het **levend procesverslag** van Nexora. Het beschrijft hoe het project is opgebouwd, welke keuzes zijn gemaakt, welke sprints zijn afgerond, wat daarin gebouwd is en wat nog volgt. Het wordt bij elke sprint-afronding bijgewerkt.
 
@@ -152,10 +152,10 @@ GitHub-repo: [abii2024/nexora](https://github.com/abii2024/nexora)
 |---|---|---|---|---|
 | US-09 | Cliëntenoverzicht met rol-gebaseerde weergave, zoek en filter | #11 | 27 | 67 |
 | US-10 | Cliënt bewerken en archiveren (statusbeheer + soft delete) | — (lokaal, sprint-batch) | 31 | 74 |
-| US-11 | Concept-uren aanmaken en bewerken | — | — | — |
+| US-11 | Concept-uren aanmaken en bewerken | — (lokaal, sprint-batch) | 28 | 77 |
 | US-12 | Uren indienen, terugtrekken en opnieuw indienen | — | — | — |
 
-**Kerntechnologieën geïntroduceerd in sprint 3 (US-09 + US-10):**
+**Kerntechnologieën geïntroduceerd in sprint 3 (US-09 + US-10 + US-11):**
 - `ClientService::getPaginated` met filter-whitelist (search / status / care_type / sort) + `->with(['caregivers', 'team'])` eager loading (US-09)
 - Rol-specifieke view-branching in `clients/index.blade.php` — teamleider ziet tabel + totaal-banner, zorgbegeleider ziet kaart-grid + eigen-caseload-banner (US-09)
 - Herbruikbare `<x-clients.filter-bar>` Blade-component met query-string-preservation via `withQueryString()` (US-09)
@@ -167,8 +167,12 @@ GitHub-repo: [abii2024/nexora](https://github.com/abii2024/nexora)
 - `ClientService::update/archive/restore` — `update()` logt status-diff alleen bij daadwerkelijke wijziging (US-10)
 - Route-volgorde + `whereNumber('client')` om conflict tussen `/clients/archive` en `/clients/{id}` te voorkomen (US-10)
 - Permanente verwijdering bewust UI-onbereikbaar: geen route + `forceDelete`-policy returnt false (dataverlies-preventie, US-10)
-
-### 🕐 Sprint 4 — Uren compleet + auth afronding (gepland)
+- `App\Enums\UrenStatus` — PHP 8.4 backed-string enum (Concept / Ingediend / Goedgekeurd / Afgekeurd) + helpers `label()`, `badgeTone()`, `isEditable()` (US-11)
+- `urenregistraties` tabel — user_id / client_id / datum / starttijd / eindtijd / uren(decimal 5,2) / notities / status (US-11)
+- `UrenregistratieService::computeDuration` — integer-seconds → decimaal (geen float-wobble) (US-11)
+- `UrenregistratiePolicy`: `update()` vereist eigenaar + `status->isEditable()`; `delete()` altijd false (US-11)
+- `user_id` + `status` buiten `$fillable` — altijd via `service->create($user, $payload)` (US-11)
+- Status-tabs via URL `/uren?status=…` (shareable links, werkt zonder JS) (US-11)
 
 ### 🕐 Sprint 4 — Uren compleet + auth afronding (gepland)
 
