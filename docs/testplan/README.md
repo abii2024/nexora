@@ -159,11 +159,12 @@ In het **examenverslag** (apart document, niet in deze repo) komt:
 - [US-08 Cliënten koppelen aan begeleiders (primair/secundair/tertiair)](./US08-caregivers-koppeling.md) ✅ — 29 Pest tests, 70 asserts
 - [US-09 Cliëntenoverzicht met rol-gebaseerde weergave, zoek en filter](./US09-clienten-overzicht.md) ✅ — 27 Pest tests, 67 asserts
 - [US-10 Cliënt bewerken en archiveren (statusbeheer + soft delete)](./US10-client-bewerken-archiveren.md) ✅ — 31 Pest tests, 74 asserts
-- US-11 t/m US-16 — komen
+- [US-11 Concept-uren aanmaken en bewerken](./US11-concept-uren-aanmaken.md) ✅ — 28 Pest tests, 77 asserts
+- US-12 t/m US-16 — komen
 
 **Sprint 1 afgerond** — 72 tests, 207 asserts, Pint clean.
 **Sprint 2 afgerond** — US-05 ✓ · US-06 ✓ · US-07 ✓ · US-08 ✓ (157 tests · 468 asserts totaal)
-**Sprint 3 bezig** — US-09 ✓ · US-10 ✓ · US-11 … · US-12 … (215 tests · 609 asserts totaal)
+**Sprint 3 bezig** — US-09 ✓ · US-10 ✓ · US-11 ✓ · US-12 … (243 tests · 686 asserts bij sprint-merge verwacht)
 
 ---
 
