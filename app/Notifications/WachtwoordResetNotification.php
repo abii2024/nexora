@@ -17,7 +17,9 @@ class WachtwoordResetNotification extends Notification
 {
     use Queueable;
 
-    public function __construct(public readonly string $token) {}
+    public function __construct(public readonly string $token)
+    {
+    }
 
     /**
      * @return array<int, string>
@@ -34,7 +36,7 @@ class WachtwoordResetNotification extends Notification
             'email' => $notifiable->getEmailForPasswordReset(),
         ]);
 
-        return (new MailMessage)
+        return (new MailMessage())
             ->subject('Wachtwoord herstellen — Nexora')
             ->view('emails.wachtwoord-reset', [
                 'url' => $url,

@@ -4,11 +4,11 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\ClientController;
-use App\Http\Controllers\ProfielController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ProfielController;
 use App\Http\Controllers\TeamController;
-use App\Http\Controllers\TeamleiderUrenController;
 use App\Http\Controllers\Teamleider\DashboardController as TeamleiderDashboardController;
+use App\Http\Controllers\TeamleiderUrenController;
 use App\Http\Controllers\UrenregistratieController;
 use Illuminate\Support\Facades\Route;
 
