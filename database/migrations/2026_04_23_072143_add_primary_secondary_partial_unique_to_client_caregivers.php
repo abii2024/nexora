@@ -10,8 +10,7 @@ use Illuminate\Support\Facades\DB;
  * application logic (defense in depth tegen race conditions bij gelijk-
  * tijdige edits).
  */
-return new class extends Migration
-{
+return new class () extends Migration {
     public function up(): void
     {
         DB::statement(
