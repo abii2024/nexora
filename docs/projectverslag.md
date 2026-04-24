@@ -3,7 +3,7 @@
 > **Project:** Nexora — zorgbegeleidingssysteem voor beschermd wonen
 > **Auteur:** Abdisamad (abii2024)
 > **Examen:** PvB Software Developer Niveau 4 (14–25 april 2026)
-> **Versie:** 1.6 — sprint 3 afgerond (US-09 t/m US-12)
+> **Versie:** 1.7 — sprint 3 afgerond + gepusht (US-09 t/m US-12 op `main`, tag `sprint-3`)
 
 Dit document is het **levend procesverslag** van Nexora. Het beschrijft hoe het project is opgebouwd, welke keuzes zijn gemaakt, welke sprints zijn afgerond, wat daarin gebouwd is en wat nog volgt. Het wordt bij elke sprint-afronding bijgewerkt.
 
@@ -150,10 +150,10 @@ GitHub-repo: [abii2024/nexora](https://github.com/abii2024/nexora)
 
 | US | Titel | PR | Pest tests | Asserts |
 |---|---|---|---|---|
-| US-09 | Cliëntenoverzicht met rol-gebaseerde weergave, zoek en filter | #11 | 27 | 67 |
-| US-10 | Cliënt bewerken en archiveren (statusbeheer + soft delete) | — (lokaal, sprint-batch) | 31 | 74 |
-| US-11 | Concept-uren aanmaken en bewerken | — (lokaal, sprint-batch) | 28 | 77 |
-| US-12 | Uren indienen, terugtrekken en opnieuw indienen | — (lokaal, sprint-batch) | 31 | 62 |
+| US-09 | Cliëntenoverzicht met rol-gebaseerde weergave, zoek en filter | [#11](https://github.com/abii2024/nexora/pull/11) | 27 | 67 |
+| US-10 | Cliënt bewerken en archiveren (statusbeheer + soft delete) | [#12](https://github.com/abii2024/nexora/pull/12) | 31 | 74 |
+| US-11 | Concept-uren aanmaken en bewerken | [#13](https://github.com/abii2024/nexora/pull/13) | 28 | 77 |
+| US-12 | Uren indienen, terugtrekken en opnieuw indienen | [#14](https://github.com/abii2024/nexora/pull/14) | 31 | 62 |
 | **Subtotaal** | | 4 PRs | **117** | **280** |
 
 **Kerntechnologieën geïntroduceerd in sprint 3:**
@@ -186,7 +186,7 @@ GitHub-repo: [abii2024/nexora](https://github.com/abii2024/nexora)
 - `afkeur_reden` kolom + auto-clear bij resubmit
 - Policy uitgebreid met `submit/withdraw/resubmit`
 
-**Tag:** `sprint-3` — 4 merged PRs.
+**Tag:** [`sprint-3`](https://github.com/abii2024/nexora/tree/sprint-3) — 4 merged PRs (#11 · #12 · #13 · #14).
 
 ### 🕐 Sprint 4 — Uren compleet + auth afronding (gepland)
 
@@ -203,7 +203,7 @@ GitHub-repo: [abii2024/nexora](https://github.com/abii2024/nexora)
 
 **Framework:** Pest v4 met `RefreshDatabase` trait (SQLite in-memory).
 
-**Totaal na sprint 3 (US-09 t/m US-12):** 243 tests · 674 asserts · Duration ≈ 2,6s · **alle groen**.
+**Totaal na sprint 3 merge op main:** 274 tests · 748 asserts · Duration ≈ 3,1s · **alle groen**.
 
 ### Examen-eisen testrapportage — dekking
 
@@ -237,7 +237,7 @@ Elk per-US testplan (`docs/testplan/US<NN>-*.md`) dekt de 6 verplichte elementen
 | US-11 | [tests/Feature/US-11.php](../tests/Feature/US-11.php) | 28 | 77 |
 | US-12 | [tests/Feature/US-12.php](../tests/Feature/US-12.php) | 31 | 62 |
 | Voorbeelden | tests/Feature/ExampleTest.php | 2 | 2 |
-| **Totaal** | | **243** | **674** |
+| **Totaal** | | **274** | **748** |
 
 Per-US testscenario's + handmatige TC's staan in [docs/testplan/](testplan/). Screenshots-checklists staan in [docs/screenshots/](screenshots/) — deze worden gebundeld opgeleverd aan het einde van het project.
 
