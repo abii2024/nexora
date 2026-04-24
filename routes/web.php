@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\ProfielController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\TeamleiderUrenController;
@@ -30,6 +31,10 @@ Route::middleware('guest')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [LoginController::class, 'destroy'])->name('logout');
+
+    // US-16: profielbeheer (eigen gegevens + wachtwoord) — beschikbaar voor beide rollen
+    Route::get('/profiel', [ProfielController::class, 'show'])->name('profiel.show');
+    Route::patch('/profiel', [ProfielController::class, 'update'])->name('profiel.update');
 
     Route::middleware('zorgbegeleider')->group(function () {
         Route::get('/dashboard', DashboardController::class)->name('dashboard');

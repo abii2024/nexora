@@ -16,7 +16,10 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         // CheckActiveUser draait globaal in de web-groep zodat elke
         // request een directe is_active-check doet na login (US-06 AC-2).
+        // AuthenticateSession (US-16) koppelt session-cookie aan password-hash
+        // zodat Auth::logoutOtherDevices($newPassword) andere sessies invalideert.
         $middleware->web(append: [
+            \Illuminate\Session\Middleware\AuthenticateSession::class,
             CheckActiveUser::class,
         ]);
 
