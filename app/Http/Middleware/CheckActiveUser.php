@@ -23,7 +23,7 @@ class CheckActiveUser
     {
         $user = $request->user();
 
-        if ($user && ! $user->is_active) {
+        if ($user && !$user->is_active) {
             Auth::guard('web')->logout();
             $request->session()->invalidate();
             $request->session()->regenerateToken();

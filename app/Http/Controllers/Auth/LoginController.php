@@ -31,7 +31,7 @@ class LoginController extends Controller
 
         $user = User::where('email', $credentials['email'])->first();
 
-        if (! $user || ! Hash::check($credentials['password'], $user->password)) {
+        if (!$user || !Hash::check($credentials['password'], $user->password)) {
             RateLimiter::hit($this->throttleKey($request));
 
             throw ValidationException::withMessages([
@@ -39,7 +39,7 @@ class LoginController extends Controller
             ])->redirectTo(route('login'));
         }
 
-        if (! $user->is_active) {
+        if (!$user->is_active) {
             throw ValidationException::withMessages([
                 'email' => __('Dit account is gedeactiveerd. Neem contact op met je teamleider.'),
             ])->redirectTo(route('login'));
@@ -70,7 +70,7 @@ class LoginController extends Controller
 
     protected function ensureIsNotRateLimited(Request $request): void
     {
-        if (! RateLimiter::tooManyAttempts($this->throttleKey($request), 5)) {
+        if (!RateLimiter::tooManyAttempts($this->throttleKey($request), 5)) {
             return;
         }
 

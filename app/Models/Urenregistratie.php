@@ -57,4 +57,15 @@ class Urenregistratie extends Model
     {
         return $this->belongsTo(Client::class);
     }
+
+    /**
+     * US-12 AC-1: valideert dat de entry alle vereiste velden heeft om te worden ingediend.
+     */
+    public function isIndienbaar(): bool
+    {
+        return $this->client_id !== null
+            && (float) $this->uren > 0
+            && !empty($this->starttijd)
+            && !empty($this->eindtijd);
+    }
 }

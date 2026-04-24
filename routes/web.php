@@ -75,5 +75,8 @@ Route::middleware('auth')->group(function () {
         Route::post('/uren', [UrenregistratieController::class, 'store'])->name('uren.store');
         Route::get('/uren/{uren}/edit', [UrenregistratieController::class, 'edit'])->name('uren.edit');
         Route::put('/uren/{uren}', [UrenregistratieController::class, 'update'])->name('uren.update');
+        Route::post('/uren/{uren}/indienen', [UrenregistratieController::class, 'submit'])->name('uren.submit');
+        Route::post('/uren/{uren}/terugtrekken', [UrenregistratieController::class, 'withdraw'])->name('uren.withdraw');
+        Route::post('/uren/{uren}/opnieuw-indienen', [UrenregistratieController::class, 'resubmit'])->name('uren.resubmit');
     });
 });

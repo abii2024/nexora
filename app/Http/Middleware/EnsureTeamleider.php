@@ -13,7 +13,7 @@ class EnsureTeamleider
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (! $request->user() || ! $request->user()->isTeamleider()) {
+        if (!$request->user() || !$request->user()->isTeamleider()) {
             abort(403);
         }
 

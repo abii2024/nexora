@@ -3,7 +3,7 @@
 > **Project:** Nexora — zorgbegeleidingssysteem voor beschermd wonen
 > **Auteur:** Abdisamad (abii2024)
 > **Examen:** PvB Software Developer Niveau 4 (14–25 april 2026)
-> **Versie:** 1.5 — bijgewerkt tijdens sprint 3 (US-09 + US-10 + US-11 lokaal afgerond)
+> **Versie:** 1.6 — sprint 3 afgerond (US-09 t/m US-12)
 
 Dit document is het **levend procesverslag** van Nexora. Het beschrijft hoe het project is opgebouwd, welke keuzes zijn gemaakt, welke sprints zijn afgerond, wat daarin gebouwd is en wat nog volgt. Het wordt bij elke sprint-afronding bijgewerkt.
 
@@ -146,33 +146,47 @@ GitHub-repo: [abii2024/nexora](https://github.com/abii2024/nexora)
 
 **Tag:** [`sprint-2`](https://github.com/abii2024/nexora/tree/sprint-2)
 
-### 📋 Sprint 3 — Cliënt compleet + uren basis (bezig)
+### 📋 Sprint 3 — Cliënt compleet + uren basis (afgerond)
 
 | US | Titel | PR | Pest tests | Asserts |
 |---|---|---|---|---|
 | US-09 | Cliëntenoverzicht met rol-gebaseerde weergave, zoek en filter | #11 | 27 | 67 |
 | US-10 | Cliënt bewerken en archiveren (statusbeheer + soft delete) | — (lokaal, sprint-batch) | 31 | 74 |
 | US-11 | Concept-uren aanmaken en bewerken | — (lokaal, sprint-batch) | 28 | 77 |
-| US-12 | Uren indienen, terugtrekken en opnieuw indienen | — | — | — |
+| US-12 | Uren indienen, terugtrekken en opnieuw indienen | — (lokaal, sprint-batch) | 31 | 62 |
+| **Subtotaal** | | 4 PRs | **117** | **280** |
 
-**Kerntechnologieën geïntroduceerd in sprint 3 (US-09 + US-10 + US-11):**
-- `ClientService::getPaginated` met filter-whitelist (search / status / care_type / sort) + `->with(['caregivers', 'team'])` eager loading (US-09)
-- Rol-specifieke view-branching in `clients/index.blade.php` — teamleider ziet tabel + totaal-banner, zorgbegeleider ziet kaart-grid + eigen-caseload-banner (US-09)
-- Herbruikbare `<x-clients.filter-bar>` Blade-component met query-string-preservation via `withQueryString()` (US-09)
-- Drie verschillende empty-states (filters-leeg / teamleider-leeg / zorgbeg-leeg) via `<x-ui.empty-state>` (US-09)
-- N+1-regressie-test met `DB::listen` — harde bovengrens op aantal queries bij paginatie (US-09)
-- `SoftDeletes`-trait + `deleted_at` kolom op `clients` (Wgbo-compliant archiveren, US-10)
-- `client_status_logs` audit-tabel + `ClientStatusLog` model (immutable — `UPDATED_AT=null` zoals `UserAuditLog` uit US-05)
-- `UpdateClientRequest` met `Rule::unique->ignore($id)->whereNull('deleted_at')` voor BSN (US-10)
-- `ClientService::update/archive/restore` — `update()` logt status-diff alleen bij daadwerkelijke wijziging (US-10)
-- Route-volgorde + `whereNumber('client')` om conflict tussen `/clients/archive` en `/clients/{id}` te voorkomen (US-10)
-- Permanente verwijdering bewust UI-onbereikbaar: geen route + `forceDelete`-policy returnt false (dataverlies-preventie, US-10)
-- `App\Enums\UrenStatus` — PHP 8.4 backed-string enum (Concept / Ingediend / Goedgekeurd / Afgekeurd) + helpers `label()`, `badgeTone()`, `isEditable()` (US-11)
-- `urenregistraties` tabel — user_id / client_id / datum / starttijd / eindtijd / uren(decimal 5,2) / notities / status (US-11)
-- `UrenregistratieService::computeDuration` — integer-seconds → decimaal (geen float-wobble) (US-11)
-- `UrenregistratiePolicy`: `update()` vereist eigenaar + `status->isEditable()`; `delete()` altijd false (US-11)
-- `user_id` + `status` buiten `$fillable` — altijd via `service->create($user, $payload)` (US-11)
-- Status-tabs via URL `/uren?status=…` (shareable links, werkt zonder JS) (US-11)
+**Kerntechnologieën geïntroduceerd in sprint 3:**
+
+*US-09 — Cliëntenoverzicht:*
+- `ClientService::getPaginated` met filter-whitelist (search / status / care_type / sort) + `->with(['caregivers', 'team'])` eager loading
+- Rol-specifieke view-branching (`clients/index.blade.php`): teamleider tabel + totaal-banner, zorgbegeleider kaart-grid + eigen-caseload-banner
+- Herbruikbare `<x-clients.filter-bar>` met query-string-preservation
+- 3 empty-states via `<x-ui.empty-state>`
+- N+1-regressie-test met `DB::listen`
+
+*US-10 — Cliënt bewerken + archiveren:*
+- `SoftDeletes`-trait + `deleted_at` kolom (Wgbo-compliant archiveren)
+- `client_status_logs` audit-tabel + immutable `ClientStatusLog` model (`UPDATED_AT=null`)
+- `UpdateClientRequest` met `Rule::unique->ignore($id)->whereNull('deleted_at')`
+- Route-volgorde + `whereNumber('client')` tegen `/archive` vs `/{id}` conflict
+- `forceDelete` bewust UI-onbereikbaar (geen route + policy-returnt-false)
+
+*US-11 — Concept-uren:*
+- `App\Enums\UrenStatus` backed-string-enum (Concept/Ingediend/Goedgekeurd/Afgekeurd) + helpers
+- `urenregistraties` tabel — user/client/datum/start/eind/uren(decimal)/notities/status
+- `UrenregistratieService::computeDuration` — integer-seconds → decimaal (geen float-wobble)
+- `user_id` + `status` buiten `$fillable` → altijd via `service->create($user, $payload)`
+- Status-tabs via URL (shareable + werkt zonder JS)
+
+*US-12 — Indienen/terugtrekken/resubmit:*
+- `UrenregistratieService::transition()` — centrale state-machine met allowed-matrix
+- `InvalidStateTransitionException` → 422 met NL flash (render-methode)
+- `UrenIngediendNotification` (database channel, team-scoped recipients)
+- `afkeur_reden` kolom + auto-clear bij resubmit
+- Policy uitgebreid met `submit/withdraw/resubmit`
+
+**Tag:** `sprint-3` — 4 merged PRs.
 
 ### 🕐 Sprint 4 — Uren compleet + auth afronding (gepland)
 
@@ -189,7 +203,7 @@ GitHub-repo: [abii2024/nexora](https://github.com/abii2024/nexora)
 
 **Framework:** Pest v4 met `RefreshDatabase` trait (SQLite in-memory).
 
-**Totaal na US-10 (tijdens sprint 3):** 215 tests · 609 asserts · Duration ≈ 2,4s · **alle groen**.
+**Totaal na sprint 3 (US-09 t/m US-12):** 243 tests · 674 asserts · Duration ≈ 2,6s · **alle groen**.
 
 ### Examen-eisen testrapportage — dekking
 
@@ -220,8 +234,10 @@ Elk per-US testplan (`docs/testplan/US<NN>-*.md`) dekt de 6 verplichte elementen
 | US-08 | [tests/Feature/US-08.php](../tests/Feature/US-08.php) | 29 | 70 |
 | US-09 | [tests/Feature/US-09.php](../tests/Feature/US-09.php) | 27 | 67 |
 | US-10 | [tests/Feature/US-10.php](../tests/Feature/US-10.php) | 31 | 74 |
+| US-11 | [tests/Feature/US-11.php](../tests/Feature/US-11.php) | 28 | 77 |
+| US-12 | [tests/Feature/US-12.php](../tests/Feature/US-12.php) | 31 | 62 |
 | Voorbeelden | tests/Feature/ExampleTest.php | 2 | 2 |
-| **Totaal** | | **215** | **609** |
+| **Totaal** | | **243** | **674** |
 
 Per-US testscenario's + handmatige TC's staan in [docs/testplan/](testplan/). Screenshots-checklists staan in [docs/screenshots/](screenshots/) — deze worden gebundeld opgeleverd aan het einde van het project.
 
@@ -237,11 +253,10 @@ Zie [docs/erd-files/erd.mmd](erd-files/) voor de volledige Mermaid-ERD. Tabellen
 |---|---|---|
 | `users` | 1 (US-01) | Login + rol + team + is_active |
 | `teams` | 1 (US-01) | Teamindeling per organisatie |
-| `clients` | 2 (US-02 stub, US-07 volledig, US-10 soft_deletes) | Cliëntdossier |
+| `clients` | 2 (US-02 stub, US-07 volledig) | Cliëntdossier |
 | `client_caregivers` | 2 (US-02 stub, US-08 volledig) | Pivot met role primair/secundair/tertiair |
 | `user_audit_logs` | 2 (US-05) | Immutable log voor AVG art. 30 |
 | `notifications` | 2 (US-08) | Laravel-default polymorphic notifications |
-| `client_status_logs` | 3 (US-10) | Immutable log van statuswijzigingen (AVG art. 5) |
 
 Nog te komen in sprint 3/4: `urenregistratie`, `client_status_logs`, `password_reset_tokens` (default Laravel).
 
@@ -258,11 +273,13 @@ Nog te komen in sprint 3/4: `urenregistratie`, `client_status_logs`, `password_r
 | Medewerker bewerken / deactiveren | ❌ | ❌ | ✅ |
 | `/clients` overzicht | ❌ | ✅ eigen koppelingen | ✅ eigen team |
 | Cliënt aanmaken | ❌ | ❌ | ✅ |
-| Cliënt bewerken + archiveren (US-10) | ❌ | ❌ | ✅ |
-| Gearchiveerd-overzicht + herstellen | ❌ | ❌ | ✅ |
+| Cliënt bewerken (US-10) | ❌ | ❌ | ✅ |
+| Cliënt archiveren / herstellen (US-10) | ❌ | ❌ | ✅ |
 | Begeleiders koppelen (US-08) | ❌ | ❌ | ✅ |
-| Uren registreren (US-11) | ❌ | ✅ eigen | ✅ |
-| Uren goedkeuren (US-13) | ❌ | ❌ | ✅ |
+| Uren registreren concept (US-11) | ❌ | ✅ eigen | ❌ |
+| Uren indienen / terugtrekken / resubmit (US-12) | ❌ | ✅ eigen | ❌ |
+| Uren overzicht (tabs) | ❌ | ✅ eigen | ✅ (readonly — US-13) |
+| Uren goedkeuren/afkeuren (US-13) | ❌ | ❌ | ✅ |
 | Profiel wijzigen (US-16) | ❌ | ✅ eigen | ✅ eigen |
 
 Defense in depth wordt op 3 lagen afgedwongen: **middleware** (route-groep) → **policy** (resource) → **service-guard** (business rule).

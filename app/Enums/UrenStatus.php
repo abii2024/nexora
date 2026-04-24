@@ -44,4 +44,28 @@ enum UrenStatus: string
     {
         return in_array($this, [self::Concept, self::Afgekeurd], true);
     }
+
+    /**
+     * US-12 AC-1: indienen mag alleen vanuit concept.
+     */
+    public function isSubmittable(): bool
+    {
+        return $this === self::Concept;
+    }
+
+    /**
+     * US-12 AC-3: terugtrekken mag alleen vanuit ingediend.
+     */
+    public function isWithdrawable(): bool
+    {
+        return $this === self::Ingediend;
+    }
+
+    /**
+     * US-12 AC-4: opnieuw indienen mag alleen vanuit afgekeurd.
+     */
+    public function canResubmit(): bool
+    {
+        return $this === self::Afgekeurd;
+    }
 }
