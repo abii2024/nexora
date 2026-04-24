@@ -16,7 +16,9 @@ use Illuminate\Http\Request;
  */
 class TeamleiderUrenController extends Controller
 {
-    public function __construct(protected UrenregistratieService $uren) {}
+    public function __construct(protected UrenregistratieService $uren)
+    {
+    }
 
     /**
      * AC-1: overzicht met alle ingediende uren gegroepeerd per medewerker.
