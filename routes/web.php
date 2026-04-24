@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\TeamController;
+use App\Http\Controllers\TeamleiderUrenController;
 use App\Http\Controllers\Teamleider\DashboardController as TeamleiderDashboardController;
 use App\Http\Controllers\UrenregistratieController;
 use Illuminate\Support\Facades\Route;
@@ -26,6 +27,11 @@ Route::middleware('auth')->group(function () {
 
     Route::middleware('teamleider')->prefix('teamleider')->name('teamleider.')->group(function () {
         Route::get('/dashboard', TeamleiderDashboardController::class)->name('dashboard');
+
+        // US-13: uren-beoordeling (goedkeuren / afkeuren)
+        Route::get('/uren', [TeamleiderUrenController::class, 'index'])->name('uren.index');
+        Route::post('/uren/{uren}/goedkeuren', [TeamleiderUrenController::class, 'approve'])->name('uren.approve');
+        Route::post('/uren/{uren}/afkeuren', [TeamleiderUrenController::class, 'reject'])->name('uren.reject');
     });
 
     Route::middleware('teamleider')->group(function () {
