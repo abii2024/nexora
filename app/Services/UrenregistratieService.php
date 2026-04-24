@@ -6,6 +6,8 @@ use App\Enums\UrenStatus;
 use App\Exceptions\InvalidStateTransitionException;
 use App\Models\Urenregistratie;
 use App\Models\User;
+use App\Notifications\UrenAfgekeurdNotification;
+use App\Notifications\UrenGoedgekeurdNotification;
 use App\Notifications\UrenIngediendNotification;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
@@ -21,13 +23,33 @@ use Illuminate\Support\Facades\Notification;
 class UrenregistratieService
 {
     /**
-     * Alleen eigen uren (zorgbegeleider). Teamleider-scope komt in US-13.
+     * Alleen eigen uren (zorgbegeleider). Teamleider-scope: zie scopedForTeamleider.
      */
     public function scopedForUser(User $user, ?UrenStatus $status = null): Builder
     {
         $query = Urenregistratie::query()
             ->where('user_id', $user->id)
             ->with(['client'])
+            ->orderByDesc('datum')
+            ->orderByDesc('starttijd');
+
+        if ($status !== null) {
+            $query->where('status', $status->value);
+        }
+
+        return $query;
+    }
+
+    /**
+     * US-13: alle uren van het team van een teamleider, met optionele status-filter.
+     * Default op Ingediend — dat is wat de /teamleider/uren beoordelings-pagina toont.
+     */
+    public function scopedForTeamleider(User $teamleider, ?UrenStatus $status = UrenStatus::Ingediend): Builder
+    {
+        $query = Urenregistratie::query()
+            ->whereHas('user', fn (Builder $q) => $q->where('team_id', $teamleider->team_id))
+            ->with(['client', 'user'])
+            ->orderBy('user_id')
             ->orderByDesc('datum')
             ->orderByDesc('starttijd');
 
@@ -188,5 +210,57 @@ class UrenregistratieService
     public function resubmit(Urenregistratie $uren, User $actor): void
     {
         $this->transition($uren, UrenStatus::Ingediend, $actor);
+    }
+
+    /**
+     * US-13 AC-2: teamleider keurt ingediende uren goed → Ingediend → Goedgekeurd.
+     *
+     *  - transition() regelt de state-check en weigert invalid transities.
+     *  - Metadata: goedgekeurd_door_user_id + beoordeeld_op.
+     *  - UrenGoedgekeurdNotification naar de zorgbegeleider (eigenaar).
+     */
+    public function approve(Urenregistratie $uren, User $teamleider): void
+    {
+        DB::transaction(function () use ($uren, $teamleider) {
+            $this->transition($uren, UrenStatus::Goedgekeurd, $teamleider);
+
+            $uren->forceFill([
+                'goedgekeurd_door_user_id' => $teamleider->id,
+                'beoordeeld_op' => now(),
+            ])->save();
+
+            if ($uren->user) {
+                Notification::send(
+                    $uren->user,
+                    new UrenGoedgekeurdNotification($uren, $teamleider)
+                );
+            }
+        });
+    }
+
+    /**
+     * US-13 AC-3: teamleider keurt ingediende uren af met verplichte reden → Ingediend → Afgekeurd.
+     *
+     *  - Reden ≥10 tekens wordt door AfkeurUrenRequest afgedwongen; hier geen extra check.
+     *  - afkeur_reden wordt opgeslagen zodat de zorgbegeleider het in de edit-banner ziet.
+     */
+    public function reject(Urenregistratie $uren, User $teamleider, string $reden): void
+    {
+        DB::transaction(function () use ($uren, $teamleider, $reden) {
+            $this->transition($uren, UrenStatus::Afgekeurd, $teamleider);
+
+            $uren->forceFill([
+                'afkeur_reden' => $reden,
+                'goedgekeurd_door_user_id' => $teamleider->id,
+                'beoordeeld_op' => now(),
+            ])->save();
+
+            if ($uren->user) {
+                Notification::send(
+                    $uren->user,
+                    new UrenAfgekeurdNotification($uren, $teamleider, $reden)
+                );
+            }
+        });
     }
 }
