@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Client;
+use App\Models\ClientStatusLog;
 use App\Models\User;
 use App\Notifications\ClientCaregiverAssignedNotification;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
@@ -103,6 +104,49 @@ class ClientService
     public function create(array $payload): Client
     {
         return DB::transaction(fn () => Client::create($payload));
+    }
+
+    /**
+     * US-10: werk cliëntgegevens bij en log statuswijziging (indien gewijzigd).
+     *
+     * Diff-check voorkomt een lege audit-rij bij save-zonder-status-change.
+     *
+     * @param  array<string, mixed>  $payload  uit UpdateClientRequest
+     */
+    public function update(Client $client, array $payload, User $changedBy): void
+    {
+        DB::transaction(function () use ($client, $payload, $changedBy) {
+            $oldStatus = $client->status;
+            $client->update($payload);
+
+            if ($oldStatus !== $payload['status']) {
+                ClientStatusLog::create([
+                    'client_id' => $client->id,
+                    'changed_by_user_id' => $changedBy->id,
+                    'old_status' => $oldStatus,
+                    'new_status' => $payload['status'],
+                ]);
+            }
+        });
+    }
+
+    /**
+     * US-10 AC-3: archiveer een cliënt via soft delete.
+     *
+     * Pivot-koppelingen in `client_caregivers` blijven bestaan — caregiver-relatie
+     * verdwijnt pas bij echte `forceDelete` (bewust UI-onbereikbaar).
+     */
+    public function archive(Client $client, User $by): void
+    {
+        DB::transaction(fn () => $client->delete());
+    }
+
+    /**
+     * US-10 AC-4: herstel een gearchiveerde cliënt naar het actieve overzicht.
+     */
+    public function restore(Client $client, User $by): void
+    {
+        DB::transaction(fn () => $client->restore());
     }
 
     /**
