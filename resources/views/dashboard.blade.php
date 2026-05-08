@@ -18,11 +18,11 @@
             <p class="page-subtitle">Zorgbegeleider · overzicht van je caseload en uren.</p>
         </div>
         <div class="page-actions">
-            <x-ui.button variant="secondary" href="#" title="Komt in US-11">
+            <x-ui.button variant="secondary" :href="route('uren.index')">
                 <x-layout.icon name="clock" :size="16" />
-                Uren registreren
+                Mijn uren
             </x-ui.button>
-            <x-ui.button variant="primary" href="#" title="Komt in US-11">
+            <x-ui.button variant="primary" :href="route('uren.create')">
                 <x-layout.icon name="plus" :size="16" />
                 Nieuwe uren
             </x-ui.button>
@@ -64,19 +64,25 @@
         </x-ui.stats-card>
     </div>
 
-    <x-ui.card title="Aan de slag" subtitle="De komende user stories maken deze functionaliteiten beschikbaar.">
+    <x-ui.card title="Snel naar" subtitle="Direct naar de plek waar je werkt.">
         <ul style="display: flex; flex-direction: column; gap: var(--space-3); list-style: none; padding: 0;">
-            <li style="display: flex; align-items: center; gap: var(--space-3); font-size: var(--font-size-sm); color: var(--color-text-secondary);">
-                <span style="width: 28px; height: 28px; border-radius: var(--radius-md); background: var(--color-accent-mint); color: var(--color-accent-mint-fg); display: inline-flex; align-items: center; justify-content: center;"><x-layout.icon name="users" :size="16" /></span>
-                Cliëntenoverzicht — <span class="badge badge-neutral">US-09</span>
+            <li>
+                <a href="{{ route('clients.index') }}" style="display: flex; align-items: center; gap: var(--space-3); font-size: var(--font-size-sm); color: var(--color-ink-900); text-decoration: none; padding: var(--space-2) 0;">
+                    <span style="width: 28px; height: 28px; border-radius: var(--radius-md); background: var(--color-accent-mint); color: var(--color-accent-mint-fg); display: inline-flex; align-items: center; justify-content: center;"><x-layout.icon name="users" :size="16" /></span>
+                    Mijn cliënten
+                </a>
             </li>
-            <li style="display: flex; align-items: center; gap: var(--space-3); font-size: var(--font-size-sm); color: var(--color-text-secondary);">
-                <span style="width: 28px; height: 28px; border-radius: var(--radius-md); background: var(--color-accent-amber); color: var(--color-accent-amber-fg); display: inline-flex; align-items: center; justify-content: center;"><x-layout.icon name="clock" :size="16" /></span>
-                Urenregistratie — <span class="badge badge-neutral">US-11</span>
+            <li>
+                <a href="{{ route('uren.index') }}" style="display: flex; align-items: center; gap: var(--space-3); font-size: var(--font-size-sm); color: var(--color-ink-900); text-decoration: none; padding: var(--space-2) 0;">
+                    <span style="width: 28px; height: 28px; border-radius: var(--radius-md); background: var(--color-accent-amber); color: var(--color-accent-amber-fg); display: inline-flex; align-items: center; justify-content: center;"><x-layout.icon name="clock" :size="16" /></span>
+                    Urenregistratie
+                </a>
             </li>
-            <li style="display: flex; align-items: center; gap: var(--space-3); font-size: var(--font-size-sm); color: var(--color-text-secondary);">
-                <span style="width: 28px; height: 28px; border-radius: var(--radius-md); background: var(--color-accent-purple); color: var(--color-accent-purple-fg); display: inline-flex; align-items: center; justify-content: center;"><x-layout.icon name="user" :size="16" /></span>
-                Profielbeheer — <span class="badge badge-neutral">US-16</span>
+            <li>
+                <a href="{{ route('profiel.show') }}" style="display: flex; align-items: center; gap: var(--space-3); font-size: var(--font-size-sm); color: var(--color-ink-900); text-decoration: none; padding: var(--space-2) 0;">
+                    <span style="width: 28px; height: 28px; border-radius: var(--radius-md); background: var(--color-accent-purple); color: var(--color-accent-purple-fg); display: inline-flex; align-items: center; justify-content: center;"><x-layout.icon name="user" :size="16" /></span>
+                    Mijn profiel
+                </a>
             </li>
         </ul>
     </x-ui.card>

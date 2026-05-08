@@ -127,6 +127,6 @@
     @endif
 
     <p style="margin-top: var(--space-4); font-size: var(--font-size-xs); color: var(--color-text-muted);">
-        Urenoverzicht met filters (goedgekeurd + afgekeurd) volgt in US-14.
+        Goedgekeurde en afgekeurde uren staan in het <a href="{{ route('teamleider.uren.overzicht') }}" style="color: var(--color-primary-600);">Urenoverzicht</a>.
     </p>
 @endsection

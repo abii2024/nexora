@@ -137,7 +137,4 @@
         </x-ui.card>
     @endif
 
-    <p style="margin-top: var(--space-4); font-size: var(--font-size-xs); color: var(--color-text-muted);">
-        Indienen + terugtrekken + opnieuw indienen komt in US-12. Goedkeuren + afkeuren in US-13.
-    </p>
 @endsection

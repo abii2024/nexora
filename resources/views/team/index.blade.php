@@ -157,7 +157,4 @@
         </x-ui.card>
     </div>
 
-    <p style="margin-top: var(--space-4); font-size: var(--font-size-xs); color: var(--color-text-muted);">
-        Bewerken (US-05) en deactiveren (US-06) volgen in sprint 2.
-    </p>
 @endsection

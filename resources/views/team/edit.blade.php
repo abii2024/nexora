@@ -85,7 +85,7 @@
 
                 <div style="border-top: 1px solid var(--color-border); padding-top: var(--space-4); font-size: var(--font-size-xs); color: var(--color-text-muted);">
                     Het wachtwoord kan niet hier gewijzigd worden. De medewerker past dit zelf aan via
-                    <em>Profiel</em> (beschikbaar vanaf US-16).
+                    <em>Profiel</em> na inloggen.
                 </div>
 
                 <div style="display: flex; gap: var(--space-3); justify-content: flex-end; border-top: 1px solid var(--color-border); padding-top: var(--space-5);">

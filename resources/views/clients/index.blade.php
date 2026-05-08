@@ -191,7 +191,4 @@
         @endif
     </div>
 
-    <p style="margin-top: var(--space-4); font-size: var(--font-size-xs); color: var(--color-text-muted);">
-        Urenregistratie komt in US-11.
-    </p>
 @endsection

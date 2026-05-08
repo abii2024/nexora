@@ -24,7 +24,7 @@
             </p>
         </div>
         <div class="page-actions">
-            <x-ui.button variant="secondary" href="#" title="Komt in US-13/14">
+            <x-ui.button variant="secondary" :href="route('teamleider.uren.index')">
                 Uren verwerken
             </x-ui.button>
             <x-ui.button variant="primary" :href="route('team.create')">
@@ -83,7 +83,7 @@
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: var(--space-5);">
         <x-ui.card title="Ingediende uren" subtitle="Wacht op goedkeuring">
             <x-slot:actions>
-                <a href="#" style="font-size: var(--font-size-sm); color: var(--color-primary-600); font-weight: var(--font-weight-medium); display: inline-flex; align-items: center; gap: var(--space-1);" title="Komt in US-14">
+                <a href="{{ route('teamleider.uren.overzicht') }}" style="font-size: var(--font-size-sm); color: var(--color-primary-600); font-weight: var(--font-weight-medium); display: inline-flex; align-items: center; gap: var(--space-1);">
                     Alle uren
                     <x-layout.icon name="arrow-right" :size="14" />
                 </a>
@@ -91,7 +91,7 @@
 
             <x-ui.empty-state
                 title="Nog geen ingediende uren"
-                description="Zorgbegeleiders kunnen vanaf US-12 uren ter goedkeuring aanbieden. Zodra dat gebeurt verschijnen ze hier."
+                description="Wanneer een zorgbegeleider uren indient verschijnen ze hier ter beoordeling."
             >
                 <x-slot:icon>
                     <x-layout.icon name="clock" :size="32" />
@@ -101,7 +101,7 @@
 
         <x-ui.card title="Cliënt-toewijzingen" subtitle="Nog te koppelen">
             <x-slot:actions>
-                <a href="#" style="font-size: var(--font-size-sm); color: var(--color-primary-600); font-weight: var(--font-weight-medium); display: inline-flex; align-items: center; gap: var(--space-1);" title="Komt in US-08">
+                <a href="{{ route('clients.index') }}" style="font-size: var(--font-size-sm); color: var(--color-primary-600); font-weight: var(--font-weight-medium); display: inline-flex; align-items: center; gap: var(--space-1);">
                     Alle toewijzingen
                     <x-layout.icon name="arrow-right" :size="14" />
                 </a>
@@ -109,7 +109,7 @@
 
             <x-ui.empty-state
                 title="Geen open toewijzingen"
-                description="Cliënten zonder primaire begeleider verschijnen hier zodra US-07/US-08 beschikbaar is."
+                description="Cliënten zonder primaire zorgbegeleider verschijnen hier — koppel ze via het cliëntdetail."
             >
                 <x-slot:icon>
                     <x-layout.icon name="users" :size="32" />

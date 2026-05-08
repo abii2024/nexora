@@ -83,7 +83,7 @@
                 <div style="border-top: 1px solid var(--color-border); padding-top: var(--space-5); margin-top: var(--space-2);">
                     <h2 style="font-size: var(--font-size-base); font-weight: var(--font-weight-semibold); color: var(--color-ink-900); margin-bottom: var(--space-1);">Initieel wachtwoord</h2>
                     <p style="font-size: var(--font-size-xs); color: var(--color-text-muted); margin-bottom: var(--space-4);">
-                        Communiceer dit wachtwoord veilig buiten de applicatie (bijv. mondeling of via een tweede kanaal). De medewerker wijzigt het zelf via /profiel zodra beschikbaar (US-16).
+                        Communiceer dit wachtwoord veilig buiten de applicatie (bijv. mondeling of via een tweede kanaal). De medewerker wijzigt het zelf via <em>Profiel</em> na inloggen.
                     </p>
 
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4);">
