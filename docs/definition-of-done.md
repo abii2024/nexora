@@ -38,7 +38,7 @@ Een user story is pas DONE als de volgende 10 punten **allemaal** zijn afgevinkt
 - [ ] **Testsuite groen**: `php artisan test --compact` toont 0 failures
 - [ ] **Code-style schoon**: `vendor/bin/pint --dirty --format agent` meldt 0 wijzigingen
 - [ ] **Handmatig getest in browser** per relevante rol (zorgbegeleider + teamleider)
-- [ ] **Screenshot toegevoegd** in `docs/screenshots/features/` met datum in bestandsnaam
+- [ ] **Screenshot toegevoegd** in `docs/uitgewerkte-functionaliteiten/features/` met datum in bestandsnaam
 - [ ] **Trello-kaart** verplaatst naar kolom **Done** en gekoppelde checklists afgevinkt
 
 ---
@@ -201,10 +201,10 @@ Screenshots opslaan met datum in bestandsnaam (bv. `2026-04-21_login-happy-path.
 
 | Wat | Locatie | Frequentie |
 |---|---|---|
-| Trello-scrumboard (na kolom-beweging) | `docs/screenshots/scrumboard/` | Na elke story-move |
-| `php artisan test --compact` output | `docs/screenshots/tests/` | Bij nieuwe test-run |
-| GitHub commit-historie + branches | `docs/screenshots/git/` | Minstens dagelijks |
-| Werkende feature per rol in browser | `docs/screenshots/features/` | Per user story |
+| Trello-scrumboard (na kolom-beweging) | `docs/uitgewerkte-functionaliteiten/scrumboard/` | Na elke story-move |
+| `php artisan test --compact` output | `docs/uitgewerkte-functionaliteiten/tests/` | Bij nieuwe test-run |
+| GitHub commit-historie + branches | `docs/uitgewerkte-functionaliteiten/git/` | Minstens dagelijks |
+| Werkende feature per rol in browser | `docs/uitgewerkte-functionaliteiten/features/` | Per user story |
 
 ---
 
@@ -247,7 +247,7 @@ Vóór een story naar **Done** mag:
 3. **Login als zorgbegeleider**: happy-path doorlopen van de user story
 4. **Login als teamleider**: happy-path doorlopen (indien rol-specifiek)
 5. **Unhappy-path**: test minimaal één fout-scenario (foute input, verkeerde rol)
-6. **Screenshot** maken en opslaan in `docs/screenshots/features/`
+6. **Screenshot** maken en opslaan in `docs/uitgewerkte-functionaliteiten/features/`
 
 ---
 
@@ -282,7 +282,7 @@ Definition of Done:
 [ ] Policy + Middleware aanwezig (indien autorisatie)
 [ ] Form Request gebruikt (geen inline validate)
 [ ] Handmatig getest als zorgbegeleider én teamleider
-[ ] Screenshot in docs/screenshots/features/
+[ ] Screenshot in docs/uitgewerkte-functionaliteiten/features/
 [ ] Testplan bijgewerkt in docs/testplan/USxx-{naam}.md
 [ ] ERD/flowchart bijgewerkt (indien schema-wijziging)
 [ ] Trello-kaart in kolom Done

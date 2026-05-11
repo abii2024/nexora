@@ -283,7 +283,7 @@ Elk per-US testplan (`docs/testplan/US<NN>-*.md`) dekt de 6 verplichte elementen
 | Voorbeelden | tests/Feature/ExampleTest.php | 2 | 2 |
 | **Totaal (project compleet)** | | **360** | **953** |
 
-Per-US testscenario's + handmatige TC's staan in [docs/testplan/](testplan/). Screenshots-checklists staan in [docs/screenshots/](screenshots/) — deze worden gebundeld opgeleverd aan het einde van het project.
+Per-US testscenario's + handmatige TC's staan in [docs/testplan/](testplan/). Screenshots-checklists staan in [docs/uitgewerkte-functionaliteiten/](uitgewerkte-functionaliteiten/) — deze worden gebundeld opgeleverd aan het einde van het project.
 
 **Code-style:** Pint draait cleanshot bij elke feature-branch (afgedwongen pre-commit in workflow).
 
@@ -341,7 +341,7 @@ Defense in depth wordt op 3 lagen afgedwongen: **middleware** (route-groep) → 
 | Eisen, wensen & uitgangspunten | [`docs/eisen-wensen-uitgangspunten.md`](eisen-wensen-uitgangspunten.md) |
 | Testplan-overzicht | [`docs/testplan/README.md`](testplan/) |
 | Per-US testplannen | [`docs/testplan/US{01-08}-*.md`](testplan/) |
-| Screenshots per US | [`docs/screenshots/us{01-08}-*/README.md`](screenshots/) |
+| Screenshots per US | [`docs/uitgewerkte-functionaliteiten/us{01-08}-*/README.md`](uitgewerkte-functionaliteiten/) |
 | ERD | [`docs/erd-files/`](erd-files/) |
 | Wireframes | [`docs/wireframes/`](wireframes/) |
 | Flowcharts (urenworkflow) | [`docs/flowchart-files/`](flowchart-files/) |

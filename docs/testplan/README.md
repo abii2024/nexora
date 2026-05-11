@@ -42,7 +42,7 @@ it('logs in an active zorgbegeleider and redirects to /dashboard', function () {
 
 **Waar gedocumenteerd**: Per US in de "Handmatige testscenario's"-sectie van het US-testplan, met TC-XX tabellen.
 
-**Output**: Screenshots in `docs/screenshots/us<nn>-<naam>/`, checklist per TC.
+**Output**: Screenshots in `docs/uitgewerkte-functionaliteiten/us<nn>-<naam>/`, checklist per TC.
 
 ### 1.3 Unit tests
 
@@ -66,7 +66,7 @@ it('logs in an active zorgbegeleider and redirects to /dashboard', function () {
    5. **Conclusies** — Functioneel / Privacy & security / Code kwaliteit / Openstaand / Eindoordeel — examen-eis 4
    6. **Analyse van gebruikte informatiebronnen** — tabel met Pest-output, bug-meldingen, Trello, user-stories.md, ontwerpdocument, presentatie-feedback (n.v.t.), retrospective (n.v.t.) — examen-eis 5
    7. **Interpretatie van bevindingen uit bronnen** — 4-6 genummerde punten die bronnen met elkaar verbinden en conclusie trekken — examen-eis 6
-4. **Screenshots** in `docs/screenshots/us<nn>-<naam>/` met README-checklist.
+4. **Screenshots** in `docs/uitgewerkte-functionaliteiten/us<nn>-<naam>/` met README-checklist.
 5. **US wordt pas "klaar"** als alle Pest tests groen zijn + handmatige TC's afgevinkt.
 
 ### 2.2 Testdata
@@ -101,7 +101,7 @@ Per US:
 - **Pest terminal output** — screenshot van `./vendor/bin/pest --filter=...` met groene vinkjes
 - **Falende test (indien van toepassing)** — screenshot van de foutmelding
 
-Worden opgeslagen in `docs/screenshots/us<nn>-<naam>/`.
+Worden opgeslagen in `docs/uitgewerkte-functionaliteiten/us<nn>-<naam>/`.
 
 ## 3. Verplichte alternatieve scenario's per US
 
