@@ -332,16 +332,25 @@ Defense in depth wordt op 3 lagen afgedwongen: **middleware** (route-groep) → 
 
 ## 9. Documenten-index
 
+> **Voor de examinator:** start met [`docs/examen-checklist.md`](examen-checklist.md) — die mapt elk examen-eis-item rechtstreeks op het bewijs in de repo.
+
 | Type | Pad |
 |---|---|
+| **Examen-leesgids (start hier)** | [`docs/examen-checklist.md`](examen-checklist.md) |
 | Dit procesverslag | [`docs/projectverslag.md`](projectverslag.md) |
-| Ontwerpdocument (keuzes-onderbouwing) | [`docs/ontwerpdocument.md`](ontwerpdocument.md) |
+| Ontwerpdocument (keuzes-onderbouwing) | [`docs/ontwerpdocument.md`](ontwerpdocument.md) + [`docs/ontwerpdocument/`](ontwerpdocument/) (ethiek · privacy · security) |
 | Definition of Done | [`docs/definition-of-done.md`](definition-of-done.md) |
 | User stories (16 stuks) | [`docs/user-stories.md`](user-stories.md) |
 | Eisen, wensen & uitgangspunten | [`docs/eisen-wensen-uitgangspunten.md`](eisen-wensen-uitgangspunten.md) |
 | Testplan-overzicht | [`docs/testplan/README.md`](testplan/) |
-| Per-US testplannen | [`docs/testplan/US{01-08}-*.md`](testplan/) |
-| Screenshots per US | [`docs/uitgewerkte-functionaliteiten/us{01-08}-*/README.md`](uitgewerkte-functionaliteiten/) |
+| Per-US testplannen | [`docs/testplan/US-NN.md`](testplan/) |
+| Screenshots per US | [`docs/uitgewerkte-functionaliteiten/us{01-16}-*/README.md`](uitgewerkte-functionaliteiten/) |
+| **Code-bewijslast per US** (incl. GitHub-permalinks) | [`docs/code-bewijslast/README.md`](code-bewijslast/) |
+| **GitHub-bewijslast** (PRs, branches, tags, commits) | [`docs/github-bewijslast/README.md`](github-bewijslast/) |
+| Screenshot-werkscript voor inlevering | [`docs/screenshot-instructies.md`](screenshot-instructies.md) |
+| Opdracht 4 — verbetervoorstellen (B1-K1-W5) | [`docs/uitgewerkte-functionaliteiten/opdracht-4-verbetervoorstellen/README.md`](uitgewerkte-functionaliteiten/opdracht-4-verbetervoorstellen/) |
+| Opdracht 5 — overleggen (B1-K2-W1) | [`docs/overleggen/README.md`](overleggen/) |
+| Opdracht 7 — reflectie (B1-K2-W3) | [`docs/reflectie/README.md`](reflectie/) |
 | ERD | [`docs/erd-files/`](erd-files/) |
 | Wireframes | [`docs/wireframes/`](wireframes/) |
 | Flowcharts (urenworkflow) | [`docs/flowchart-files/`](flowchart-files/) |
