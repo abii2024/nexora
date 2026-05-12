@@ -135,7 +135,7 @@ De eisen zijn geprioriteerd volgens **MoSCoW**. Alle *Must-have*-items zijn 1-op
 | Versiebeheer | **Git + GitHub** (`abii2024/nexora`) | Publieke repo, zichtbaar voor examinator |
 | Branching | Direct op `main` (solo-project, geen reviewer) | PR-flow is overhead zonder team |
 | Lokaal draaien | **Laravel Herd** (`nexora.test`) | Zero-config dev-server, HTTPS out-of-the-box |
-| IDE | VS Code + Laravel Boost MCP + Claude Code | Productiviteit via AI-assistentie |
+| IDE | VS Code + Laravel Boost | Snelle navigatie, syntax-highlighting, geïntegreerde terminal |
 | Documentatie | Markdown in `docs/` van de repo | Alles on-platform; examinator hoeft niets te installeren |
 | Diagrammen | Mermaid (ERD, flowchart) + PlantUML (use-case) via [kroki.io](https://kroki.io) | Source-controlled (`.mmd`/`.puml`), automatisch renderbaar |
 
