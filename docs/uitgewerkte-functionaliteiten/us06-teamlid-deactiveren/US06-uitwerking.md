@@ -210,7 +210,7 @@ public function forceDelete(User $user, User $model): bool
 
 | E-mail | Wachtwoord | Rol |
 |---|---|---|
-| `claudeabdi+tl@gmail.com` | `password` | teamleider |
+| `abdisamadvanabdulle@gmail.com` | `password` | teamleider |
 | `zorgbegeleider@nexora.test` | `password` | zorgbegeleider (test-target) |
 | `mo@nexora.test` | `password` | zorgbegeleider (voor 403-test) |
 
@@ -219,5 +219,5 @@ Setup: `php artisan migrate:fresh --seed` · URL: [http://nexora.test/team](http
 ### 2-browser test voor `CheckActiveUser`
 
 1. Chrome: login als `zorgbegeleider@nexora.test` → `/dashboard`
-2. Safari/incognito: login als `claudeabdi+tl@gmail.com` → deactiveer Jeroen
+2. Safari/incognito: login als `abdisamadvanabdulle@gmail.com` → deactiveer Jeroen
 3. Chrome: refresh → redirect `/login` met melding

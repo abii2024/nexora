@@ -19,7 +19,7 @@
 
 **Factories:** `UserFactory->zorgbegeleider()/teamleider()` (uit US-01).
 
-**Seeders (handmatig):** `claudeabdi+tl@gmail.com` / `zorgbegeleider@nexora.test` (wachtwoord `password`).
+**Seeders (handmatig):** `abdisamadvanabdulle@gmail.com` / `zorgbegeleider@nexora.test` (wachtwoord `password`).
 
 ## 3. Handmatige testscenario's (examen-eis 2)
 

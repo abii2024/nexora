@@ -17,7 +17,7 @@
 
 | E-mail | Wachtwoord | Rol | Team |
 |---|---|---|---|
-| `claudeabdi+tl@gmail.com` | `password` | teamleider | Rotterdam-Noord |
+| `abdisamadvanabdulle@gmail.com` | `password` | teamleider | Rotterdam-Noord |
 | `zorgbegeleider@nexora.test` | `password` | zorgbegeleider | Rotterdam-Noord |
 
 Setup: `php artisan migrate:fresh --seed`
@@ -28,7 +28,7 @@ Setup: `php artisan migrate:fresh --seed`
 
 | Stap | Actie | Verwacht resultaat | Werkelijk resultaat |
 |---|---|---|---|
-| 1 | Login als `claudeabdi+tl@gmail.com` | Naar `/teamleider/dashboard` | ✅ |
+| 1 | Login als `abdisamadvanabdulle@gmail.com` | Naar `/teamleider/dashboard` | ✅ |
 | 2 | Klik "Medewerker toevoegen" rechtsboven OF "Teamleden" in sidebar → "Medewerker toevoegen" | `/team/create` opent | ✅ Form rendert met alle velden in curava stijl |
 | 3 | Inspecteer form | Velden: voornaam, achternaam, email, rol dropdown, dienstverband dropdown, password + password_confirmation | ✅ 7 inputs aanwezig, "Onthoud mij"-achtige hint bij wachtwoord over veilige communicatie |
 

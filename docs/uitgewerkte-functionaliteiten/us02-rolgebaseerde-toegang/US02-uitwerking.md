@@ -158,7 +158,7 @@ public function delete(User $user, User $model): bool
 
 | E-mail | Wachtwoord | Rol | Team |
 |---|---|---|---|
-| `claudeabdi+tl@gmail.com` | `password` | teamleider | Rotterdam-Noord |
+| `abdisamadvanabdulle@gmail.com` | `password` | teamleider | Rotterdam-Noord |
 | `zorgbegeleider@nexora.test` | `password` | zorgbegeleider | Rotterdam-Noord |
 | `mo@nexora.test` | `password` | zorgbegeleider | Rotterdam-Noord |
 | `noa@nexora.test` | `password` | zorgbegeleider | Amsterdam-Zuid |

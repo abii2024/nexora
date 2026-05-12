@@ -134,7 +134,7 @@ public function getPaginatedForTeamleider(User $teamleider, array $filters = [],
 
 | E-mail | Wachtwoord | Rol |
 |---|---|---|
-| `claudeabdi+tl@gmail.com` | `password` | teamleider |
+| `abdisamadvanabdulle@gmail.com` | `password` | teamleider |
 | `zorgbegeleider@nexora.test` | `password` | zorgbegeleider (heeft uren in seeder) |
 | `mo@nexora.test` | `password` | zorgbegeleider (heeft uren in seeder) |
 

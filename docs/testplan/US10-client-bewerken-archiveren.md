@@ -22,7 +22,7 @@ Hoe omgegaan: elke AC krijgt ≥1 Pest-test met een leesbare `it('…')`-beschri
 - Standaard-cliënt in `beforeEach`: `Sanne de Wit`, BSN `111222333`, status=actief, zorgtype=WMO
 
 **Seeders (handmatig):**
-- `claudeabdi+tl@gmail.com` / `password`
+- `abdisamadvanabdulle@gmail.com` / `password`
 - `zorgbegeleider@nexora.test` / `password`
 - `inactief@nexora.test` / `password`
 - 10–15 gezaaide cliënten uit `ClientSeeder` (verschillende statussen + zorgtypes)

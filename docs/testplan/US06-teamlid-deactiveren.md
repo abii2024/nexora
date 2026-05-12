@@ -17,7 +17,7 @@
 
 | Naam | E-mail | Rol | Actief |
 |---|---|---|---|
-| Fatima El Amrani | `claudeabdi+tl@gmail.com` | teamleider | ✓ |
+| Fatima El Amrani | `abdisamadvanabdulle@gmail.com` | teamleider | ✓ |
 | Jeroen Bakker | `zorgbegeleider@nexora.test` | zorgbegeleider | ✓ |
 | Mo Yilmaz | `mo@nexora.test` | zorgbegeleider | ✓ |
 | Ilse Voskuil | `inactief@nexora.test` | zorgbegeleider | ✗ |
@@ -30,7 +30,7 @@ Setup: `php artisan migrate:fresh --seed`
 
 | Stap | Actie | Verwacht resultaat | Werkelijk resultaat |
 |---|---|---|---|
-| 1 | Login als `claudeabdi+tl@gmail.com` | Op dashboard | ✅ |
+| 1 | Login als `abdisamadvanabdulle@gmail.com` | Op dashboard | ✅ |
 | 2 | Ga naar `/team`, klik **Bewerken** bij Jeroen | Edit-form opent | ✅ |
 | 3 | Scroll naar **Accountstatus**-card onderaan | Rode **Deactiveren**-knop zichtbaar met Wgbo-uitleg | ✅ |
 | 4 | Klik Deactiveren | Browser-confirm: "Weet je zeker dat je Jeroen Bakker wilt deactiveren?" | ✅ native confirm dialog |

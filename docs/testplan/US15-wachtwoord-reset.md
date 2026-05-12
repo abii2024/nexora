@@ -17,7 +17,7 @@
 
 **Factories:** `UserFactory->zorgbegeleider()/teamleider()` (uit US-01).
 
-**Seeders (handmatig):** `claudeabdi+tl@gmail.com` / `zorgbegeleider@nexora.test` (wachtwoord `password`).
+**Seeders (handmatig):** `abdisamadvanabdulle@gmail.com` / `zorgbegeleider@nexora.test` (wachtwoord `password`).
 
 **In development** staat `MAIL_MAILER=log` in `.env.example` → mails komen in `storage/logs/laravel.log` en zijn zichtbaar zonder echte SMTP-server.
 
@@ -26,7 +26,7 @@
 | # | Scenario | Stappen | Verwacht | Werkelijk |
 |---|---|---|---|---|
 | TC-01 | Link op login | Open `/login` | "Wachtwoord vergeten?"-link zichtbaar → klik leidt naar `/wachtwoord-vergeten` | ⏳ Pest ✅ |
-| TC-02 | Reset-link versturen (bestaand) | Vul `claudeabdi+tl@gmail.com` in | Redirect + groene flash; reset-link in `storage/logs/laravel.log` | ⏳ Pest ✅ |
+| TC-02 | Reset-link versturen (bestaand) | Vul `abdisamadvanabdulle@gmail.com` in | Redirect + groene flash; reset-link in `storage/logs/laravel.log` | ⏳ Pest ✅ |
 | TC-03 | Reset-link versturen (onbekend) | Vul `niemand@nexora.test` in | **Zelfde** flash als TC-02; log bevat NIETS | ⏳ Pest ✅ |
 | TC-04 | Ongeldig e-mailformaat | Vul `geen-email` in | 422 "Dit is geen geldig e-mailadres" | ⏳ Pest ✅ |
 | TC-05 | Reset-form openen | Klik link uit de mail-log | Formulier met token + email pre-filled | ⏳ Pest ✅ |

@@ -112,7 +112,7 @@ Blade-template met e-mail/wachtwoord velden, "onthoud mij" checkbox, link naar w
 | E-mail | Wachtwoord | Rol |
 |---|---|---|
 | `zorgbegeleider@nexora.test` | `password` | zorgbegeleider |
-| `claudeabdi+tl@gmail.com` | `password` | teamleider |
+| `abdisamadvanabdulle@gmail.com` | `password` | teamleider |
 | `inactief@nexora.test` | `password` | zorgbegeleider (`is_active=false`) |
 
 Setup: `php artisan migrate:fresh --seed` · URL: [http://nexora.test/login](http://nexora.test/login)

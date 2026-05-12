@@ -187,7 +187,7 @@ public function forceDelete(User $user, Client $client): bool
 
 | E-mail | Wachtwoord | Rol |
 |---|---|---|
-| `claudeabdi+tl@gmail.com` | `password` | teamleider |
+| `abdisamadvanabdulle@gmail.com` | `password` | teamleider |
 | `zorgbegeleider@nexora.test` | `password` | zorgbegeleider (voor 403-test op archive/restore) |
 
 Setup: `php artisan migrate:fresh --seed` · URL: [http://nexora.test/clients](http://nexora.test/clients)

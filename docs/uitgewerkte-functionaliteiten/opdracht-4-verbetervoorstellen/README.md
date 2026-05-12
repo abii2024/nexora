@@ -107,7 +107,24 @@ Totaal: **4 uur**, planbaar in Sprint 2 zodra die start.
 
 ---
 
-## 7. Koppeling met examen-rubric
+## 7. Voortgang implementatie (2026-05-12)
+
+Het verbetervoorstel is **gedeeltelijk** doorgevoerd in dezelfde sessie waarin het is opgesteld:
+
+| AC | Status | Bewijs |
+|---|---|---|
+| Test-Gmail-account aangemaakt + opgevoerd | ✅ | `abdisamadvanabdulle@gmail.com` zit in `DatabaseSeeder.php` als teamleider Fatima El Amrani |
+| Mail-driver omgezet `log` → `resend` | ✅ | `MAIL_MAILER=resend` + `resend/resend-laravel` package geïnstalleerd |
+| `Password::sendResetLink()` levert succesvol af | ✅ | Status `passwords.sent` ontvangen van Laravel; geen Resend API-error |
+| Mail in inbox (handmatige check) | ⏳ | User te valideren in Gmail-inbox (spam-folder meegerekend) |
+| Foutpad ongeldig/verlopen token | ⏳ | Reeds gedekt door US-15 testsuite, niet opnieuw uitgevoerd |
+| Bewijslast-screenshots | ⏳ | Volgen nadat user inbox-mail heeft bevestigd |
+
+**Bekende beperking — Resend free tier:** met `onboarding@resend.dev` als from-address kunnen mails **alleen** worden afgeleverd op het exacte e-mailadres van het Resend-account (`abdisamadvanabdulle@gmail.com`). `+`-aliases en andere recipients worden geweigerd. Voor productie moet een eigen domein worden geverifieerd in Resend (SPF + DKIM + DMARC); dat is buiten scope voor het examen.
+
+---
+
+## 8. Koppeling met examen-rubric
 
 | Rubric-item | Bewijs in dit document |
 |---|---|

@@ -17,7 +17,7 @@
 
 | Naam | E-mail | Rol | Team | Actief |
 |---|---|---|---|---|
-| Fatima El Amrani | `claudeabdi+tl@gmail.com` | teamleider | Rotterdam-Noord | ✓ |
+| Fatima El Amrani | `abdisamadvanabdulle@gmail.com` | teamleider | Rotterdam-Noord | ✓ |
 | Jeroen Bakker | `zorgbegeleider@nexora.test` | zorgbegeleider | Rotterdam-Noord | ✓ |
 | Ilse Voskuil | `inactief@nexora.test` | zorgbegeleider | Rotterdam-Noord | ✗ |
 | Mo Yilmaz | `mo@nexora.test` | zorgbegeleider | Rotterdam-Noord | ✓ |
@@ -31,7 +31,7 @@ Setup: `php artisan migrate:fresh --seed`
 
 | Stap | Actie | Verwacht resultaat | Werkelijk resultaat |
 |---|---|---|---|
-| 1 | Login als `claudeabdi+tl@gmail.com` | Redirect `/teamleider/dashboard` | ✅ |
+| 1 | Login als `abdisamadvanabdulle@gmail.com` | Redirect `/teamleider/dashboard` | ✅ |
 | 2 | Klik "Teamleden" in sidebar OF `/team` in URL | Tabel met 4 medewerkers uit Rotterdam-Noord | ✅ Fatima (teamleider) + Jeroen, Ilse, Mo (zorgbeg) |
 | 3 | Noa De Vries (Amsterdam) in tabel? | NEE — team-scope sluit andere teams uit | ✅ Noa niet zichtbaar |
 | 4 | Header-teller: "3 actief · 1 inactief · Team Rotterdam-Noord" | Correct | ✅ |

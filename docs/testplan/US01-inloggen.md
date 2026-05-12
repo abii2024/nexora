@@ -17,7 +17,7 @@
 
 | Naam | E-mail | Wachtwoord | Rol | `is_active` |
 |---|---|---|---|---|
-| Fatima El Amrani | `claudeabdi+tl@gmail.com` | `password` | teamleider | ✓ |
+| Fatima El Amrani | `abdisamadvanabdulle@gmail.com` | `password` | teamleider | ✓ |
 | Jeroen Bakker | `zorgbegeleider@nexora.test` | `password` | zorgbegeleider | ✓ |
 | Ilse Voskuil | `inactief@nexora.test` | `password` | zorgbegeleider | ✗ |
 
@@ -41,7 +41,7 @@ Setup: `php artisan migrate:fresh --seed`
 | Stap | Actie | Verwacht resultaat | Werkelijk resultaat |
 |---|---|---|---|
 | 1 | Ga naar `/login` | Formulier zichtbaar | ✅ Identiek |
-| 2 | Vul in: `claudeabdi+tl@gmail.com` / `password` | Velden gevuld | ✅ Velden geaccepteerd |
+| 2 | Vul in: `abdisamadvanabdulle@gmail.com` / `password` | Velden gevuld | ✅ Velden geaccepteerd |
 | 3 | Klik **Inloggen** | Redirect naar `/teamleider/dashboard`, titel "Teamleider dashboard", team-naam zichtbaar | ✅ Redirect `/teamleider/dashboard`, header "Goedemiddag, Fatima" + subtitle "Teamoverzicht — Team Rotterdam-Noord", 4 stats-cards (Teamleden/Uren/Cliënten/Goedgekeurd) |
 
 **Pest-dekking:** `it('logs in an active teamleider and redirects to /teamleider/dashboard')` — **PASS**

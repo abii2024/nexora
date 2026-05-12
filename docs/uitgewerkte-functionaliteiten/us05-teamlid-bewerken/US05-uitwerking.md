@@ -166,7 +166,7 @@ public function auditLogs(): HasMany
 
 | E-mail | Wachtwoord | Rol |
 |---|---|---|
-| `claudeabdi+tl@gmail.com` | `password` | teamleider |
+| `abdisamadvanabdulle@gmail.com` | `password` | teamleider |
 | `zorgbegeleider@nexora.test` | `password` | zorgbegeleider |
 
 Setup: `php artisan migrate:fresh --seed` · URL: [http://nexora.test/team](http://nexora.test/team)

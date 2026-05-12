@@ -144,7 +144,7 @@ public function viewAny(User $user): bool
 
 | E-mail | Wachtwoord | Rol | Toegang |
 |---|---|---|---|
-| `claudeabdi+tl@gmail.com` | `password` | teamleider | alle cliënten van team |
+| `abdisamadvanabdulle@gmail.com` | `password` | teamleider | alle cliënten van team |
 | `zorgbegeleider@nexora.test` | `password` | zorgbegeleider | alleen eigen koppelingen |
 | `mo@nexora.test` | `password` | zorgbegeleider | andere caseload (voor scope-test) |
 
