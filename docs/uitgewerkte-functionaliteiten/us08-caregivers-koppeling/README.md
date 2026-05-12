@@ -19,7 +19,7 @@ Screenshots + handmatige tests worden **aan het einde van alle 16 US's** in éé
 
 | E-mail | Wachtwoord | Rol |
 |---|---|---|
-| `teamleider@nexora.test` | `password` | teamleider (Rotterdam) |
+| `claudeabdi+teamleider@gmail.com` | `password` | teamleider (Rotterdam) |
 | `zorgbegeleider@nexora.test` | `password` | zorgbegeleider (caregiver-target) |
 | `mo@nexora.test` | `password` | zorgbegeleider (caregiver-target) |
 | `noa@nexora.test` | `password` | zorgbegeleider Amsterdam (cross-team) |

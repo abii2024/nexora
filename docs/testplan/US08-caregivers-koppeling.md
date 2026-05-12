@@ -17,7 +17,7 @@
 
 | Naam | E-mail | Rol | Team |
 |---|---|---|---|
-| Fatima El Amrani | `teamleider@nexora.test` | teamleider | Rotterdam |
+| Fatima El Amrani | `claudeabdi+teamleider@gmail.com` | teamleider | Rotterdam |
 | Jeroen Bakker | `zorgbegeleider@nexora.test` | zorgbegeleider | Rotterdam |
 | Mo Yilmaz | `mo@nexora.test` | zorgbegeleider | Rotterdam |
 | Noa De Vries | `noa@nexora.test` | zorgbegeleider | Amsterdam (cross-team test) |

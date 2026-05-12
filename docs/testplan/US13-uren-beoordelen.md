@@ -18,7 +18,7 @@
 
 **`beforeEach`-setup:** 1 eigen team + 1 vreemd team; 1 eigen + 1 vreemde teamleider; 2 zorgbegeleiders in eigen team; 1 cliënt met 2 caregiver-koppelingen.
 
-**Seeders (handmatig):** `teamleider@nexora.test` / `zorgbegeleider@nexora.test` (wachtwoord `password`).
+**Seeders (handmatig):** `claudeabdi+teamleider@gmail.com` / `zorgbegeleider@nexora.test` (wachtwoord `password`).
 
 ## 3. Handmatige testscenario's (examen-eis 2)
 

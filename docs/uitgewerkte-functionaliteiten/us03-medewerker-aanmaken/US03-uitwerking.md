@@ -113,7 +113,7 @@ Blade-formulier met CSRF-token, alle velden met server-side validatie-foutmeldin
 
 | E-mail | Wachtwoord | Rol |
 |---|---|---|
-| `teamleider@nexora.test` | `password` | teamleider (Rotterdam-Noord) |
+| `claudeabdi+teamleider@gmail.com` | `password` | teamleider (Rotterdam-Noord) |
 | `zorgbegeleider@nexora.test` | `password` | zorgbegeleider (voor 403 test) |
 
 Setup: `php artisan migrate:fresh --seed` · URL: [http://nexora.test/team/create](http://nexora.test/team/create) (als teamleider)

@@ -17,7 +17,7 @@
 
 | Naam | E-mail | Rol | Team |
 |---|---|---|---|
-| Fatima El Amrani | `teamleider@nexora.test` | teamleider (enige) | Rotterdam-Noord |
+| Fatima El Amrani | `claudeabdi+teamleider@gmail.com` | teamleider (enige) | Rotterdam-Noord |
 | Jeroen Bakker | `zorgbegeleider@nexora.test` | zorgbegeleider | Rotterdam-Noord |
 | Mo Yilmaz | `mo@nexora.test` | zorgbegeleider | Rotterdam-Noord |
 | Ilse Voskuil | `inactief@nexora.test` | zorgbegeleider (inactief) | Rotterdam-Noord |
@@ -30,7 +30,7 @@ Setup: `php artisan migrate:fresh --seed`
 
 | Stap | Actie | Verwacht resultaat | Werkelijk resultaat |
 |---|---|---|---|
-| 1 | Login als `teamleider@nexora.test` | Op teamleider-dashboard | ✅ |
+| 1 | Login als `claudeabdi+teamleider@gmail.com` | Op teamleider-dashboard | ✅ |
 | 2 | Ga naar `/team`, klik **Bewerken** bij Jeroen Bakker | `/team/{id}/edit` opent met voorgevulde velden | ✅ Formulier rendert, name split: voornaam="Jeroen", achternaam="Bakker" |
 | 3 | Wijzig voornaam naar "Jeroen Updated" en submit | Redirect `/team` met flash "Medewerker bijgewerkt." | ✅ |
 | 4 | Tabel toont "Jeroen Updated Bakker" | Ja | ✅ |
@@ -65,7 +65,7 @@ Setup: `php artisan migrate:fresh --seed`
 | Stap | Actie | Verwacht resultaat | Werkelijk resultaat |
 |---|---|---|---|
 | 1 | Login als teamleider | Op dashboard | ✅ |
-| 2 | Bewerk Jeroen, zet email op `teamleider@nexora.test` (Fatima's email) | Form her-rendert met error "Er bestaat al een medewerker met dit e-mailadres." | ✅ |
+| 2 | Bewerk Jeroen, zet email op `claudeabdi+teamleider@gmail.com` (Fatima's email) | Form her-rendert met error "Er bestaat al een medewerker met dit e-mailadres." | ✅ |
 | 3 | Jeroen's email ongewijzigd in DB | Ja | ✅ |
 
 **Pest-dekking:** `it('rejects email already in use by another user')` — **PASS**

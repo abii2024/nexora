@@ -19,7 +19,7 @@
 
 **Factories:** `UrenregistratieFactory` met states `concept()/ingediend()/goedgekeurd()/afgekeurd()` (uit US-11).
 
-**Seeders (handmatig):** `teamleider@nexora.test` + `zorgbegeleider@nexora.test` (wachtwoord `password`).
+**Seeders (handmatig):** `claudeabdi+teamleider@gmail.com` + `zorgbegeleider@nexora.test` (wachtwoord `password`).
 
 ## 3. Handmatige testscenario's (examen-eis 2)
 

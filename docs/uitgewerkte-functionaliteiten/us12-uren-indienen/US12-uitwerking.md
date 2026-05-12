@@ -188,6 +188,6 @@ public function resubmit(User $user, Urenregistratie $uren): bool
 | E-mail | Wachtwoord | Rol |
 |---|---|---|
 | `zorgbegeleider@nexora.test` | `password` | zorgbegeleider |
-| `teamleider@nexora.test` | `password` | teamleider (ontvanger van notificatie) |
+| `claudeabdi+teamleider@gmail.com` | `password` | teamleider (ontvanger van notificatie) |
 
 Setup: `php artisan migrate:fresh --seed` · URL: [http://nexora.test/uren](http://nexora.test/uren)

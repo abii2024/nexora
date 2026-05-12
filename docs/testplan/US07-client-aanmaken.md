@@ -17,7 +17,7 @@
 
 | Naam | E-mail | Rol |
 |---|---|---|
-| Fatima El Amrani | `teamleider@nexora.test` | teamleider |
+| Fatima El Amrani | `claudeabdi+teamleider@gmail.com` | teamleider |
 | Jeroen Bakker | `zorgbegeleider@nexora.test` | zorgbegeleider (403-test) |
 
 Setup: `php artisan migrate:fresh --seed`

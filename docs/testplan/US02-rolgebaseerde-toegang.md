@@ -27,7 +27,7 @@
 
 | Naam | E-mail | Wachtwoord | Rol | Team | `is_active` |
 |---|---|---|---|---|---|
-| Fatima El Amrani | `teamleider@nexora.test` | `password` | teamleider | Rotterdam-Noord | ✓ |
+| Fatima El Amrani | `claudeabdi+teamleider@gmail.com` | `password` | teamleider | Rotterdam-Noord | ✓ |
 | Jeroen Bakker | `zorgbegeleider@nexora.test` | `password` | zorgbegeleider | Rotterdam-Noord | ✓ |
 | Ilse Voskuil | `inactief@nexora.test` | `password` | zorgbegeleider | Rotterdam-Noord | ✗ |
 | Mo Yilmaz | `mo@nexora.test` | `password` | zorgbegeleider | Rotterdam-Noord | ✓ |
@@ -79,7 +79,7 @@ Setup: `php artisan migrate:fresh --seed`
 
 | Stap | Actie | Verwacht resultaat | Werkelijk resultaat |
 |---|---|---|---|
-| 1 | Log in als `teamleider@nexora.test` (Fatima, team Rotterdam) | Dashboard met sidebar | ✅ |
+| 1 | Log in als `claudeabdi+teamleider@gmail.com` (Fatima, team Rotterdam) | Dashboard met sidebar | ✅ |
 | 2 | Tinker: `app(ClientService::class)->scopedForUser(Fatima)->count()` | 3 (C1, C2, C3 allen in Rotterdam) | ✅ Service retourneert alle 3 cliënten van team Rotterdam |
 | 3 | Tinker: `app(ClientService::class)->scopedForUser(Noa)->count()` (Noa = teamleider Amsterdam... maar Noa is zorgbegeleider, dus scope=0) | 0 — geen cross-team lekkage | ✅ |
 | 4 | *Taken*-deel van AC-4 | Openstaand — tasks bestaan pas vanaf US-11 | ⚠️ Openstaand (zie Conclusies) |
