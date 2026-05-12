@@ -365,6 +365,10 @@ Zaken die **buiten scope** vallen van de 16 user stories maar waarvan Nexora zou
 | 7 | 2FA voor teamleider-accounts | NEN 7510 sterk aanbevolen | Middel |
 | 8 | Automatische deployment (CI + Laravel Forge) | Nu alleen lokaal Herd | Middel |
 
+### 10.1 Opdracht 4 (B1-K1-W5) — verbetervoorstellen uit PO-feedback Sprint 1
+
+Naar aanleiding van product-owner-feedback op de Sprint 1-review is **US-17 — Reset-mail end-to-end testen via echt e-mailaccount (Resend)** toegevoegd aan de Trello-backlog. De volledige analyse (informatiebronnen → interpretatie → verbetervoorstel → user story → planning + screenshot) staat in [uitgewerkte-functionaliteiten/opdracht-4-verbetervoorstellen/README.md](uitgewerkte-functionaliteiten/opdracht-4-verbetervoorstellen/README.md).
+
 ---
 
 ## 11. Reflectie tussen sprints

@@ -41,6 +41,14 @@ Per US is er een map met:
 | 15 | Wachtwoord vergeten/resetten | [US15-uitwerking.md](us15-wachtwoord-reset/US15-uitwerking.md) |
 | 16 | Profielbeheer | [US16-uitwerking.md](us16-profielbeheer/US16-uitwerking.md) |
 
+## Opdracht 4 — Verbetervoorstellen (B1-K1-W5)
+
+Analyse van testresultaten + PO-feedback + retrospective → nieuwe user story op de product backlog:
+
+| Deliverable | Document |
+|---|---|
+| Verbetervoorstellen-uitwerking + US-17 op Trello | [opdracht-4-verbetervoorstellen/README.md](opdracht-4-verbetervoorstellen/README.md) |
+
 ---
 
 ## Werkwijze per user story
