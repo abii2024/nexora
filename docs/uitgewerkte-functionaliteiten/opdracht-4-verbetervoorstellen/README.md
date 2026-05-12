@@ -27,6 +27,9 @@ Badreddine schreef letterlijk op de US-15-kaart:
 
 > *"Graag een gmail account aanmaken en deze als account opvoeren in het platform om te testen of het reset-my-password mailtje ook aankomt. Je kunt kijken naar SendGrid of Resend."*
 
+![PO-feedback van Badreddine op US-15 Trello-kaart](01-trello-us15-po-feedback.png)
+*Schermafbeelding 1 — De originele PO-comment op de Trello-kaart "Wachtwoord vergeten & resetten via e-maillink" (US-15). Bron van dit verbetervoorstel.*
+
 **Interpretatie:**
 - US-15 is technisch afgerond (alle AC's groen, `WachtwoordResetNotification` correct geïmplementeerd via `Password::sendResetLink()`), maar de feature is **nooit end-to-end gevalideerd in een echte inbox**.
 - Oorzaak: `MAIL_MAILER=log` in `.env` — alle mails belanden in `storage/logs/laravel.log` in plaats van bij de gebruiker.
@@ -99,11 +102,11 @@ Totaal: **4 uur**, planbaar in Sprint 2 zodra die start.
 
 ## 6. Screenshot product backlog (bewijslast)
 
-![Trello backlog met US-17](trello-us17-sprint-backlog.png)
+![Trello-kaart US-17 op sprint backlog met alle 5 labels](02-trello-us17-sprint-backlog.png)
+*Schermafbeelding 2 — Nieuwe user story **US-17 — Reset-mail end-to-end testen via echt e-mailaccount (Resend)** op de product backlog (lijst **sprint backlog**). Alle 5 vereiste labels zichtbaar: Sprint 1 · Should have · Authenticatie · User Story · Security. Het Trello-activiteitenlog rechts bevestigt dat de kaart is toegevoegd aan sprint backlog ("zojuist").*
 
-*Screenshot toont kaart "US-17 — Reset-mail end-to-end testen via echt e-mailaccount (Resend)" in lijst **sprint backlog** met alle 5 labels (Sprint 1, Should have, Authenticatie, User Story, Security). Naast US-17 staan in **ready for review** de afgeronde US-15-kaart en in **done** de eerder voltooide user stories van Sprint 1.*
-
-> ⚠️ Screenshot toevoegen: open Trello-bord *Nexora-platform* in Chrome, druk `Cmd+Shift+4 → Spatie → klik op het Trello-venster` en sla op als `trello-us17-sprint-backlog.png` in deze map.
+![Reset-mail aangekomen in Gmail-inbox via Resend](03-gmail-inbox-reset-mail.png)
+*Schermafbeelding 3 — De reset-mail (van `Laravel <onboarding@resend.dev>`) **daadwerkelijk aangekomen** in de Gmail-inbox van `abdisamadvanabdulle@gmail.com`. Onderwerp: "Wachtwoord herstellen" — adressering: "Hoi Fatima El Amrani" — bevat de geldige reset-link (60 min geldig). Dit is het end-to-end bewijs dat het verbetervoorstel uit PO-feedback (mailtje moet aankomen) succesvol is geïmplementeerd.*
 
 ---
 
@@ -116,9 +119,10 @@ Het verbetervoorstel is **gedeeltelijk** doorgevoerd in dezelfde sessie waarin h
 | Test-Gmail-account aangemaakt + opgevoerd | ✅ | `abdisamadvanabdulle@gmail.com` zit in `DatabaseSeeder.php` als teamleider Fatima El Amrani |
 | Mail-driver omgezet `log` → `resend` | ✅ | `MAIL_MAILER=resend` + `resend/resend-laravel` package geïnstalleerd |
 | `Password::sendResetLink()` levert succesvol af | ✅ | Status `passwords.sent` ontvangen van Laravel; geen Resend API-error |
-| Mail in inbox (handmatige check) | ⏳ | User te valideren in Gmail-inbox (spam-folder meegerekend) |
-| Foutpad ongeldig/verlopen token | ⏳ | Reeds gedekt door US-15 testsuite, niet opnieuw uitgevoerd |
-| Bewijslast-screenshots | ⏳ | Volgen nadat user inbox-mail heeft bevestigd |
+| Mail in inbox (handmatige check) | ✅ | Schermafbeelding 3 — mail van `Laravel <onboarding@resend.dev>` in Gmail-inbox |
+| Reset-link werkt + nieuw wachtwoord werkt | ✅ | Reset-formulier geopend met token uit mail, nieuw wachtwoord ingesteld, login als Fatima geslaagd |
+| Foutpad ongeldig/verlopen token | ✅ | Reeds gedekt door US-15 testsuite (360/360 tests groen) |
+| Bewijslast-screenshots | ✅ | 3 screenshots opgenomen onder deze map (§2, §6) + 1 kopie in [us15-wachtwoord-reset/](../us15-wachtwoord-reset/02-gmail-inbox-reset-mail.png) |
 
 **Bekende beperking — Resend free tier:** met `onboarding@resend.dev` als from-address kunnen mails **alleen** worden afgeleverd op het exacte e-mailadres van het Resend-account (`abdisamadvanabdulle@gmail.com`). `+`-aliases en andere recipients worden geweigerd. Voor productie moet een eigen domein worden geverifieerd in Resend (SPF + DKIM + DMARC); dat is buiten scope voor het examen.
 

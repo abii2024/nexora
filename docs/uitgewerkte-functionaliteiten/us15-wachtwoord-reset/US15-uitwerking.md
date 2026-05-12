@@ -27,6 +27,10 @@ Gerelateerd: [testplan](../../testplan/US15-wachtwoord-reset.md) · [user storie
 
 */wachtwoord-vergeten formulier en reset-flow*
 
+![Reset-mail aangekomen in Gmail-inbox via Resend](02-gmail-inbox-reset-mail.png)
+
+*End-to-end bewijs — de Nederlandse `WachtwoordResetNotification` daadwerkelijk in de Gmail-inbox van `abdisamadvanabdulle@gmail.com`, verstuurd via Resend (`onboarding@resend.dev`). Komt voort uit Opdracht 4 / US-17 — zie [opdracht-4-verbetervoorstellen/](../opdracht-4-verbetervoorstellen/README.md).*
+
 ---
 
 ## Code uitwerking
