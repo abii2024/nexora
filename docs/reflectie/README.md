@@ -36,8 +36,8 @@ Dit document bundelt de retrospectives voor werkproces **B1-K2-W3**. Per sprint 
 
 ### Samenwerking met PO
 
-- **+** PO had Trello-kaarten met duidelijke acceptatiecriteria klaar staan vóór sprint-start — geen vertraging door onduidelijke scope.
-- **−** Bij US-01 had ik twijfel over AC-2 ("rol-gebaseerde redirect na login"): teamleider → `/team`, zorgbegeleider → `/clients`. Ik heb dat niet kort op de Trello-kaart geverifieerd, gewoon mijn invulling gebouwd, en pas bij de review hoorde ik dat het klopte. Twijfel had ik in 2 minuten met een comment kunnen wegnemen.
+- **+** Trello-bord opgezet op basis van Badreddine's echte project (kaarten met user stories + AC's heb ik zelf overgenomen/uitgewerkt vóór sprint-start) — geen vertraging door onduidelijke scope tijdens de sprint zelf.
+- **−** Bij US-01 had ik twijfel over AC-2 ("rol-gebaseerde redirect na login"): teamleider → `/team`, zorgbegeleider → `/clients`. Ik heb dat niet kort op de Trello-kaart geverifieerd met PO, gewoon mijn invulling gebouwd, en pas bij de review hoorde ik dat het klopte. Twijfel had ik in 2 minuten met een comment kunnen wegnemen.
 - **→** Anders doen: bij elke "ja-tenzij"-twijfel een korte vraag op de Trello-kaart plaatsen vóórdat ik bouw, niet pas bij de review.
 
 ### Eigen prestaties
