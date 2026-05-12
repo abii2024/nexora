@@ -17,7 +17,7 @@
 
 | E-mail | Rol | Team | Cliënten-koppelingen |
 |---|---|---|---|
-| `claudeabdi+teamleider@gmail.com` | teamleider | Rotterdam | ziet alle team-cliënten |
+| `claudeabdi+tl@gmail.com` | teamleider | Rotterdam | ziet alle team-cliënten |
 | `zorgbegeleider@nexora.test` | zorgbegeleider | Rotterdam | gekoppeld aan seed-cliënten C1 (primair) + C2 (secundair) |
 | `mo@nexora.test` | zorgbegeleider | Rotterdam | gekoppeld aan C3 (primair) |
 | `noa@nexora.test` | zorgbegeleider | Amsterdam | 0 koppelingen (empty-state-test) |

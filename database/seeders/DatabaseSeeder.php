@@ -29,7 +29,7 @@ class DatabaseSeeder extends Seeder
             // Echt Gmail-adres (via +-alias) zodat de wachtwoord-reset-mail
             // uit US-15/US-17 daadwerkelijk in een inbox aankomt voor de
             // end-to-end validatie van Opdracht 4.
-            'email' => 'claudeabdi+teamleider@gmail.com',
+            'email' => 'claudeabdi+tl@gmail.com',
             'team_id' => $teamRotterdam->id,
             'dienstverband' => 'intern',
         ]);

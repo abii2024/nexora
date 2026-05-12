@@ -185,7 +185,7 @@ public function afkeuren(User $user, Urenregistratie $uren): bool
 
 | E-mail | Wachtwoord | Rol |
 |---|---|---|
-| `claudeabdi+teamleider@gmail.com` | `password` | teamleider |
+| `claudeabdi+tl@gmail.com` | `password` | teamleider |
 | `zorgbegeleider@nexora.test` | `password` | zorgbegeleider (ingediende uren in seeder) |
 
 Setup: `php artisan migrate:fresh --seed` · URL: [http://nexora.test/teamleider/uren](http://nexora.test/teamleider/uren)

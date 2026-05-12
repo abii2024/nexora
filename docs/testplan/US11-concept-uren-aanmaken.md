@@ -19,7 +19,7 @@
 - `UserFactory->zorgbegeleider()`, `ClientFactory`, `TeamFactory`
 
 **Seeders (handmatig):**
-- `claudeabdi+teamleider@gmail.com` / `password`
+- `claudeabdi+tl@gmail.com` / `password`
 - `zorgbegeleider@nexora.test` / `password`
 
 **`beforeEach`-setup:** team + 2 zorgbegeleiders + 2 cliënten (1 aan $this->zorg gekoppeld, 1 aan collega).

@@ -17,7 +17,7 @@ Plaats hier de screenshots van de handmatige uitvoering van het [testplan](../..
 
 | E-mail | Wachtwoord | Rol |
 |---|---|---|
-| `claudeabdi+teamleider@gmail.com` | `password` | teamleider (enige in team) |
+| `claudeabdi+tl@gmail.com` | `password` | teamleider (enige in team) |
 | `zorgbegeleider@nexora.test` | `password` | zorgbegeleider (voor 403 test) |
 
 Setup: `php artisan migrate:fresh --seed`

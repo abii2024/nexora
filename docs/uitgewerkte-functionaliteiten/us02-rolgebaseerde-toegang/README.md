@@ -15,7 +15,7 @@ Plaats hier de screenshots van de handmatige uitvoering van het [testplan](../..
 
 | E-mail | Wachtwoord | Rol | Team |
 |---|---|---|---|
-| `claudeabdi+teamleider@gmail.com` | `password` | teamleider | Rotterdam-Noord |
+| `claudeabdi+tl@gmail.com` | `password` | teamleider | Rotterdam-Noord |
 | `zorgbegeleider@nexora.test` | `password` | zorgbegeleider | Rotterdam-Noord |
 | `mo@nexora.test` | `password` | zorgbegeleider | Rotterdam-Noord |
 | `noa@nexora.test` | `password` | zorgbegeleider | Amsterdam-Zuid |

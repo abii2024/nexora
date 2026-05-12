@@ -141,7 +141,7 @@ $middleware->web(append: [
 | E-mail | Wachtwoord | Rol |
 |---|---|---|
 | `zorgbegeleider@nexora.test` | `password` | zorgbegeleider |
-| `claudeabdi+teamleider@gmail.com` | `password` | teamleider |
+| `claudeabdi+tl@gmail.com` | `password` | teamleider |
 
 Setup: `php artisan migrate:fresh --seed` · URL: [http://nexora.test/profiel](http://nexora.test/profiel)
 

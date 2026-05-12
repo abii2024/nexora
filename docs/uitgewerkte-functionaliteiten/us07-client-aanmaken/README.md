@@ -17,7 +17,7 @@ Screenshots + handmatige tests worden **aan het einde van alle 16 US's** in éé
 
 | E-mail | Wachtwoord | Rol |
 |---|---|---|
-| `claudeabdi+teamleider@gmail.com` | `password` | teamleider |
+| `claudeabdi+tl@gmail.com` | `password` | teamleider |
 | `zorgbegeleider@nexora.test` | `password` | zorgbegeleider |
 
 ## Test-data voor TC-05

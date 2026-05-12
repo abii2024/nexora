@@ -80,7 +80,7 @@ Alle testdata komt uit **Laravel Factories** en **Seeders** — **nooit** handge
 
 **Seeders** (`database/seeders/`):
 - `DatabaseSeeder` zaait 3 test-users + 1 team voor handmatige tests:
-  - `claudeabdi+teamleider@gmail.com` / `password`
+  - `claudeabdi+tl@gmail.com` / `password`
   - `zorgbegeleider@nexora.test` / `password`
   - `inactief@nexora.test` / `password`
 

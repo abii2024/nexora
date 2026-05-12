@@ -131,7 +131,7 @@ Blade-formulier met alle velden, CSRF-token, server-side foutmeldingen via `@err
 
 | E-mail | Wachtwoord | Rol |
 |---|---|---|
-| `claudeabdi+teamleider@gmail.com` | `password` | teamleider |
+| `claudeabdi+tl@gmail.com` | `password` | teamleider |
 | `zorgbegeleider@nexora.test` | `password` | zorgbegeleider (voor 403-test) |
 
 Setup: `php artisan migrate:fresh --seed` · URL: [http://nexora.test/clients/create](http://nexora.test/clients/create)

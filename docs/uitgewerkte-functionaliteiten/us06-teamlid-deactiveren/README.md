@@ -19,7 +19,7 @@ Plaats hier de screenshots van de handmatige uitvoering van het [testplan](../..
 
 | E-mail | Wachtwoord | Rol |
 |---|---|---|
-| `claudeabdi+teamleider@gmail.com` | `password` | teamleider |
+| `claudeabdi+tl@gmail.com` | `password` | teamleider |
 | `zorgbegeleider@nexora.test` | `password` | zorgbegeleider (test-target) |
 | `mo@nexora.test` | `password` | zorgbegeleider (voor 403-test) |
 
@@ -41,6 +41,6 @@ php artisan tinker
 ## 2-browser test voor CheckActiveUser middleware (TC-02)
 
 1. Chrome: login als `zorgbegeleider@nexora.test` → bij /dashboard
-2. Safari (of Chrome incognito): login als `claudeabdi+teamleider@gmail.com`
+2. Safari (of Chrome incognito): login als `claudeabdi+tl@gmail.com`
 3. Safari: Bewerken → Deactiveren Jeroen
 4. Chrome: refresh pagina → redirect /login met melding
