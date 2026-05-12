@@ -373,26 +373,21 @@ Naar aanleiding van product-owner-feedback op de Sprint 1-review is **US-17 — 
 
 De bewijslast voor werkproces B1-K2-W1 — *Voert overleg* (overlegstructuur met PO Badreddine, vastlegging van afspraken, screenshots Trello-activiteitenlog, uitgevoerde activiteiten op basis van gemaakte afspraken) staat in [overleggen/README.md](overleggen/README.md).
 
+### 10.3 Opdracht 7 (B1-K2-W3) — Reflecteren
+
+De bewijslast voor werkproces B1-K2-W3 — *Reflecteert op het werk* (retrospective per sprint en overkoepelend, op de drie dimensies proces / samenwerking met PO / eigen prestaties, met structuur *wat ging goed / wat kan beter / wat ga ik anders doen*) staat in [reflectie/README.md](reflectie/README.md).
+
 ---
 
 ## 11. Reflectie tussen sprints
 
-**Wat goed ging tot nu toe:**
-- Pest-first aanpak — elke AC een test vóór afronding → geen regressies in sprint 2
-- Sprint-tags op GitHub — examenreviewer kan snapshots ophalen
-- Commit-historie is doorzoekbaar (scoped prefixes + NL body)
-- Design-system eerst porten bleek cruciaal: US-02 t/m US-08 hergebruiken de 7 UI-components zonder duplicatie
+De volledige retrospective per sprint (Sprint 1 t/m 4 + US-17) op de drie dimensies **proces**, **samenwerking met PO** en **eigen prestaties** — met structuur *wat ging goed / wat kan beter / wat ga ik anders doen* — staat in [reflectie/README.md](reflectie/README.md) (Opdracht 7 / B1-K2-W3).
 
-**Wat anders had gekund:**
-- In US-02 was de `Client` + `client_caregivers` migratie al aangemaakt voor autorisatie-tests. Achteraf had ik misschien zuiverder een aparte "auth-infrastructure" story kunnen opzetten. De huidige opzet werkt maar de US-02 → US-07 → US-08 groei is verspreid over 3 PRs waar sommigen 1 gecombineerde PR hadden verwacht.
-- `tests/Feature/Auth/LoginTest.php` → `tests/Feature/US-01.php` rename kwam pas in sprint 2 — had beter vanaf het begin gekund (4 renames gespaard).
-
-**Afspraken die houden:**
+**Werkafspraken die het hele project hebben gehouden:**
 - Screenshots + handmatige browser-tests in één batch aan het einde van alle 16 US's
 - Geen `--force-push`, geen `--amend`
 - Elke sprint eindigt met annotated git-tag + 4 merged PRs
 
 ---
 
-**Laatst bijgewerkt:** einde sprint 2 — 2026-04-23.
-**Volgende update:** na afronding sprint 3 (US-09 t/m US-12).
+**Laatst bijgewerkt:** einde project (4 sprints afgerond + US-17) — 2026-05-12.
