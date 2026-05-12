@@ -369,6 +369,10 @@ Zaken die **buiten scope** vallen van de 16 user stories maar waarvan Nexora zou
 
 Naar aanleiding van product-owner-feedback op de Sprint 1-review is **US-17 — Reset-mail end-to-end testen via echt e-mailaccount (Resend)** toegevoegd aan de Trello-backlog **én direct geïmplementeerd**: `resend/resend-laravel` geïnstalleerd, `MAIL_MAILER=resend`, seeder-teamleider verwijst naar een echt Gmail-adres, en de reset-mail komt aantoonbaar aan in de Gmail-inbox. De volledige analyse (informatiebronnen → interpretatie → verbetervoorstel → user story → planning → resultaat met 3 screenshots) staat in [uitgewerkte-functionaliteiten/opdracht-4-verbetervoorstellen/README.md](uitgewerkte-functionaliteiten/opdracht-4-verbetervoorstellen/README.md).
 
+### 10.2 Opdracht 5 (B1-K2-W1) — Overleggen
+
+De bewijslast voor werkproces B1-K2-W1 — *Voert overleg* (overlegstructuur met PO Badreddine, vastlegging van afspraken, screenshots Trello-activiteitenlog, uitgevoerde activiteiten op basis van gemaakte afspraken) staat in [overleggen/README.md](overleggen/README.md).
+
 ---
 
 ## 11. Reflectie tussen sprints
