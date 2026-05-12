@@ -22,6 +22,6 @@
 Homestead.json
 Homestead.yaml
 Thumbs.db
-/.claude/worktrees
-/.claude/settings.local.json
+/.claude
+/.cursor
 /database/database.sqlite
