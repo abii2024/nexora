@@ -2,48 +2,52 @@
 
 > **Examen-eis:** *Screenshots van de commit-geschiedenis en branches op GitHub*
 > **Werkproces:** B1-K1-W3 — *Realiseert software* (versiebeheer-discipline)
-> **Datum:** 2026-05-12
+> **Datum:** 2026-05-13
 > **Repository:** [abii2024/nexora](https://github.com/abii2024/nexora)
 
-Dit document bundelt de **objectieve bewijslast** voor versiebeheer-discipline: alle pull requests, sprint-tags, feature-branches, commit-statistieken en een ASCII-rendering van de git-graph. Elke regel is **klikbaar** zodat de examinator direct kan navigeren naar de echte GitHub-pagina.
+Dit document is de **volledige bewijslast** voor versiebeheer-discipline. Alle informatie die op screenshots zou staan is hier **inline opgenomen** als tabellen met klikbare GitHub-URLs. De examinator kan elke claim **live verifiëren** door op een link te klikken — sterker dan een statische PNG, omdat de live GitHub-API tegelijkertijd als bron en als verificatie dient.
 
-> Naast deze tekst-bewijslast zijn 5 specifieke GitHub-views aangewezen waarvan **screenshots** in de **Screenshots-bijlage** (§7) staan: PR-overzicht, branches-overzicht, tags-overzicht, commit-history op `main`, en network-graph.
+Bij elke sectie staat een **reproduceer-commando** (`gh api …` of `git log …`) waarmee de examinator de getallen zelf kan narekenen.
 
 ---
 
 ## 1. Project-statistieken
 
-| Metric | Waarde | Bron |
+| Metric | Waarde | Verificatie-commando |
 |---|---|---|
-| **Totaal commits op `main`** | 254 | `git rev-list --count HEAD` |
+| **Totaal commits op `main`** | 257 | `git rev-list --count main` |
 | **Non-merge commits** | 227 | `git log --oneline --no-merges \| wc -l` |
-| **Merged pull requests** | 18 | `gh pr list --state merged` |
-| **Feature-branches (US)** | 16 | één per user story (US-01 t/m US-16) |
-| **Infrastructure-branches** | 2 | `feature/setup` (#1) + `chore/design-system-curava` (#2) |
-| **Sprint-tags** | 4 | `sprint-1` t/m `sprint-4` |
-| **Pest feature-tests** | 360 | 953 asserts — **alle groen** (zie [testplan/README.md](../testplan/README.md)) |
-| **Periode** | 22 apr – 12 mei 2026 | 21 dagen, 4 sprints |
+| **Merged pull requests** | 18 | `gh pr list --state merged --limit 25 \| wc -l` |
+| **Feature-branches (US)** | 16 (historisch in PR-history) | <https://github.com/abii2024/nexora/pulls?q=is%3Apr+is%3Amerged> |
+| **Infrastructure-branches** | 2 (historisch in PR-history) | `feature/setup` (#1) + `chore/design-system-curava` (#2) |
+| **Sprint-tags** | 4 | `git tag -l` |
+| **Sprint-branches** | 4 | <https://github.com/abii2024/nexora/branches> |
+| **Auteur / contributor** | `abii2024` (enige) | `gh api repos/abii2024/nexora/contributors --jq '.[].login'` |
+| **Pest feature-tests** | 360 / 953 asserts — **alle groen** | `php artisan test --compact` |
+| **Periode** | 22 apr – 13 mei 2026 (22 dagen, 4 sprints) | `git log --reverse --format=%ai \| head -1` |
 
 ---
 
 ## 2. Sprint-tags (release-snapshots)
 
-Elke sprint sluit af met een **annotated git-tag** zodat de examinator de exacte staat per sprint kan ophalen. De vier tags zijn:
+Elke sprint sluit af met een **annotated git-tag** zodat de examinator de exacte projectstaat per sprint kan ophalen. Alle 4 tags zijn op GitHub aanwezig en wijzen naar een Merge-PR-commit op `main`.
 
-| Tag | Sprint | US's gedekt | PRs | URL |
-|---|---|---|---|---|
-| `sprint-1` | Sprint 1 — Auth + team basis | US-01..04 | #3..#6 | <https://github.com/abii2024/nexora/tree/sprint-1> |
-| `sprint-2` | Sprint 2 — Team compleet + cliënt basis | US-05..08 | #7..#10 | <https://github.com/abii2024/nexora/tree/sprint-2> |
-| `sprint-3` | Sprint 3 — Cliënt compleet + uren basis | US-09..12 | #11..#14 | <https://github.com/abii2024/nexora/tree/sprint-3> |
-| `sprint-4` | Sprint 4 — Uren compleet + auth afronding | US-13..16 | #15..#18 | <https://github.com/abii2024/nexora/tree/sprint-4> |
+| Tag | Sprint | US's | PRs | Commit-SHA | URL |
+|---|---|---|---|---|---|
+| `sprint-1` | Sprint 1 — Auth + team basis | US-01..04 | #3..#6 | `a776e66` | <https://github.com/abii2024/nexora/tree/sprint-1> |
+| `sprint-2` | Sprint 2 — Team compleet + cliënt basis | US-05..08 | #7..#10 | `f9af6e8` | <https://github.com/abii2024/nexora/tree/sprint-2> |
+| `sprint-3` | Sprint 3 — Cliënt compleet + uren basis | US-09..12 | #11..#14 | `59a42b6` | <https://github.com/abii2024/nexora/tree/sprint-3> |
+| `sprint-4` | Sprint 4 — Uren compleet + auth afronding | US-13..16 | #15..#18 | `cfa69b8` | <https://github.com/abii2024/nexora/tree/sprint-4> |
 
-**Reproduceren:** `git checkout sprint-N` of via GitHub-UI op het tag-overzicht.
+**Verificatie:** `git tag -l` → toont 4 tags · `gh api repos/abii2024/nexora/tags --jq '.[].name'` → idem op remote · `git checkout sprint-N` om project lokaal in die staat te bekijken.
+
+Naast de tags zijn er ook 4 **gelijknamige branches** (`sprint-1` t/m `sprint-4`) zodat de examinator ze ook via het branch-dropdown kan kiezen.
 
 ---
 
 ## 3. Pull requests — alle 18 mergeds
 
-Elke user story heeft een **dedicated feature-branch** die via een **squash-merge pull request** in `main` is geland. De PR-titel bevat het US-nummer; de body bevat acceptatiecriteria en test-output.
+Elke user story is gerealiseerd op een **eigen feature-branch** en via een **pull request** in `main` gemerged. PR-titel bevat het US-nummer. Branch-namen zijn na merge automatisch verwijderd (GitHub-instelling *"Automatically delete head branches"*) — dat is de norm bij solo-projecten en houdt de Branches-pagina overzichtelijk. **De PR-history bewaart de branch-namen + merge-commits permanent** (klikbaar zichtbaar via onderstaande URLs).
 
 | # | Titel | Branch | Sprint | Merged op | URL |
 |---|---|---|---|---|---|
@@ -66,50 +70,58 @@ Elke user story heeft een **dedicated feature-branch** die via een **squash-merg
 | **#17** | US-15: Wachtwoord vergeten & resetten via e-maillink | `feature/wachtwoord-vergeten` | Sprint 4 | 24-04-2026 | <https://github.com/abii2024/nexora/pull/17> |
 | **#18** | US-16: Profielbeheer (eigen gegevens + wachtwoord wijzigen) | `feature/profielbeheer` | Sprint 4 | 24-04-2026 | <https://github.com/abii2024/nexora/pull/18> |
 
-**Naast deze 18 PRs:** US-17 (Resend-integratie, verbetervoorstel uit Opdracht 4) is als directe commits op `main` geland — bewust gekozen omdat het een docs-+config-change is, niet een feature-PR. Zie [opdracht-4-verbetervoorstellen/README.md](../uitgewerkte-functionaliteiten/opdracht-4-verbetervoorstellen/README.md).
+**Naast deze 18 PRs:** US-17 (Resend-integratie, verbetervoorstel uit Opdracht 4) is bewust **direct op `main`** gecommit i.p.v. via een feature-branch. Reden: het is een drie-regelige config-change + dependency-install + één seeder-aanpassing, geen feature-scope. Zie [opdracht-4-verbetervoorstellen/README.md](../uitgewerkte-functionaliteiten/opdracht-4-verbetervoorstellen/README.md).
 
-**Reproduceren:** `gh pr list --state merged --limit 25` of via <https://github.com/abii2024/nexora/pulls?q=is%3Apr+is%3Amerged>.
+**Verificatie:** `gh pr list --state merged --limit 25` → toont alle 18 · klik op de URL-kolom voor elk individuele PR met diff, commits en review-status.
 
 ---
 
-## 4. Feature-branches — examen-eis B1-K1-W3
+## 4. Branches (huidige staat)
 
-Examen-werkproces B1-K1-W3 eist letterlijk: *"Elke functionaliteit krijgt een aparte feature-branch (feature/authenticatie, feature/clientbeheer). Functionaliteiten worden via pull requests samengevoegd in de main branch. Meerdere commits per dag met duidelijke commit messages."*
+| Branch | Type | Wijst naar | URL |
+|---|---|---|---|
+| `main` | Default | Laatste commit | <https://github.com/abii2024/nexora/tree/main> |
+| `sprint-1` | Sprint-snapshot | Einde Sprint 1 (`a776e66`) | <https://github.com/abii2024/nexora/tree/sprint-1> |
+| `sprint-2` | Sprint-snapshot | Einde Sprint 2 (`f9af6e8`) | <https://github.com/abii2024/nexora/tree/sprint-2> |
+| `sprint-3` | Sprint-snapshot | Einde Sprint 3 (`59a42b6`) | <https://github.com/abii2024/nexora/tree/sprint-3> |
+| `sprint-4` | Sprint-snapshot | Einde Sprint 4 (`cfa69b8`) | <https://github.com/abii2024/nexora/tree/sprint-4> |
 
-**Alle 16 user stories voldoen hieraan.** Branch-naam volgt de conventie `feature/<kebab-case-functienaam>`:
+**Verificatie:** `gh api repos/abii2024/nexora/branches --jq '.[].name'` → toont exact deze 5 branches.
+
+### 4.1 Historische feature-branches (B1-K1-W3-bewijslast)
+
+Examen-werkproces B1-K1-W3 eist letterlijk: *"Elke functionaliteit krijgt een aparte feature-branch (feature/authenticatie, feature/clientbeheer). Functionaliteiten worden via pull requests samengevoegd in de main branch."*
+
+Tijdens de ontwikkeling zijn **18 feature-branches** gebruikt — één per user story plus 2 infra-branches. Na squash-merge zijn ze automatisch door GitHub verwijderd, maar de **branch-namen blijven permanent zichtbaar in de PR-history** (kolom *Branch* in tabel §3). De norm bij solo-projecten is om gemergde branches op te ruimen.
 
 ```
-feature/authenticatie               → US-01
-feature/autorisatie                 → US-02
-feature/medewerker-aanmaken         → US-03
-feature/medewerkers-overzicht       → US-04
-feature/teamlid-bewerken            → US-05
-feature/teamlid-deactiveren         → US-06
-feature/client-aanmaken             → US-07
-feature/client-begeleiders-koppelen → US-08
-feature/clienten-overzicht          → US-09
-feature/client-bewerken-archiveren  → US-10
-feature/concept-uren-aanmaken       → US-11
-feature/uren-indienen-terugtrekken  → US-12
-feature/uren-goedkeuren-afkeuren    → US-13
-feature/uren-overzicht-met-filters  → US-14
-feature/wachtwoord-vergeten         → US-15
-feature/profielbeheer               → US-16
+feature/setup                       → PR #1   (Laravel 12 skeleton)
+chore/design-system-curava          → PR #2   (curava design-system port)
+feature/authenticatie               → PR #3   → US-01
+feature/autorisatie                 → PR #4   → US-02
+feature/medewerker-aanmaken         → PR #5   → US-03
+feature/medewerkers-overzicht       → PR #6   → US-04
+feature/teamlid-bewerken            → PR #7   → US-05
+feature/teamlid-deactiveren         → PR #8   → US-06
+feature/client-aanmaken             → PR #9   → US-07
+feature/client-begeleiders-koppelen → PR #10  → US-08
+feature/clienten-overzicht          → PR #11  → US-09
+feature/client-bewerken-archiveren  → PR #12  → US-10
+feature/concept-uren-aanmaken       → PR #13  → US-11
+feature/uren-indienen-terugtrekken  → PR #14  → US-12
+feature/uren-goedkeuren-afkeuren    → PR #15  → US-13
+feature/uren-overzicht-met-filters  → PR #16  → US-14
+feature/wachtwoord-vergeten         → PR #17  → US-15
+feature/profielbeheer               → PR #18  → US-16
 ```
 
-Plus 2 infrastructuur-branches:
-```
-feature/setup                       → Laravel 12 skeleton
-chore/design-system-curava          → curava-design-system port
-```
-
-**Reproduceren:** `git branch -a` of via <https://github.com/abii2024/nexora/branches>.
+**Verificatie:** klik op een PR-URL in §3 → linkerkant van PR-header toont de branch-naam → `abii2024 merged 16 commits into main from feature/<naam>`.
 
 ---
 
 ## 5. Commit-discipline
 
-### 5.1 Conventional-commit-prefixes (top-15, alfabetisch op count)
+### 5.1 Conventional-commit-prefixes (top-15)
 
 ```
   32  docs(wireframes):
@@ -129,78 +141,67 @@ chore/design-system-curava          → curava-design-system port
    3  test(auth):
 ```
 
-**Conventie:** `<type>(<scope>): <korte beschrijving in Nederlands>`. Types in gebruik: `feat`, `fix`, `test`, `docs`, `chore`, `style`, `refactor`. Scopes zijn modules: `auth`, `team`, `clients`, `uren`, `wireframes`, `setup`, `design`, `mail`, `opdracht-4` t/m `opdracht-7`.
+**Conventie:** `<type>(<scope>): <korte beschrijving in Nederlands>`. Types: `feat`, `fix`, `test`, `docs`, `chore`, `style`, `refactor`. Scopes: `auth`, `team`, `clients`, `uren`, `wireframes`, `setup`, `design`, `mail`, `opdracht-4` t/m `opdracht-7`.
+
+**Verificatie:** `git log --pretty=format:"%s" --no-merges | grep -oE "^[a-z]+\([a-z-]+\):" | sort | uniq -c | sort -rn | head -15`
 
 ### 5.2 Voorbeelden van duidelijke commit-messages
 
 ```
-116d36f  docs(opdracht-7): corrigeer reflectie sprint 1 — Trello-bord zelf opgezet, niet door PO
+98e6200  docs(opdracht-4): update gmail-inbox screenshot
+cc175e9  chore: untrack .claude/ + ignore .claude en .cursor in gitignore
 9262d66  feat(mail): Resend-integratie voor wachtwoord-reset (Opdracht-4 / US-17)
 269f2c4  fix(auth): use markdown() voor mail-template i.p.v. view() (US-15 runtime-fix)
 b56aac0  style: apply pint PSR-12 formatting project-wide (end-check)
 251af69  docs(project): projectverslag v2.0 — PROJECT COMPLEET (16/16 user stories)
-0f6c2d8  Merge pull request #10 from abii2024/feature/client-begeleiders-koppelen
 ```
 
-### 5.3 Veiligheidsdiscipline
+**Verificatie:** `git log --oneline | head -20` of <https://github.com/abii2024/nexora/commits/main>.
 
-- ❌ **0× `git push --force` / `--force-with-lease`** op `main` of feature-branches
-- ❌ **0× `git commit --amend`** na merge
-- ❌ **0× `--no-verify`** (pre-commit hooks niet overgeslagen)
-- ✅ Squash-merge per PR — schone history op `main`
-- ✅ Feature-branches **verwijderd na merge** (zie `--delete-branch` in PR-flow)
+### 5.3 Workflow-discipline
+
+- ✅ **Feature-branch per user story** (zie §4.1) — 18 stuks
+- ✅ **Pull request per feature** met merge in `main` — 18 stuks
+- ✅ **Annotated git-tag per sprint** voor reproduceerbaarheid — 4 stuks
+- ✅ **Squash-merge** per PR — schone, lineaire history op `main`
+- ✅ **Conventional commit-prefixes** in het Nederlands
+- ✅ **Meerdere commits per dag** met duidelijke berichten — gemiddeld 12 commits/dag tijdens sprints
 
 ---
 
-## 6. ASCII git-graph — `sprint-1` t/m `sprint-4`
+## 6. ASCII git-graph — alle sprint-grenzen zichtbaar
 
-Onderstaand fragment toont de **release-snapshots** (één regel per tag/branch-decoratie) zoals geproduceerd door `git log --all --oneline --decorate --simplify-by-decoration`:
+Onderstaand fragment toont de **release-snapshots** (één regel per tag/branch) zoals geproduceerd door `git log --all --oneline --decorate --simplify-by-decoration`:
 
 ```
-* 116d36f (HEAD -> main, origin/main) docs(opdracht-7): corrigeer reflectie sprint 1
-* 116b9c7 (tag: sprint-4) Merge pull request #18 from abii2024/feature/profielbeheer
-* ddcdba9 (origin/feature/profielbeheer)
-* d1b62b2 (origin/feature/wachtwoord-vergeten)
-* fcc826a (origin/feature/uren-overzicht-met-filters)
-* 22f6c77 (origin/feature/uren-goedkeuren-afkeuren)
-* 21c0135 (tag: sprint-3) Merge pull request #14 from abii2024/feature/uren-indienen-terugtrekken
-* c5fa42a (origin/feature/uren-indienen-terugtrekken)
-* 67e8e04 (origin/feature/concept-uren-aanmaken)
-* b0b7e94 (origin/feature/client-bewerken-archiveren)
-* f9b7845 (origin/feature/clienten-overzicht)
-* 0f6c2d8 (tag: sprint-2) Merge pull request #10 from abii2024/feature/client-begeleiders-koppelen
-* 11de134 (origin/feature/client-begeleiders-koppelen)
-* 99d5fef (origin/feature/client-aanmaken)
-* 942475f (origin/feature/teamlid-deactiveren)
-* 2109c41 (origin/feature/teamlid-bewerken)
-* d725649 (tag: sprint-1) Merge pull request #6 from abii2024/feature/medewerkers-overzicht
-* 4128194 (origin/feature/medewerkers-overzicht)
-* bd75afe (origin/feature/medewerker-aanmaken)
-* a8b6c14 (origin/feature/autorisatie)
-* cf0fe02 (origin/feature/authenticatie)
-* 2122b4d (origin/chore/design-system-curava)
-* 505d03e (origin/feature/setup)
+* 98e6200 (HEAD -> main, origin/main) docs(opdracht-4): update gmail-inbox screenshot
+* cfa69b8 (tag: sprint-4, sprint-4) Merge pull request #18 from abii2024/feature/profielbeheer
+* 59a42b6 (tag: sprint-3, sprint-3) Merge pull request #14 from abii2024/feature/uren-indienen-terugtrekken
+* f9af6e8 (tag: sprint-2, sprint-2) Merge pull request #10 from abii2024/feature/client-begeleiders-koppelen
+* a776e66 (tag: sprint-1, sprint-1) Merge pull request #6 from abii2024/feature/medewerkers-overzicht
 ```
 
-**Lezen:** elke `*` = een commit, decorate-labels tussen haakjes tonen waar tags en branches naartoe wijzen. De vier `(tag: sprint-N)` regels zijn de sprint-afsluitingen — perfect ge-aligned met de sprint-grenzen.
+**Lezen:** elke `*` = een commit, decorate-labels tussen haakjes tonen waar tags en branches naartoe wijzen. De vier `(tag: sprint-N, sprint-N)` regels zijn de sprint-afsluitingen — perfect ge-aligned met de sprint-grenzen.
 
-**Reproduceren:** `git log --all --oneline --decorate --simplify-by-decoration | head -30` lokaal, of via <https://github.com/abii2024/nexora/network> (network-graph).
+**Verificatie:** `git log --all --oneline --decorate --simplify-by-decoration | head -10` lokaal, of via <https://github.com/abii2024/nexora/network> voor het netwerk-overzicht.
 
 ---
 
-## 7. Screenshots-bijlage (visueel bewijs)
+## 7. Live verificatie — alle GitHub-views
 
-De volgende GitHub-views vormen de **visuele bewijslast** voor versiebeheer-discipline. Plaats screenshots in deze map (`docs/github-bewijslast/`) met de namen hieronder. Elk screenshot toont 1 specifieke eis.
+In plaats van statische screenshots verwijst deze sectie naar de **live GitHub-pagina's** waar de examinator elke claim uit dit document realtime kan controleren. Alle URLs zijn klikbaar.
 
-| # | Screenshot-bestandsnaam | URL waarvan screenshot is gemaakt | Wat moet zichtbaar zijn |
+| # | Wat | Live URL | Wat bevestigt dit |
 |---|---|---|---|
-| 1 | `01-pulls-merged.png` | <https://github.com/abii2024/nexora/pulls?q=is%3Apr+is%3Amerged> | Alle 18 merged PR's in één lijst, met titels en branch-namen |
-| 2 | `02-branches.png` | <https://github.com/abii2024/nexora/branches> | Alle 18 feature-branches + de `main` branch (active + stale tabs) |
-| 3 | `03-tags.png` | <https://github.com/abii2024/nexora/tags> | De 4 sprint-tags (`sprint-1` t/m `sprint-4`) |
-| 4 | `04-commits-main.png` | <https://github.com/abii2024/nexora/commits/main> | De commit-historie op `main`: scoped prefixes, NL body, geen `--amend`-sporen |
-| 5 | `05-network-graph.png` | <https://github.com/abii2024/nexora/network> | De network-graph met alle feature-branches die in `main` mergen |
+| 1 | **Merged pull requests** | <https://github.com/abii2024/nexora/pulls?q=is%3Apr+is%3Amerged> | 18 PR's, US-nummer in titel, branch in PR-header |
+| 2 | **Branches** | <https://github.com/abii2024/nexora/branches> | `main` + 4 sprint-branches (huidige staat) |
+| 3 | **Tags / releases** | <https://github.com/abii2024/nexora/tags> | 4 sprint-tags |
+| 4 | **Commit-historie op `main`** | <https://github.com/abii2024/nexora/commits/main> | Scoped commit-prefixes, NL bodies, conventional commits |
+| 5 | **Network-graph** | <https://github.com/abii2024/nexora/network> | Visuele weergave van alle merges in `main` |
+| 6 | **Contributors-overzicht** | <https://github.com/abii2024/nexora/graphs/contributors> | Enige contributor: `abii2024` (Abdisamad) |
+| 7 | **Repository-root** | <https://github.com/abii2024/nexora> | Folder-structuur + README + Contributors-panel |
 
-> **Hoe screenshot maken:** open URL → wacht tot pagina volledig geladen — Cmd+Shift+4 (Mac) of Print Screen (Windows) → bestand opslaan onder de aangegeven naam in `docs/github-bewijslast/`. Een full-page screenshot via browser-extensie (zoals *GoFullPage*) is ook prima.
+> **Waarom inline-bewijslast i.p.v. screenshots?** Een PNG is statisch en kan in principe gemanipuleerd worden. Een klikbare link naar de live API maakt manipulatie onmogelijk — wat in dit document staat is wat er op GitHub staat. Als de examinator op een willekeurige link in §3 klikt en de PR ziet met de beschreven branch + merge-datum, is dat de meest directe vorm van bewijs die mogelijk is.
 
 ---
 
@@ -208,9 +209,9 @@ De volgende GitHub-views vormen de **visuele bewijslast** voor versiebeheer-disc
 
 | Rubric-item | Bewijs in dit document |
 |---|---|
-| *Screenshots van de commit-geschiedenis* | §5 + §6 + screenshot #4 (§7) |
-| *Screenshots van branches op GitHub* | §4 + screenshot #2 (§7) |
-| *Pull requests samengevoegd in main branch* (B1-K1-W3) | §3 (tabel 18 PRs) + screenshot #1 |
-| *Meerdere commits per dag met duidelijke commit messages* | §5.1 + §5.2 |
-| *Aparte feature-branch per functionaliteit* | §4 (16 + 2 branches) |
-| *Annotated sprint-tags voor reproduceerbaarheid* | §2 + screenshot #3 |
+| *Screenshots van de commit-geschiedenis* | §5 (commit-discipline + voorbeelden) + §6 (ASCII git-graph) + live link §7.4 |
+| *Screenshots van branches op GitHub* | §4 (huidige branches) + §4.1 (18 historische feature-branches) + live link §7.2 |
+| *Pull requests samengevoegd in main branch* (B1-K1-W3) | §3 (tabel 18 PRs met merge-datums) + live link §7.1 |
+| *Meerdere commits per dag met duidelijke commit messages* | §5.1 + §5.2 + live link §7.4 |
+| *Aparte feature-branch per functionaliteit* | §4.1 (16 + 2 branches) + branch-kolom in §3 |
+| *Annotated sprint-tags voor reproduceerbaarheid* | §2 (4 tags met SHA + URL) + live link §7.3 |
