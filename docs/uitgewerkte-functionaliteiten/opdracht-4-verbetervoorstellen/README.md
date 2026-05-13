@@ -12,7 +12,7 @@ Dit document bundelt de verbetervoorstellen voor Nexora op basis van systematisc
 
 | Bron | Vindplaats | Wat geanalyseerd |
 |---|---|---|
-| **Testrapport Sprint 1** | [docs/testplan/sprint-1.md](../../testplan/sprint-1.md) | Welke AC's groen, welke handmatig nagelopen, welke flows nog niet end-to-end getest |
+| **Testrapport Sprint 1** | [docs/testplan/README.md](../../testplan/README.md) | Welke AC's groen, welke handmatig nagelopen, welke flows nog niet end-to-end getest |
 | **PO-feedback Trello** | Trello-bord *Nexora-platform*, kaart "Wachtwoord vergeten & resetten via e-maillink" — comment van **Badreddine**, 2 uur na sprint-review | Concreet voorstel om de reset-mail end-to-end te valideren |
 | **Retrospective Sprint 1** | [docs/projectverslag.md §11](../../projectverslag.md) | "Wat anders had gekund" + "Afspraken die houden" |
 | **Code & .env-config** | [.env:50](../../../.env), [config/mail.php:17](../../../config/mail.php) | Mail-driver staat op `log` — geen echte verzending in dev/staging |
