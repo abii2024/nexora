@@ -1,59 +1,112 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Nexora — zorgbegeleidingssysteem voor beschermd wonen
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+> **Kandidaat:** Abdisamad (`abii2024`)
+> **PvB:** Software Developer Niveau 4
+> **Project-type:** Laravel 12 web-applicatie (zorg-SaaS)
+> **Status:** Compleet — 16 user stories afgerond + verbetervoorstel doorgevoerd, 4 sprint-tags op GitHub
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Voor de examinator
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+> **Hier is de complete leesgids met alle bewijslocaties:** [`docs/examen-checklist.md`](docs/examen-checklist.md)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Elke verplichte examen-eis (eisen-doc, user stories, wireframes, ERD, use-case, flowchart, testplan, verbetervoorstellen, reflectie, overleggen, screenshots, github-bewijslast) is daar gekoppeld aan het exacte bestand in deze repository.
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## Wat is Nexora?
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Een webapplicatie voor **beschermd-wonen-zorgorganisaties** die zorgbegeleiders en teamleiders ondersteunt:
 
-## Laravel Sponsors
+- **Cliëntdossiers** beheren (persoonsgegevens, zorgtype, status)
+- **Begeleiders koppelen** aan cliënten (primair / secundair / tertiair)
+- **Urenregistratie** per cliënt — van concept tot goedkeuring
+- **Teambeheer** (medewerkers toevoegen, rol wijzigen, deactiveren)
+- **Rolgebaseerde toegang** — zorgbegeleiders zien alleen eigen caseload
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Wettelijke kaders: **AVG** (art. 5, 9, 30, 32) · **Wgbo** (20-jaar bewaartermijn) · **NEN 7510** (informatiebeveiliging in de zorg).
 
-### Premium Partners
+---
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+## Tech-stack
 
-## Contributing
+| Laag | Technologie |
+|---|---|
+| Backend | PHP 8.4 · Laravel 12 |
+| Database | SQLite (dev + examen) |
+| ORM | Eloquent (mass-assignment protection) |
+| View | Blade + Tailwind CSS v4 |
+| Tests | Pest v4 + `pest-plugin-laravel` |
+| Code-style | Laravel Pint (PSR-12) |
+| Autorisatie | Policies + Middleware (defense in depth) |
+| Mail (US-17) | Resend (`resend/resend-laravel`) |
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+---
 
-## Code of Conduct
+## Lokaal draaien
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```bash
+git clone https://github.com/abii2024/nexora.git
+cd nexora
+composer install
+cp .env.example .env
+php artisan key:generate
+touch database/database.sqlite
+php artisan migrate:fresh --seed
+php artisan serve
+# Open http://127.0.0.1:8000
+```
 
-## Security Vulnerabilities
+### Testaccounts
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Wachtwoord overal: `password`
 
-## License
+| Rol | E-mail |
+|---|---|
+| Teamleider Fatima | `abdisamadvanabdulle@gmail.com` |
+| Zorgbegeleider Jeroen | `zorgbegeleider@nexora.test` |
+| Inactieve Ilse | `inactief@nexora.test` |
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Volledige seed-context: [`database/seeders/DatabaseSeeder.php`](database/seeders/DatabaseSeeder.php).
+
+### Tests draaien
+
+```bash
+php artisan test                  # 360 tests, 953 asserts — alle groen
+php artisan test --filter US-08   # per US filteren
+```
+
+---
+
+## Sprint-snapshots
+
+| Tag | URL | Snapshot van |
+|---|---|---|
+| `sprint-1` | <https://github.com/abii2024/nexora/tree/sprint-1> | Einde Sprint 1 (US-01..04) |
+| `sprint-2` | <https://github.com/abii2024/nexora/tree/sprint-2> | Einde Sprint 2 (US-05..08) |
+| `sprint-3` | <https://github.com/abii2024/nexora/tree/sprint-3> | Einde Sprint 3 (US-09..12) |
+| `sprint-4` | <https://github.com/abii2024/nexora/tree/sprint-4> | Einde Sprint 4 (US-13..16) |
+
+---
+
+## Documentatie-overzicht
+
+| Onderwerp | Locatie |
+|---|---|
+| **Examen-leesgids (alle eisen → bewijs)** | [`docs/examen-checklist.md`](docs/examen-checklist.md) |
+| Procesverslag (sprints, keuzes, testresultaten) | [`docs/projectverslag.md`](docs/projectverslag.md) |
+| Eisen, wensen, technische uitgangspunten | [`docs/eisen-wensen-uitgangspunten.md`](docs/eisen-wensen-uitgangspunten.md) |
+| User stories (16 US's) | [`docs/user-stories.md`](docs/user-stories.md) |
+| Definition of Done | [`docs/definition-of-done.md`](docs/definition-of-done.md) |
+| Ontwerp (ethiek · privacy · security) | [`docs/ontwerpdocument.md`](docs/ontwerpdocument.md) + [`docs/ontwerpdocument/`](docs/ontwerpdocument/) |
+| Testplan + testscenario's per US | [`docs/testplan/`](docs/testplan/) |
+| Uitgewerkte functionaliteiten (per US) | [`docs/uitgewerkte-functionaliteiten/`](docs/uitgewerkte-functionaliteiten/) |
+| Code-bewijslast (GitHub-permalinks per US) | [`docs/code-bewijslast/`](docs/code-bewijslast/) |
+| GitHub-bewijslast (PRs, branches, tags) | [`docs/github-bewijslast/`](docs/github-bewijslast/) |
+| Reflectie per sprint | [`docs/reflectie/`](docs/reflectie/) |
+| Overleggen met PO | [`docs/overleggen/`](docs/overleggen/) |
+| Wireframes (desktop + mobiel) | [`docs/wireframes/`](docs/wireframes/) |
+| ERD · Use-case · Flowchart | [`docs/erd-files/`](docs/erd-files/) · [`docs/usecase-files/`](docs/usecase-files/) · [`docs/flowchart-files/`](docs/flowchart-files/) |
+| Examen-logboek | [`docs/logboek/logboek.docx`](docs/logboek/logboek.docx) |
+| Examen-presentatie | [`docs/presentatie/nexora-examen-presentatie.pptx`](docs/presentatie/nexora-examen-presentatie.pptx) |
