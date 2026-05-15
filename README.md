@@ -108,5 +108,5 @@ php artisan test --filter US-08   # per US filteren
 | Overleggen met PO | [`docs/overleggen/`](docs/overleggen/) |
 | Wireframes (desktop + mobiel) | [`docs/wireframes/`](docs/wireframes/) |
 | ERD · Use-case · Flowchart | [`docs/erd-files/`](docs/erd-files/) · [`docs/usecase-files/`](docs/usecase-files/) · [`docs/flowchart-files/`](docs/flowchart-files/) |
-| Examen-logboek | [`docs/logboek/logboek.docx`](docs/logboek/logboek.docx) |
+| Examen-logboek (getekend) | [`docs/logboek/getekend-logboek.pdf`](docs/logboek/getekend-logboek.pdf) |
 | Examen-presentatie | [`docs/presentatie/nexora-examen-presentatie.pptx`](docs/presentatie/nexora-examen-presentatie.pptx) |
