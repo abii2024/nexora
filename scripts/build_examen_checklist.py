@@ -145,7 +145,7 @@ def main() -> int:
             "--toc-depth=2",
             "--metadata", "lang=nl",
             "--metadata", "author=Abdisamad Guled Abdulle (abii2024)",
-            "--metadata", "date=2026-05-12",
+            "--metadata", "date=2026-05-26",
         ]
         # Weasyprint laadt libgobject/pango/cairo via dlopen — wijs ze aan in /opt/homebrew/lib
         # (Apple Silicon brew-prefix; geen-op op Intel/Linux waar libs op standaardpad staan).

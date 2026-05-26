@@ -3,7 +3,7 @@
 > **Project:** Nexora — zorgbegeleidingssysteem voor beschermd wonen
 > **Kandidaat:** Abdisamad (`abii2024`)
 > **PvB:** Software Developer Niveau 4
-> **Inleverdatum:** 2026-05-12
+> **Inleverdatum:** 2026-05-26
 > **Repository:** <https://github.com/abii2024/nexora>
 
 Dit document is een **leesgids**: elk verplicht onderdeel uit het examenverslag (zoals genoemd in de PvB-instructies) is hieronder gekoppeld aan de exacte locatie van het bewijs in de repository. Klik op de link om direct naar de bron te navigeren.
@@ -18,7 +18,7 @@ Dit document is een **leesgids**: elk verplicht onderdeel uit het examenverslag 
 | 2 | User stories met acceptatiecriteria | [`docs/user-stories.md`](user-stories.md) — 16 US's |
 | 3 | Definition of Done | [`docs/definition-of-done.md`](definition-of-done.md) |
 | 4 | Screenshot **begin** sprint backlog (prio: hoogste boven, laagste onder) | [`docs/sprint-backlog-screenshots/begin-sprint/`](sprint-backlog-screenshots/begin-sprint/) — 5 PNG's |
-| 5 | Screenshots scrumboard na elke update | [`docs/sprint-backlog-screenshots/`](sprint-backlog-screenshots/) (per sprint) + [`docs/overleggen/`](overleggen/) |
+| 5 | Screenshots scrumboard na elke update | [`docs/sprint-backlog-screenshots/`](sprint-backlog-screenshots/) (per sprint — `begin-sprint/`, `sprint1/`, `sprint 2/`, `sprint 3/`) + [`docs/overleggen/02-trello-activiteitenlog-po-review-batch2.png`](overleggen/02-trello-activiteitenlog-po-review-batch2.png) (PO verplaatst Sprint 4-kaarten US-13..16 naar *done* — dit dekt de eindstaat na Sprint 4) |
 | 6 | Wireframes van alle pagina's (desktop + mobiel) | [`docs/wireframes/desktop/`](wireframes/desktop/) + [`docs/wireframes/mobile/`](wireframes/mobile/) — 32 PNG's totaal |
 | 7 | ERD databasestructuur | [`docs/erd-files/erd.png`](erd-files/erd.png) + [`erd.mmd`](erd-files/erd.mmd) (source) |
 | 8 | Use-case diagram zorgbegeleider + teamleider | [`docs/usecase-files/usecase.png`](usecase-files/usecase.png) + [`usecase.puml`](usecase-files/usecase.puml) |
