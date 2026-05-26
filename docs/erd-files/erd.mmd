@@ -4,8 +4,12 @@ title: Nexora — ERD (16 user stories)
 erDiagram
     USERS ||--o{ URENREGISTRATIES : "registreert"
     USERS ||--o{ CLIENT_CAREGIVERS : "is begeleider"
+    USERS ||--o{ USER_AUDIT_LOGS : "is doel van mutatie"
+    USERS ||--o{ USER_AUDIT_LOGS : "voert mutatie uit"
+    USERS ||--o{ CLIENT_STATUS_LOGS : "wijzigt status"
     CLIENTS ||--o{ URENREGISTRATIES : "ontvangt zorg in"
     CLIENTS ||--o{ CLIENT_CAREGIVERS : "heeft begeleiders"
+    CLIENTS ||--o{ CLIENT_STATUS_LOGS : "kent statusgeschiedenis"
 
     USERS {
         bigint id PK
@@ -66,4 +70,23 @@ erDiagram
         string email PK
         string token
         datetime created_at
+    }
+
+    USER_AUDIT_LOGS {
+        bigint id PK
+        bigint user_id FK "doel van mutatie"
+        bigint changed_by_user_id FK "actor"
+        string field "naam gewijzigd veld"
+        text old_value
+        text new_value
+        datetime created_at
+    }
+
+    CLIENT_STATUS_LOGS {
+        bigint id PK
+        bigint client_id FK
+        bigint changed_by_user_id FK
+        string old_status "actief, wachtlijst, inactief"
+        string new_status "actief, wachtlijst, inactief"
+        datetime changed_at
     }
