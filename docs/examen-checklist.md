@@ -109,24 +109,13 @@ Het centrale procesverslag is [`docs/projectverslag.md`](projectverslag.md). Inh
 | README van het project | [`README.md`](../README.md) |
 | Drie deeldocumenten ontwerp | [`docs/ontwerpdocument/`](ontwerpdocument/) — verantwoorde verwerking (ethiek) · gegevensbescherming (privacy/AVG) · beveiliging (security/OWASP/NEN 7510) |
 | Documenten-index | [`docs/projectverslag.md`](projectverslag.md) §9 |
+| Logboek (handgeschreven, getekend) | [`docs/logboek/getekend logbook.pdf`](logboek/getekend%20logbook.pdf) |
+| Examen-presentatie | [`docs/presentatie/nexora-examen-presentatie.pptx`](presentatie/nexora-examen-presentatie.pptx) |
+| Observatieformulier (getekend) | [`docs/observatieformulier/getekend.docx`](observatieformulier/getekend.docx) |
 
 ---
 
-## I. Examenbewijsstukken (Canvas-inlevering)
-
-Deze bestanden worden samen met de repo opgeleverd via Canvas. Ze vormen de aanvullende bewijslast náást de online leesgids.
-
-| # | Bewijsstuk | Locatie in repo |
-|---|---|---|
-| 33 | Observatieformulier — ingevulde versie (B1-K1 + B1-K2 per werkproces) | [`docs/observatieformulier/observatieformulier-nexora.docx`](observatieformulier/observatieformulier-nexora.docx) |
-| 34 | Observatieformulier — getekend exemplaar (bedrijfsexaminator) | [`docs/observatieformulier/getekend.docx`](observatieformulier/getekend.docx) |
-| 35 | Observatieformulier — PDF-versie | [`docs/observatieformulier/observatieformulier-nexora.pdf`](observatieformulier/observatieformulier-nexora.pdf) |
-| 36 | Logboek — handgeschreven dagboek, getekend | [`docs/logboek/getekend logbook.pdf`](logboek/getekend%20logbook.pdf) |
-| 37 | Examen-presentatie (sprint-review + eindoplevering) | [`docs/presentatie/nexora-examen-presentatie.pptx`](presentatie/nexora-examen-presentatie.pptx) |
-
----
-
-## J. Reproduceerbaarheid
+## I. Reproduceerbaarheid
 
 Wil de examinator de software lokaal draaien?
 
@@ -160,7 +149,7 @@ php artisan test --filter US-08   # per US filteren
 
 ---
 
-## K. Sprint-snapshots (reproduceerbaarheid per sprint)
+## J. Sprint-snapshots (reproduceerbaarheid per sprint)
 
 | Tag | URL | Snapshot van |
 |---|---|---|
